@@ -14,13 +14,13 @@ Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/p
 
 ## Getting Started
 
-To build the project you can use the [Makefile](https://github.com/scorer/Makefile) or the [CMake](https://github.com/scorer/CMakeLists.txt).
+To build the project you can use the [Makefile](https://github.com/Nico-Curti/scorer/blob/master/Makefile) or the [CMake](https://github.com/Nico-Curti/scorer/blob/master/CMakeLists.txt).
 
-In the first case you can see the whole set of available rules just typing `make` and `make example` to build the [example](https://github.com/scorer/example/example.cpp) script in c++ or `make pythonic` to build the Cython version of the code.
+In the first case you can see the whole set of available rules just typing `make` and `make example` to build the [example](https://github.com/Nico-Curti/scorer/blob/master/example/example.cpp) script in c++ or `make pythonic` to build the Cython version of the code.
 
-The [builds](https://github.com/scorer/build.sh) scripts (.sh and .ps1) allows to build the project with CMake support.
+The [builds](https://github.com/Nico-Curti/scorer/blob/master/build.sh) scripts (.sh and .ps1) allows to build the project with CMake support.
 
-For a manual installation of pythonic version you can also run the [setup](https://github.com/scorer/setup.py) script as `python setup.py build_ext --inplace`.
+For a manual installation of pythonic version you can also run the [setup](https://github.com/Nico-Curti/scorer/blob/master/setup.py) script as `python setup.py build_ext --inplace`.
 
 ## Prerequisites
 
@@ -28,18 +28,19 @@ To build the c++ version of the code the standard c++17 support is required.
 
 The OMP version of the code is automatically available if OMP is installed.
 
-The full list of prerequisites of pythonic version is listed in [requirements](https://github.com/scorer/requirements.txt).
+The full list of prerequisites of pythonic version is listed in [requirements](https://github.com/Nico-Curti/scorer/blob/master/requirements.txt
+).
 
 ## Usage
 
-You can use the libraries either inside your c++ project with a simple include of the [scorer](https://github.com/scorer/include/scorer.h) script or with python in which the scorer class is wrapped to give a simple dictionary in return.
+You can use the libraries either inside your c++ project with a simple include of the [scorer](https://github.com/Nico-Curti/scorer/blob/master/include/scorer.h) script or with python in which the scorer class is wrapped to give a simple dictionary in return.
 
 If you use the c++ version *PAY ATTENTION* to the parallel environment (open the parallel region before the run of scorer computation as shown in the example code).
 
-In [utils](https://github.com/scorer/utils) some utilities scripts are reported.
+In [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) some utilities scripts are reported.
 The `build_scorer.py` allows to write the complete parallel version of the scorer class in c++ so that if you add a new operator to the library you can just run this code to update the scorer class parallelization strategies (computed in `dependency_graphs.py` script).
 
-With `view_stats.py` script you can see the complete graph of computed statistics with an HTML support with a more pleasant vision (ex. [graph](https://github.com/scorer/img/dependency_graph.html))
+With `view_stats.py` script you can see the complete graph of computed statistics with an HTML support with a more pleasant vision (ex. [graph](https://github.com/Nico-Curti/scorer/blob/master/img/dependency_graph.html))
 
 ## Contribution
 
