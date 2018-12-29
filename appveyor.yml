@@ -1,3 +1,14 @@
+environment:
+  global:
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    CMD_IN_ENV: 'cmd /E:ON /V:ON /C .\tools\appveyor\run_with_env.cmd'
+    ANACONDA_TOKEN:
+      secure: hNorKC0ZG2MdYxyGDiHwVrsB45vIupeSNVpdJ5q0jdEzdyCPi/Y7n1zMjYyqZ2co
+    PROJECT_NAME: scorer
+    GITHUB_REPO_NAME: Nico-Curti/scorer
+
 image: Visual Studio 2017
 clone_folder: c:\projects\Scorer
 configuration: Debug
@@ -8,16 +19,32 @@ environment:
       COMPILER: vs
       MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x86
+      PYTHON_VERSION: "3.5.0"
+      PYTHON_ARCH: "64"
     - platform: Win64
       COMPILER: vs
       MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x64
+      PYTHON_VERSION: "3.5.0"
+      PYTHON_ARCH: "64"
 
 install:
-  - if [%COMPILER%]==[vs] cinst cmake ninja
-  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\CMake\bin;%PATH%"
-  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\LLVM\bin;%PATH%"
-  - if [%COMPILER%]==[vs] call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
+  # Make sure the compiler is accessible
+  - '"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %PLATFORM%'
+  # Load the conda root environment, configure and install some packages
+  - '"%CONDA%\Scripts\activate.bat"'
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda install conda-build anaconda-client numpy cython
+  # Install codecov tool for uploading coverage reports
+  - pip install codecov coverage
+  # Show conda info for debugging
+  - conda info -a
+
+  - cinst cmake ninja
+  - SET "PATH=C:\Program Files\CMake\bin;%PATH%"
+  - SET "PATH=C:\Program Files\LLVM\bin;%PATH%"
+  - call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
   - git submodule -q update --init --recursive
 
 before_build:
@@ -26,5 +53,5 @@ before_build:
   - cd build
 
 build_script:
-  - if [%COMPILER%]==[vs] cmake -G "Ninja" ..
-  - if [%COMPILER%]==[vs] cmake --build .
+  - cmake -G "Ninja" ..
+  - cmake --build .
