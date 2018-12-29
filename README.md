@@ -2,7 +2,7 @@
 |:------------:|:-----------:|
 |   N. Curti   |    Scorer   |
 
-# (Machine Learning Scorer)
+# Machine Learning Scorer
 
 Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/pycm) library with c++ support and network dependencies.
 
@@ -52,5 +52,5 @@ If you want update the list of scorer functions please pay attention to the synt
 
 * **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
 
-See also the list of [contributors](https://github.com/Nico-Curti/Scorer/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/Nico-Curti/Scorer/graphs/contributors/) who participated in this project.
+See also the list of [contributors](https://github.com/Nico-Curti/Scorer/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/graphs/contributors/) who participated in this project.
 
