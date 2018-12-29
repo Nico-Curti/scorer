@@ -1,3 +1,7 @@
+image: Visual Studio 2017
+clone_folder: c:\projects\Scorer
+configuration: Debug
+
 environment:
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
@@ -9,11 +13,6 @@ environment:
     PROJECT_NAME: scorer
     GITHUB_REPO_NAME: Nico-Curti/scorer
 
-image: Visual Studio 2017
-clone_folder: c:\projects\Scorer
-configuration: Debug
-
-environment:
     matrix:
     - platform: Win32
       COMPILER: vs
