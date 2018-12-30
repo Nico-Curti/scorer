@@ -18,10 +18,6 @@ environment:
       PYTHON_ARCH: "64"
 
 install:
-  # Make sure the compiler is accessible
-  - '"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %PLATFORM%'
-  # Load the conda root environment, configure and install some packages
-  - '"%CONDA%\Scripts\activate.bat"'
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda install conda-build anaconda-client numpy cython
