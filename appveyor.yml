@@ -1,18 +1,16 @@
 image: Visual Studio 2017
-clone_folder: c:\projects\Scorer
+clone_folder: c:\projects\scorer
 configuration: Debug
 
 environment:
     matrix:
     - platform: Win32
       COMPILER: vs
-      MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x86
       PYTHON_VERSION: "3.6.x" # currently 3.6.5
       PYTHON_ARCH: "32"
     - platform: Win64
       COMPILER: vs
-      MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x64
       PYTHON_VERSION: "3.6.x" # currently 3.6.5
       PYTHON_ARCH: "64"
@@ -20,9 +18,9 @@ environment:
 install:
   - pip install Cython numpy
 
-  - if [%COMPILER%]==[vs] cinst ninja
-  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\CMake\bin;%PATH%"
-  - if [%COMPILER%]==[vs] call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
+  - cinst ninja
+  - SET "PATH=C:\Program Files\CMake\bin;%PATH%"
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
   - git submodule -q update --init --recursive
   - cd %WORKSPACE%\
   ############################################################################
@@ -37,10 +35,11 @@ install:
 
 
 before_build:
-  - cd C:\projects\Scorer
+  - cd C:\projects\scorer
   - mkdir build
   - cd build
 
 build_script:
-  - cmake -G "Ninja" "-DOMP=OFF" ..
+  - if [%MSVC_SETUP_ARG%]==[x64] cmake .. -G "Visual Studio 15 2017 Win64" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x86] cmake .. -G "Ninja" "-DOMP=OFF"
   - cmake --build .
