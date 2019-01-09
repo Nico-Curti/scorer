@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, '../pyc/')
 from Pyscorer import Pyscorer
 import numpy as np
 

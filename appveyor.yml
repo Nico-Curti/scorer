@@ -20,11 +20,21 @@ environment:
 install:
   - pip install Cython numpy
 
-  - cinst cmake ninja
-  - SET "PATH=C:\Program Files\CMake\bin;%PATH%"
-  - SET "PATH=C:\Program Files\LLVM\bin;%PATH%"
-  - call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
+  - if [%COMPILER%]==[vs] cinst ninja
+  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\CMake\bin;%PATH%"
+  - if [%COMPILER%]==[vs] call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86
   - git submodule -q update --init --recursive
+  - cd %WORKSPACE%\
+  ############################################################################
+  # Install a recent CMake
+  ############################################################################
+  - set CMAKE_URL="https://cmake.org/files/v3.12/cmake-3.12.1-win64-x64.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps > nul
+  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+  - cmake --version
+
 
 before_build:
   - cd C:\projects\Scorer

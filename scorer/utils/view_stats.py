@@ -32,7 +32,7 @@ table, th, td
 
 def draw_network(filename, scripts):
 
-  data = pd.read_csv(filename, sep=',', index_col=0)
+  data = pd.read_csv(filename, sep=',', index_col=0, header=None)
 
   dependency = {hpp : functions_script(hpp) for hpp in scripts}
   all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
@@ -61,7 +61,7 @@ def draw_network(filename, scripts):
   tooltip = plugins.PointHTMLTooltip(net, labels,
                                      voffset=10, hoffset=10, css=css)
   plugins.connect(fig, tooltip)
-  save_html(fig, '../img/dependency_graph.html')
+  save_html(fig, 'dependency_graph.html')
 
 
 if __name__ == '__main__':
