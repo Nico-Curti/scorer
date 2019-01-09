@@ -1,3 +1,8 @@
+# Scorer Version
+MAJOR 	 := 1
+MINOR 	 := 0
+REVISION := 0
+
 # Setting bash colors
 RED    := $(shell tput -Txterm setaf 1)
 YELLOW := $(shell tput -Txterm setaf 3)
@@ -11,16 +16,13 @@ RESET  := $(shell tput -Txterm sgr0   )
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-OMP     := 1
-DEBUG   := 0
+OMP     ?= 1
+DEBUG   ?= 0
 
 STD     := -std=c++17
 
-CFLAGS  := -lstdc++fs
-#-Wall -Wextra -Wno-unused-result
-LDFLAGS := -fPIC
-AR      := ar
-ARFLAGS := rcs
+CFLAGS  := -Wall -Wextra -Wno-unused-result
+CFLAGS  += -DMAJOR=$(MAJOR) -DMINOR=$(MINOR) -DREVISION=$(REVISION)
 
 #################################################################
 #                         PARSE OPTIONS                         #
@@ -41,40 +43,15 @@ OPTS    := $(strip $(call config, $(DEBUG),   1, -O0 -g -DDEBUG, -Ofast -mavx))
 #                         SETTING DIRECTORIES                   #
 #################################################################
 
-SRC_DIR    := ./src
-INC_DIR    := ./include
-EXAMPLE    := ./example
-OBJ_DIR    := ./obj
+PYC_DIR := ./scorer
+INC_DIR := $(PYC_DIR)/include
+TST_DIR := $(PYC_DIR)/example
 OUT_DIR    := ./bin
-DEP_DIR    := ./.dep
 UTIL_DIR   := ./utility
 
 DFLAGS  = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 
-SRC    := $(sort $(wildcard $(SRC_DIR)/*.cpp))
-HEADER := $(sort $(wildcard $(INC_DIR)/*.h))
-EXE    := $(sort $(wildcard $(EXAMPLE)/*.cpp))
-INC    := -I$(INC_DIR)
-SLIB   := libscorer.so
-ALIB   := libscorer.a
-
-OBJS   := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC))
-EXEC   := $(patsubst %.cpp, %$(EXTENSION), $(EXE))
-OUTPUT := $(addprefix $(OUT_DIR)/, $(notdir $(patsubst %.cpp, %$(EXTENSION), $(EXE))) )
-
-#################################################################
-#                         OS FUNCTIONS                          #
-#################################################################
-
-define MKDIR
-  $(if $(filter $(OS), Windows_NT), mkdir $(subst /,\,$(1)) > nul 2>&1 || (exit 0), mkdir -p $(1) )
-endef
-
-mkdir_dep  := $(call MKDIR, $(DEP_DIR))
-mkdir_obj  := $(call MKDIR, $(OBJ_DIR))
-mkdir_out  := $(call MKDIR, $(OUT_DIR))
-
-EXTENSION  := $(call config, $(OS), Windows_NT, .exe, )
+INC := -I$(INC_DIR)
 
 #################################################################
 #                         BUILD COMMAND LINE                    #
@@ -96,42 +73,11 @@ example: $(OUT_DIR)           ##@examples Compile test example.
 	@printf "[done]\n"
 
 #################################################################
-#                         SCORER RULES                          #
-#################################################################
-
-#scorer: $(OBJS) $(SLIB)                       ##@library Create shared scorer library.
-libscorer: $(OBJS) $(ALIB)                     ##@library Create shared scorer library.
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(DEP_DIR)/%.d # compile all cpp in SRC_DIR for OBJ
-	@printf "%-80s " "generating obj for $<"
-	@$(CXX) $(DFLAGS) $(CFLAGS) -c $< -o $@
-	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d && touch $@
-	@printf "[done]\n"
-
-$(ALIB): $(OBJS)
-	@printf "%-80s " "generating $(ALIB) ..."
-	@$(AR) $(ARFLAGS) $@ $^
-	@printf "[done]\n"
-
-$(SLIB): $(OBJS) # not work
-	@printf "%-80s " "generating $(ALIB) ..."
-	@$(CXX) $(CFLAGS) $(LDFLAGS) $^ -o $@
-	@printf "[done]\n"
-
-$(OUTPUT): $(OBJS) # not work
-	@$(CXX) $(CFLAGS) $< -o $@
-
-$(DEP_DIR)/%.d: ;
-.PRECIOUS: $(DEP_DIR)/%.d
-include $(wildcard $(patsubst %,$(DEP_DIR)/%.d,$(basename $(SRC))))
-
-#################################################################
 #                         UTILS RULES                           #
 #################################################################
 
-pythonic: ##@utils Build Cython version of Scorer library
+pythonic: ##@utils Build Cython version of Scorer package
 	python setup.py build_ext --inplace
-	mv Pyscorer.cpython* pyc/
 
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
@@ -155,17 +101,5 @@ help:                   ##@utils Show this help message.
 
 clean:                  ##@utils Clean all files.
 	@printf "%-80s " "Cleaning all files..."
-	@rm -rf $(OBJS) $(ALIB) $(SLIB) $(OBJ_DIR)/* $(DEP_DIR)/*
-	@printf "[done]\n"
-$(DEP_DIR):             ##@utils Make dependencies directory
-	@printf "%-80s " "Creating dependencies directory ..."
-	@$(mkdir_dep)
-	@printf "[done]\n"
-$(OBJ_DIR):             ##@utils Make objs directory.
-	@printf "%-80s " "Creating objs directory ..."
-	@$(mkdir_obj)
-	@printf "[done]\n"
-$(OUT_DIR):             ##@utils Make output (executables) directory.
-	@printf "%-80s " "Creating output directory ..."
-	@$(mkdir_out)
+	@rm -rf ./*.so $(PYC_DIR)/*.so $(PYC_DIR)/*.cpp ./build ./bin
 	@printf "[done]\n"

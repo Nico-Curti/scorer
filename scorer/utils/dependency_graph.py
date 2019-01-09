@@ -78,7 +78,8 @@ if __name__ == '__main__':
 
   dependency = {hpp : functions_script(directory + hpp) for hpp in ['common_stats.h',
                                                                     'class_stats.h',
-                                                                    'overall_stats.h']}
+                                                                    'overall_stats.h'
+                                                                    ]}
 
   all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
 

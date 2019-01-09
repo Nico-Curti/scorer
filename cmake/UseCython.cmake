@@ -279,6 +279,7 @@ function( cython_add_module _name )
   else()
     target_link_libraries( ${_name} ${PYTHON_LIBRARIES} )
   endif()
+  install(TARGETS ${_name}            DESTINATION ${PYC_DIR})
 endfunction()
 
 include( CMakeParseArguments )
