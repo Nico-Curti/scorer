@@ -42,5 +42,5 @@ before_build:
   - cd build
 
 build_script:
-  - cmake -G "Ninja" ..
+  - cmake -G "Ninja" "-DOMP=OFF" ..
   - cmake --build .
