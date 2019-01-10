@@ -51,5 +51,5 @@ before_build:
 
 build_script:
   - if [%MSVC_SETUP_ARG%]==[x64] cmake .. -G "Visual Studio 15 2017 Win64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
-  - if [%MSVC_SETUP_ARG%]==[x86] cmake .. -G "Ninja" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x86] cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
   - cmake --build . --config Release
