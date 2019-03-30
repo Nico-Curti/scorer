@@ -476,213 +476,213 @@ struct scorer
 #endif
 	} // end computation function
 
-	void print_class_stats()
+	template<typename otype> void print_class_stats(otype &o)
 	{
 
-		std::cout << std::left << std::setw(40) << "classes";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << classes[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TP";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TP[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FN";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FN[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FP";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FP[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TN";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TN[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "POP";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << POP[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "P";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << P[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "N";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << N[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TOP";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TOP[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TON";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TON[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TPR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TPR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "TNR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << TNR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "PPV";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << PPV[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "NPV";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << NPV[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FNR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FNR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FPR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FPR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FDR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FDR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "FOR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << FOR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "ACC";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << ACC[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "F1_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << F1_SCORE[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "F05_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << F05_SCORE[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "F2_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << F2_SCORE[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "MCC";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << MCC[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "BM";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << BM[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "MK";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << MK[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "PLR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << PLR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "NLR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << NLR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "DOR";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << DOR[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "PRE";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << PRE[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "G";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << G[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "RACC";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << RACC[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "ERR_ACC";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << ERR_ACC[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "RACCU";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << RACCU[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "jaccard_index";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << jaccard_index[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "IS";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << IS[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "CEN";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << CEN[i] << " ";
-		std::cout << std::endl;
-		std::cout << std::left << std::setw(40) << "MCEN";
-		for (int i = 0; i < this->Nclass; ++i) std::cout << std::setw(20) << MCEN[i] << " ";
-		std::cout << std::endl;
+		o << std::left << std::setw(40) << "classes";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << classes[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TP";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TP[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FN";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FN[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FP";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FP[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TN";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TN[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "POP";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << POP[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "P";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << P[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "N";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << N[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TOP";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TOP[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TON";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TON[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TPR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TPR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "TNR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TNR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "PPV";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PPV[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "NPV";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << NPV[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FNR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FNR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FPR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FPR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FDR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FDR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "FOR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FOR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "ACC";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ACC[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "F1_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F1_SCORE[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "F05_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F05_SCORE[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "F2_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F2_SCORE[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "MCC";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MCC[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "BM";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << BM[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "MK";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MK[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "PLR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PLR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "NLR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << NLR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "DOR";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << DOR[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "PRE";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PRE[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "G";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << G[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "RACC";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << RACC[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "ERR_ACC";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ERR_ACC[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "RACCU";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << RACCU[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "jaccard_index";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << jaccard_index[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "IS";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << IS[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "CEN";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << CEN[i] << " ";
+		o << std::endl;
+		o << std::left << std::setw(40) << "MCEN";
+		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MCEN[i] << " ";
+		o << std::endl;
 	} // end print class_stats
-	void print_overall_stats()
+	template<typename otype> void print_overall_stats(otype &o)
 	{
 
-		std::cout << std::left << std::setw(40) << "overall_accuracy" << std::setw(20) << overall_accuracy << std::endl;
+		o << std::left << std::setw(40) << "overall_accuracy" << std::setw(20) << overall_accuracy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_random_accuracy_unbiased" << std::setw(20) << overall_random_accuracy_unbiased << std::endl;
+		o << std::left << std::setw(40) << "overall_random_accuracy_unbiased" << std::setw(20) << overall_random_accuracy_unbiased << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_random_accuracy" << std::setw(20) << overall_random_accuracy << std::endl;
+		o << std::left << std::setw(40) << "overall_random_accuracy" << std::setw(20) << overall_random_accuracy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_kappa" << std::setw(20) << overall_kappa << std::endl;
+		o << std::left << std::setw(40) << "overall_kappa" << std::setw(20) << overall_kappa << std::endl;
 
-		std::cout << std::left << std::setw(40) << "PC_PI" << std::setw(20) << PC_PI << std::endl;
+		o << std::left << std::setw(40) << "PC_PI" << std::setw(20) << PC_PI << std::endl;
 
-		std::cout << std::left << std::setw(40) << "PC_AC1" << std::setw(20) << PC_AC1 << std::endl;
+		o << std::left << std::setw(40) << "PC_AC1" << std::setw(20) << PC_AC1 << std::endl;
 
-		std::cout << std::left << std::setw(40) << "PC_S" << std::setw(20) << PC_S << std::endl;
+		o << std::left << std::setw(40) << "PC_S" << std::setw(20) << PC_S << std::endl;
 
-		std::cout << std::left << std::setw(40) << "PI" << std::setw(20) << PI << std::endl;
+		o << std::left << std::setw(40) << "PI" << std::setw(20) << PI << std::endl;
 
-		std::cout << std::left << std::setw(40) << "AC1" << std::setw(20) << AC1 << std::endl;
+		o << std::left << std::setw(40) << "AC1" << std::setw(20) << AC1 << std::endl;
 
-		std::cout << std::left << std::setw(40) << "S" << std::setw(20) << S << std::endl;
+		o << std::left << std::setw(40) << "S" << std::setw(20) << S << std::endl;
 
-		std::cout << std::left << std::setw(40) << "kappa_SE" << std::setw(20) << kappa_SE << std::endl;
+		o << std::left << std::setw(40) << "kappa_SE" << std::setw(20) << kappa_SE << std::endl;
 
-		std::cout << std::left << std::setw(40) << "kappa_unbiased" << std::setw(20) << kappa_unbiased << std::endl;
+		o << std::left << std::setw(40) << "kappa_unbiased" << std::setw(20) << kappa_unbiased << std::endl;
 
-		std::cout << std::left << std::setw(40) << "kappa_no_prevalence" << std::setw(20) << kappa_no_prevalence << std::endl;
+		o << std::left << std::setw(40) << "kappa_no_prevalence" << std::setw(20) << kappa_no_prevalence << std::endl;
 
-		std::cout << std::left << std::setw(40) << "kappa_CI" << std::setw(20) << kappa_CI << std::endl;
+		o << std::left << std::setw(40) << "kappa_CI" << std::setw(20) << kappa_CI << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_accuracy_se" << std::setw(20) << overall_accuracy_se << std::endl;
+		o << std::left << std::setw(40) << "overall_accuracy_se" << std::setw(20) << overall_accuracy_se << std::endl;
 
-		std::cout << std::left << std::setw(40) << "chi_square" << std::setw(20) << chi_square << std::endl;
+		o << std::left << std::setw(40) << "chi_square" << std::setw(20) << chi_square << std::endl;
 
-		std::cout << std::left << std::setw(40) << "phi_square" << std::setw(20) << phi_square << std::endl;
+		o << std::left << std::setw(40) << "phi_square" << std::setw(20) << phi_square << std::endl;
 
-		std::cout << std::left << std::setw(40) << "cramers_V_calc" << std::setw(20) << cramers_V_calc << std::endl;
+		o << std::left << std::setw(40) << "cramers_V_calc" << std::setw(20) << cramers_V_calc << std::endl;
 
-		std::cout << std::left << std::setw(40) << "response_entropy" << std::setw(20) << response_entropy << std::endl;
+		o << std::left << std::setw(40) << "response_entropy" << std::setw(20) << response_entropy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "reference_entropy" << std::setw(20) << reference_entropy << std::endl;
+		o << std::left << std::setw(40) << "reference_entropy" << std::setw(20) << reference_entropy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "cross_entropy" << std::setw(20) << cross_entropy << std::endl;
+		o << std::left << std::setw(40) << "cross_entropy" << std::setw(20) << cross_entropy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "join_entropy" << std::setw(20) << join_entropy << std::endl;
+		o << std::left << std::setw(40) << "join_entropy" << std::setw(20) << join_entropy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "conditional_entropy" << std::setw(20) << conditional_entropy << std::endl;
+		o << std::left << std::setw(40) << "conditional_entropy" << std::setw(20) << conditional_entropy << std::endl;
 
-		std::cout << std::left << std::setw(40) << "mutual_information" << std::setw(20) << mutual_information << std::endl;
+		o << std::left << std::setw(40) << "mutual_information" << std::setw(20) << mutual_information << std::endl;
 
-		std::cout << std::left << std::setw(40) << "kl_divergence" << std::setw(20) << kl_divergence << std::endl;
+		o << std::left << std::setw(40) << "kl_divergence" << std::setw(20) << kl_divergence << std::endl;
 
-		std::cout << std::left << std::setw(40) << "lambda_B" << std::setw(20) << lambda_B << std::endl;
+		o << std::left << std::setw(40) << "lambda_B" << std::setw(20) << lambda_B << std::endl;
 
-		std::cout << std::left << std::setw(40) << "lambda_A" << std::setw(20) << lambda_A << std::endl;
+		o << std::left << std::setw(40) << "lambda_A" << std::setw(20) << lambda_A << std::endl;
 
-		std::cout << std::left << std::setw(40) << "DF" << std::setw(20) << DF << std::endl;
+		o << std::left << std::setw(40) << "DF" << std::setw(20) << DF << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_jaccard_index" << std::setw(20) << overall_jaccard_index << std::endl;
+		o << std::left << std::setw(40) << "overall_jaccard_index" << std::setw(20) << overall_jaccard_index << std::endl;
 
-		std::cout << std::left << std::setw(40) << "hamming_loss" << std::setw(20) << hamming_loss << std::endl;
+		o << std::left << std::setw(40) << "hamming_loss" << std::setw(20) << hamming_loss << std::endl;
 
-		std::cout << std::left << std::setw(40) << "zero_one_loss" << std::setw(20) << zero_one_loss << std::endl;
+		o << std::left << std::setw(40) << "zero_one_loss" << std::setw(20) << zero_one_loss << std::endl;
 
-		std::cout << std::left << std::setw(40) << "NIR" << std::setw(20) << NIR << std::endl;
+		o << std::left << std::setw(40) << "NIR" << std::setw(20) << NIR << std::endl;
 
-		std::cout << std::left << std::setw(40) << "p_value" << std::setw(20) << p_value << std::endl;
+		o << std::left << std::setw(40) << "p_value" << std::setw(20) << p_value << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_CEN" << std::setw(20) << overall_CEN << std::endl;
+		o << std::left << std::setw(40) << "overall_CEN" << std::setw(20) << overall_CEN << std::endl;
 
-		std::cout << std::left << std::setw(40) << "overall_MCEN" << std::setw(20) << overall_MCEN << std::endl;
+		o << std::left << std::setw(40) << "overall_MCEN" << std::setw(20) << overall_MCEN << std::endl;
 
 	} // end print ovearll_stats
 	void print()
 	{
 
-		print_class_stats();
+		print_class_stats<std::ostream>(std::cout);
 		std::cout << std::endl;
-		print_overall_stats();
+		print_overall_stats<std::ostream>(std::cout);
 
 	} // end print function
 	void dump(const std::string &filename)
 	{
 
-		std::ofstream os(filename + ".cl_stat");
-		os << "Stats,";
-
+		std::ofstream os(filename + ".cl_stats.txt");
+		os << "Stats,"<<std::endl;
+		print_class_stats<std::ofstream>(os);
 		os.close();
-		os.open(filename + "ov_stats");
+		os.open(filename + ".ov_stats.txt");
 		os << "Stats,score" << std::endl;
-
+		print_overall_stats<std::ofstream>(os);
 		os.close();
 	} // end dump function
 }; // end struct

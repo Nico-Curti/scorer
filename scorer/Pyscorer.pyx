@@ -7,6 +7,11 @@ from libcpp.memory cimport unique_ptr
 from cython.operator cimport dereference as deref
 import numpy as np
 
+cdef extern from "<iostream>" namespace "std":
+  cdef cppclass ostream:
+        ostream& write(const char*, int) except +
+  ostream cout
+
 cdef extern from "scorer.h":
   cppclass scorer:
     scorer() except +
@@ -91,8 +96,8 @@ cdef extern from "scorer.h":
 
     # Methods
     void compute_score(int *, int *, int, int)
-    void print_class_stats()
-    void print_overall_stats()
+    void print_class_stats[T](T&)
+    void print_overall_stats[T](T&)
 
 cdef class Pyscorer:
   cdef unique_ptr[scorer] thisptr
@@ -196,9 +201,9 @@ cdef class Pyscorer:
 
   def __str__(self):
     print('\nClass Statistic : \n\n')
-    deref(self.thisptr).print_class_stats()
+    deref(self.thisptr).print_class_stats[ostream](cout)
     print('\n\nOverall Statistic : \n\n')
-    deref(self.thisptr).print_overall_stats()
+    deref(self.thisptr).print_overall_stats[ostream](cout)
     return '\n'
 
   def __getitem__(self, stat):
