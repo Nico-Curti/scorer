@@ -127,9 +127,9 @@ message(STATUS ""                                                               
 
 add_subdirectory(${PYC_DIR})
 
-add_custom_target(pincopallino)
+add_custom_target(example_test)
 add_executable( example ${TST_DIR}/example.cpp )
-add_dependencies(pincopallino example)
+add_dependencies(example_test example)
 
 #################################################################
 #                          INSTALLERS                           #

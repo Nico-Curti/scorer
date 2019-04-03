@@ -59,12 +59,12 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->DF = get_DF(this->classes.data(), Nclass);
+			this->PC_S = get_PC_S(this->classes.data(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->PC_S = get_PC_S(this->classes.data(), Nclass);
+			this->DF = get_DF(this->classes.data(), Nclass);
 
 #ifdef _OPENMP
 		}
@@ -74,6 +74,11 @@ struct scorer
 #pragma omp sections
 		{
 #endif
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->TP = get_TP(this->confusion_matrix.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -89,11 +94,6 @@ struct scorer
 #pragma omp section
 #endif
 			this->TN = get_TN(this->confusion_matrix.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->TP = get_TP(this->confusion_matrix.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -117,7 +117,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->N = get_N(this->TN.get(), this->FP.get(), Nclass);
+			this->POP = get_POP(this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -127,7 +127,37 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->POP = get_POP(this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
+			this->N = get_N(this->TN.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->TOP = get_TOP(this->TP.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->TON = get_TON(this->TN.get(), this->FN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->TPR = get_TPR(this->TP.get(), this->FN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->TNR = get_TNR(this->TN.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->PPV = get_PPV(this->TP.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->NPV = get_NPV(this->TN.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -137,12 +167,12 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->F05_SCORE = get_F05_SCORE(this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
+			this->F1_SCORE = get_F1_SCORE(this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->F1_SCORE = get_F1_SCORE(this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
+			this->F05_SCORE = get_F05_SCORE(this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -153,36 +183,6 @@ struct scorer
 #pragma omp section
 #endif
 			this->MCC = get_MCC(this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->NPV = get_NPV(this->TN.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->PPV = get_PPV(this->TP.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->TNR = get_TNR(this->TN.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->TON = get_TON(this->TN.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->TOP = get_TOP(this->TP.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->TPR = get_TPR(this->TP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -206,27 +206,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->BM = get_BM(this->TPR.get(), this->TNR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->ERR_ACC = get_ERR_ACC(this->ACC.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->FDR = get_FDR(this->PPV.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 			this->FNR = get_FNR(this->TPR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->FOR = get_FOR(this->NPV.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -236,12 +216,17 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->G = get_G(this->PPV.get(), this->TPR.get(), Nclass);
+			this->FDR = get_FDR(this->PPV.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->IS = get_IS(this->TP.get(), this->FP.get(), this->FN.get(), this->POP.get(), Nclass);
+			this->FOR = get_FOR(this->NPV.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->BM = get_BM(this->TPR.get(), this->TNR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -256,7 +241,17 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
+			this->G = get_G(this->PPV.get(), this->TPR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
 			this->RACC = get_RACC(this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->ERR_ACC = get_ERR_ACC(this->ACC.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -271,57 +266,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->NIR = get_NIR(this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->PC_AC1 = get_PC_AC1(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->PC_PI = get_PC_PI(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->chi_square = get_chi_square(this->classes.data(), this->confusion_matrix.get(), this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->conditional_entropy = get_conditional_entropy(this->classes.data(), this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->cross_entropy = get_cross_entropy(this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->hamming_loss = get_hamming_loss(this->TP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->join_entropy = get_join_entropy(this->classes.data(), this->confusion_matrix.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->kl_divergence = get_kl_divergence(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->lambda_A = get_lambda_A(this->classes.data(), this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->lambda_B = get_lambda_B(this->classes.data(), this->confusion_matrix.get(), this->TOP.get(), this->POP.get(), Nclass);
+			this->IS = get_IS(this->TP.get(), this->FP.get(), this->FN.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -331,7 +276,17 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->reference_entropy = get_reference_entropy(this->P.get(), this->POP.get(), Nclass);
+			this->PC_PI = get_PC_PI(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->PC_AC1 = get_PC_AC1(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->chi_square = get_chi_square(this->classes.data(), this->confusion_matrix.get(), this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -341,7 +296,52 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
+			this->reference_entropy = get_reference_entropy(this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->cross_entropy = get_cross_entropy(this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->join_entropy = get_join_entropy(this->classes.data(), this->confusion_matrix.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->conditional_entropy = get_conditional_entropy(this->classes.data(), this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->kl_divergence = get_kl_divergence(this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->lambda_B = get_lambda_B(this->classes.data(), this->confusion_matrix.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->lambda_A = get_lambda_A(this->classes.data(), this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->hamming_loss = get_hamming_loss(this->TP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
 			this->zero_one_loss = get_zero_one_loss(this->TP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->NIR = get_NIR(this->P.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 		}
@@ -355,22 +355,32 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->NLR = get_NLR(this->FNR.get(), this->TNR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 			this->PLR = get_PLR(this->TPR.get(), this->FPR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->AC1 = get_AC1(this->PC_AC1, this->overall_accuracy);
+			this->NLR = get_NLR(this->FNR.get(), this->TNR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->overall_random_accuracy_unbiased = get_overall_random_accuracy_unbiased(this->RACCU.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->overall_random_accuracy = get_overall_random_accuracy(this->RACC.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
 			this->PI = get_PI(this->PC_PI, this->overall_accuracy);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->AC1 = get_AC1(this->PC_AC1, this->overall_accuracy);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -385,12 +395,17 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->mutual_information = get_mutual_information(this->response_entropy, this->conditional_entropy);
+			this->overall_accuracy_se = get_overall_accuracy_se(this->overall_accuracy, this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->overall_accuracy_se = get_overall_accuracy_se(this->overall_accuracy, this->POP.get(), Nclass);
+			this->phi_square = get_phi_square(this->chi_square, this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+			this->mutual_information = get_mutual_information(this->response_entropy, this->conditional_entropy);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -400,22 +415,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->overall_random_accuracy = get_overall_random_accuracy(this->RACC.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->overall_random_accuracy_unbiased = get_overall_random_accuracy_unbiased(this->RACCU.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 			this->p_value = get_p_value(this->TP.get(), this->POP.get(), Nclass, this->NIR);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-			this->phi_square = get_phi_square(this->chi_square, this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 		}
@@ -434,7 +434,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->cramers_V_calc = get_cramers_V_calc(this->phi_square, this->classes.data(), Nclass);
+			this->overall_kappa = get_overall_kappa(this->overall_random_accuracy, this->overall_accuracy);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -449,7 +449,7 @@ struct scorer
 #ifdef _OPENMP
 #pragma omp section
 #endif
-			this->overall_kappa = get_overall_kappa(this->overall_random_accuracy, this->overall_accuracy);
+			this->cramers_V_calc = get_cramers_V_calc(this->phi_square, this->classes.data(), Nclass);
 
 #ifdef _OPENMP
 		}
@@ -476,195 +476,195 @@ struct scorer
 #endif
 	} // end computation function
 
-	template<typename otype> void print_class_stats(otype &o)
+	template<typename OS> void print_class_stats(OS &os)
 	{
 
-		o << std::left << std::setw(40) << "classes";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << classes[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TP";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TP[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FN";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FN[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FP";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FP[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TN";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TN[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "POP";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << POP[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "P";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << P[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "N";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << N[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TOP";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TOP[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TON";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TON[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TPR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TPR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "TNR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << TNR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "PPV";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PPV[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "NPV";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << NPV[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FNR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FNR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FPR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FPR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FDR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FDR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "FOR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << FOR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "ACC";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ACC[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "F1_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F1_SCORE[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "F05_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F05_SCORE[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "F2_SCORE";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << F2_SCORE[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "MCC";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MCC[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "BM";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << BM[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "MK";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MK[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "PLR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PLR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "NLR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << NLR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "DOR";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << DOR[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "PRE";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << PRE[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "G";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << G[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "RACC";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << RACC[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "ERR_ACC";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ERR_ACC[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "RACCU";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << RACCU[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "jaccard_index";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << jaccard_index[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "IS";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << IS[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "CEN";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << CEN[i] << " ";
-		o << std::endl;
-		o << std::left << std::setw(40) << "MCEN";
-		for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << MCEN[i] << " ";
-		o << std::endl;
+		os << std::left << std::setw(40) << "classes";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << classes[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TP";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TP[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FN";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FN[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FP";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FP[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TN";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TN[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "POP";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << POP[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "P";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << P[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "N";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << N[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TOP";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TOP[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TON";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TON[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TPR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TPR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "TNR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << TNR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "PPV";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << PPV[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "NPV";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << NPV[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FNR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FNR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FPR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FPR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FDR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FDR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "FOR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << FOR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "ACC";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << ACC[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "F1_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << F1_SCORE[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "F05_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << F05_SCORE[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "F2_SCORE";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << F2_SCORE[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "MCC";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << MCC[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "BM";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << BM[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "MK";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << MK[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "PLR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << PLR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "NLR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << NLR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "DOR";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << DOR[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "PRE";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << PRE[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "G";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << G[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "RACC";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << RACC[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "ERR_ACC";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << ERR_ACC[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "RACCU";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << RACCU[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "jaccard_index";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << jaccard_index[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "IS";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << IS[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "CEN";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << CEN[i] << " ";
+		os << std::endl;
+		os << std::left << std::setw(40) << "MCEN";
+		for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << MCEN[i] << " ";
+		os << std::endl;
 	} // end print class_stats
-	template<typename otype> void print_overall_stats(otype &o)
+	template<typename OS> void print_overall_stats(OS &os)
 	{
 
-		o << std::left << std::setw(40) << "overall_accuracy" << std::setw(20) << overall_accuracy << std::endl;
+		os << std::left << std::setw(40) << "overall_accuracy" << std::setw(20) << overall_accuracy << std::endl;
 
-		o << std::left << std::setw(40) << "overall_random_accuracy_unbiased" << std::setw(20) << overall_random_accuracy_unbiased << std::endl;
+		os << std::left << std::setw(40) << "overall_random_accuracy_unbiased" << std::setw(20) << overall_random_accuracy_unbiased << std::endl;
 
-		o << std::left << std::setw(40) << "overall_random_accuracy" << std::setw(20) << overall_random_accuracy << std::endl;
+		os << std::left << std::setw(40) << "overall_random_accuracy" << std::setw(20) << overall_random_accuracy << std::endl;
 
-		o << std::left << std::setw(40) << "overall_kappa" << std::setw(20) << overall_kappa << std::endl;
+		os << std::left << std::setw(40) << "overall_kappa" << std::setw(20) << overall_kappa << std::endl;
 
-		o << std::left << std::setw(40) << "PC_PI" << std::setw(20) << PC_PI << std::endl;
+		os << std::left << std::setw(40) << "PC_PI" << std::setw(20) << PC_PI << std::endl;
 
-		o << std::left << std::setw(40) << "PC_AC1" << std::setw(20) << PC_AC1 << std::endl;
+		os << std::left << std::setw(40) << "PC_AC1" << std::setw(20) << PC_AC1 << std::endl;
 
-		o << std::left << std::setw(40) << "PC_S" << std::setw(20) << PC_S << std::endl;
+		os << std::left << std::setw(40) << "PC_S" << std::setw(20) << PC_S << std::endl;
 
-		o << std::left << std::setw(40) << "PI" << std::setw(20) << PI << std::endl;
+		os << std::left << std::setw(40) << "PI" << std::setw(20) << PI << std::endl;
 
-		o << std::left << std::setw(40) << "AC1" << std::setw(20) << AC1 << std::endl;
+		os << std::left << std::setw(40) << "AC1" << std::setw(20) << AC1 << std::endl;
 
-		o << std::left << std::setw(40) << "S" << std::setw(20) << S << std::endl;
+		os << std::left << std::setw(40) << "S" << std::setw(20) << S << std::endl;
 
-		o << std::left << std::setw(40) << "kappa_SE" << std::setw(20) << kappa_SE << std::endl;
+		os << std::left << std::setw(40) << "kappa_SE" << std::setw(20) << kappa_SE << std::endl;
 
-		o << std::left << std::setw(40) << "kappa_unbiased" << std::setw(20) << kappa_unbiased << std::endl;
+		os << std::left << std::setw(40) << "kappa_unbiased" << std::setw(20) << kappa_unbiased << std::endl;
 
-		o << std::left << std::setw(40) << "kappa_no_prevalence" << std::setw(20) << kappa_no_prevalence << std::endl;
+		os << std::left << std::setw(40) << "kappa_no_prevalence" << std::setw(20) << kappa_no_prevalence << std::endl;
 
-		o << std::left << std::setw(40) << "kappa_CI" << std::setw(20) << kappa_CI << std::endl;
+		os << std::left << std::setw(40) << "kappa_CI" << std::setw(20) << kappa_CI << std::endl;
 
-		o << std::left << std::setw(40) << "overall_accuracy_se" << std::setw(20) << overall_accuracy_se << std::endl;
+		os << std::left << std::setw(40) << "overall_accuracy_se" << std::setw(20) << overall_accuracy_se << std::endl;
 
-		o << std::left << std::setw(40) << "chi_square" << std::setw(20) << chi_square << std::endl;
+		os << std::left << std::setw(40) << "chi_square" << std::setw(20) << chi_square << std::endl;
 
-		o << std::left << std::setw(40) << "phi_square" << std::setw(20) << phi_square << std::endl;
+		os << std::left << std::setw(40) << "phi_square" << std::setw(20) << phi_square << std::endl;
 
-		o << std::left << std::setw(40) << "cramers_V_calc" << std::setw(20) << cramers_V_calc << std::endl;
+		os << std::left << std::setw(40) << "cramers_V_calc" << std::setw(20) << cramers_V_calc << std::endl;
 
-		o << std::left << std::setw(40) << "response_entropy" << std::setw(20) << response_entropy << std::endl;
+		os << std::left << std::setw(40) << "response_entropy" << std::setw(20) << response_entropy << std::endl;
 
-		o << std::left << std::setw(40) << "reference_entropy" << std::setw(20) << reference_entropy << std::endl;
+		os << std::left << std::setw(40) << "reference_entropy" << std::setw(20) << reference_entropy << std::endl;
 
-		o << std::left << std::setw(40) << "cross_entropy" << std::setw(20) << cross_entropy << std::endl;
+		os << std::left << std::setw(40) << "cross_entropy" << std::setw(20) << cross_entropy << std::endl;
 
-		o << std::left << std::setw(40) << "join_entropy" << std::setw(20) << join_entropy << std::endl;
+		os << std::left << std::setw(40) << "join_entropy" << std::setw(20) << join_entropy << std::endl;
 
-		o << std::left << std::setw(40) << "conditional_entropy" << std::setw(20) << conditional_entropy << std::endl;
+		os << std::left << std::setw(40) << "conditional_entropy" << std::setw(20) << conditional_entropy << std::endl;
 
-		o << std::left << std::setw(40) << "mutual_information" << std::setw(20) << mutual_information << std::endl;
+		os << std::left << std::setw(40) << "mutual_information" << std::setw(20) << mutual_information << std::endl;
 
-		o << std::left << std::setw(40) << "kl_divergence" << std::setw(20) << kl_divergence << std::endl;
+		os << std::left << std::setw(40) << "kl_divergence" << std::setw(20) << kl_divergence << std::endl;
 
-		o << std::left << std::setw(40) << "lambda_B" << std::setw(20) << lambda_B << std::endl;
+		os << std::left << std::setw(40) << "lambda_B" << std::setw(20) << lambda_B << std::endl;
 
-		o << std::left << std::setw(40) << "lambda_A" << std::setw(20) << lambda_A << std::endl;
+		os << std::left << std::setw(40) << "lambda_A" << std::setw(20) << lambda_A << std::endl;
 
-		o << std::left << std::setw(40) << "DF" << std::setw(20) << DF << std::endl;
+		os << std::left << std::setw(40) << "DF" << std::setw(20) << DF << std::endl;
 
-		o << std::left << std::setw(40) << "overall_jaccard_index" << std::setw(20) << overall_jaccard_index << std::endl;
+		os << std::left << std::setw(40) << "overall_jaccard_index" << std::setw(20) << overall_jaccard_index << std::endl;
 
-		o << std::left << std::setw(40) << "hamming_loss" << std::setw(20) << hamming_loss << std::endl;
+		os << std::left << std::setw(40) << "hamming_loss" << std::setw(20) << hamming_loss << std::endl;
 
-		o << std::left << std::setw(40) << "zero_one_loss" << std::setw(20) << zero_one_loss << std::endl;
+		os << std::left << std::setw(40) << "zero_one_loss" << std::setw(20) << zero_one_loss << std::endl;
 
-		o << std::left << std::setw(40) << "NIR" << std::setw(20) << NIR << std::endl;
+		os << std::left << std::setw(40) << "NIR" << std::setw(20) << NIR << std::endl;
 
-		o << std::left << std::setw(40) << "p_value" << std::setw(20) << p_value << std::endl;
+		os << std::left << std::setw(40) << "p_value" << std::setw(20) << p_value << std::endl;
 
-		o << std::left << std::setw(40) << "overall_CEN" << std::setw(20) << overall_CEN << std::endl;
+		os << std::left << std::setw(40) << "overall_CEN" << std::setw(20) << overall_CEN << std::endl;
 
-		o << std::left << std::setw(40) << "overall_MCEN" << std::setw(20) << overall_MCEN << std::endl;
+		os << std::left << std::setw(40) << "overall_MCEN" << std::setw(20) << overall_MCEN << std::endl;
 
-	} // end print ovearll_stats
+	} // end print overall_stats
 	void print()
 	{
 
@@ -676,13 +676,15 @@ struct scorer
 	void dump(const std::string &filename)
 	{
 
-		std::ofstream os(filename + ".cl_stats.txt");
+		std::ofstream os(filename + ".cl_stats");
 		os << "Stats,"<<std::endl;
 		print_class_stats<std::ofstream>(os);
+
 		os.close();
-		os.open(filename + ".ov_stats.txt");
+		os.open(filename + ".ov_stats");
 		os << "Stats,score" << std::endl;
 		print_overall_stats<std::ofstream>(os);
+
 		os.close();
 	} // end dump function
 }; // end struct

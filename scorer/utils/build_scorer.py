@@ -105,26 +105,26 @@ def build_scorer(workflow, dep):
   script += '\t} // end computation function'
   script += '\n\n'
 
-  script += '\n'.join(['\ttemplate<typename otype> void print_class_stats(otype &o)', '\t{', '\n'])
+  script += '\n'.join(['\ttemplate<typename OS> void print_class_stats(OS &os)', '\t{', '\n'])
 
   for f in dep['common_stats.h'].keys():
     if f != 'confusion_matrix':
-      script += '\t'*2 + 'o << std::left << std::setw(40) << "' + f + '";\n'
-      script += '\t'*2 + 'for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ' + f + '[i] << " ";\n'
-      script += '\t'*2 + 'o << std::endl;'
+      script += '\t'*2 + 'os << std::left << std::setw(40) << "' + f + '";\n'
+      script += '\t'*2 + 'for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << ' + f + '[i] << " ";\n'
+      script += '\t'*2 + 'os << std::endl;'
       script += '\n'
   for f in dep['class_stats.h'].keys():
-    script += '\t'*2 + 'o << std::left << std::setw(40) << "' + f + '";\n'
-    script += '\t'*2 + 'for (int i = 0; i < this->Nclass; ++i) o << std::setw(20) << ' + f + '[i] << " ";\n'
-    script += '\t'*2 + 'o << std::endl;'
+    script += '\t'*2 + 'os << std::left << std::setw(40) << "' + f + '";\n'
+    script += '\t'*2 + 'for (int i = 0; i < this->Nclass; ++i) os << std::setw(20) << ' + f + '[i] << " ";\n'
+    script += '\t'*2 + 'os << std::endl;'
     script += '\n'
 
   script += '\t} // end print class_stats'
   script += '\n'
 
-  script += '\n'.join(['\ttemplate<typename otype> void print_overall_stats(otype &o)', '\t{', '\n'])
+  script += '\n'.join(['\ttemplate<typename OS> void print_overall_stats(OS &os)', '\t{', '\n'])
   for f in dep['overall_stats.h'].keys():
-    script += '\t'*2 + 'o << std::left << std::setw(40) << "' + f + '" << std::setw(20) << ' + f + ' << std::endl;\n'
+    script += '\t'*2 + 'os << std::left << std::setw(40) << "' + f + '" << std::setw(20) << ' + f + ' << std::endl;\n'
     script += '\n'
 
   script += '\t} // end print overall_stats'
@@ -140,14 +140,14 @@ def build_scorer(workflow, dep):
   script += '\n'
 
   script += '\n'.join(['\tvoid dump(const std::string &filename)', '\t{', '\n'])
-  script += '\n'.join(['\t'*2 + 'std::ofstream os(filename + ".cl_stats.txt");',
+  script += '\n'.join(['\t'*2 + 'std::ofstream os(filename + ".cl_stats");',
                        '\t'*2 + 'os << "Stats,"<<std::endl;',
                        '\t'*2 + 'print_class_stats<std::ofstream>(os);',
                        '\n',
                        ])
 
   script += '\n'.join(['\t'*2 + 'os.close();',
-                       '\t'*2 + 'os.open(filename + ".ov_stats.txt");',
+                       '\t'*2 + 'os.open(filename + ".ov_stats");',
                        '\t'*2 + 'os << "Stats,score" << std::endl;',
                        '\t'*2 + 'print_overall_stats<std::ofstream>(os);',
                        '\n',
