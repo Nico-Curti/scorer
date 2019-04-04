@@ -127,9 +127,9 @@ message(STATUS ""                                                               
 
 add_subdirectory(${PYC_DIR})
 
-add_custom_target(test)
+add_custom_target(example_test)
 add_executable( example ${TST_DIR}/example.cpp )
-add_dependencies(test example)
+add_dependencies(example_test example)
 
 #################################################################
 #                          INSTALLERS                           #
