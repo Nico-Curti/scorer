@@ -4,9 +4,13 @@
 #include <common_stats.h>
 
 #ifdef _MSC_VER
+  #ifndef __unused
   #define __unused
+  #endif
 #else
+  #ifndef __unused
   #define __unused __attribute__((__unused__))
+  #endif
 #endif
 
 struct
