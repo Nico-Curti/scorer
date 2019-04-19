@@ -11,6 +11,34 @@ matrix:
 # linux + gcc
     - os: linux
       compiler: gcc
+      name: ubuntu 14.04 - gcc@5.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+        - MATRIX_EVAL="CC=g++-5 && CXX=g++-5"
+        - COMPILER_ID="gcc"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@6.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=g++-6 && CXX=g++-6"
+        - COMPILER_ID="gcc"
+
+    - os: linux
+      compiler: gcc
       name: ubuntu 14.04 - gcc@7.0
       addons:
         apt:
@@ -19,8 +47,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-            - python3.5
-            - python3.5-dev
       env:
         - MATRIX_EVAL="CC=g++-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
