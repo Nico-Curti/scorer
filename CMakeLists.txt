@@ -1,13 +1,16 @@
 cmake_minimum_required (VERSION 3.8)
-project (Scorer LANGUAGES CXX VERSION 1.0.0 DESCRIPTION "Machine Learning Scorer")
+
+# Scorer Version
+set (SCORER_MAJOR    1)
+set (SCORER_MINOR    0)
+set (SCORER_REVISION 0)
+set (SCORER_VERSION ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION})
+
+project (Scorer LANGUAGES CXX VERSION ${SCORER_VERSION} DESCRIPTION "Machine Learning Scorer")
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Scorer version
-set (MAJOR    1)
-set (MINOR    0)
-set (REVISION 0)
-add_definitions (-DMAJOR=${MAJOR} -DMINOR=${MINOR} -DREVISION=${REVISION})
+add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SCORER_REVISION})
 
 #################################################################
 #                         COMPILE OPTIONS                       #
@@ -19,7 +22,7 @@ option (OMP     "Enable OpenMP                support" ON  )
 #                         SETTING VARIABLES                     #
 #################################################################
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/" ${CMAKE_MODULE_PATH})
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )
@@ -27,19 +30,46 @@ if ( NOT APPLE )
   set (CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE  )
 endif()
 
-if ( CMAKE_COMPILER_IS_GNUCC )
-  add_compile_options (-Wall -Wextra -Wno-unused-result)
-  string (REGEX REPLACE "-O3" "-Ofast" CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
+# make sure that the default is a RELEASE
+set(default_build_type "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
-if ( MSVC )
-  add_compile_options (/wd4028)
-  add_compile_options (/wd4244)
-  add_compile_options (/wd4267)
-  add_compile_options (/wd4305)
-  add_compile_options (/wd4477)
-  add_compile_options (/wd4996)
-  set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:MSVCRTD")
-  #set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:MSVCRT")
+
+if ( CMAKE_COMPILER_IS_GNUCXX )
+  add_compile_options (-Wall -Wextra -Wno-unused-result -Wno-unknown-pragmas -Wfatal-errors -Wno-narrowing -Wpedantic)
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    string (REGEX REPLACE "-O[0123]" "-Og" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG" )
+    set (CMAKE_CXX_FLAGS_RELEASE "")
+  elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+    string (REGEX REPLACE "-O3" "-Ofast" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG" )
+    set (CMAKE_CXX_FLAGS_DEBUG "")
+  endif()
+endif()
+
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+  add_compile_options(-Wno-deprecated -Wno-writable-strings -stdlib=libstdc++ -std=c++1z)
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    string (REGEX REPLACE "-O0" "-Og" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG" )
+  elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+    string (REGEX REPLACE "-O3" "-Ofast" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG" )
+  endif()
+endif()
+
+if (MSVC)
+  set (CMAKE_CXX_FLAGS "/wd4013 /wd4018 /wd4028 /wd4047 /wd4068 /wd4090 /wd4101 /wd4113 /wd4133 /wd4190 /wd4244 /wd4267 /wd4305 /wd4477 /wd4996 /wd4819 /fp:fast ${CMAKE_CXX_FLAGS}")
+  string (REGEX REPLACE "/O2" "/Ox" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+  add_definitions (-D_CRT_RAND_S)
+  add_definitions (-DNOMINMAX)
+  add_definitions (-D_USE_MATH_DEFINES)
+  add_definitions (-D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
   set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
@@ -72,54 +102,54 @@ endif()
 #                         SETTING DIRECTORIES                   #
 #################################################################
 
-set (INC_DIR ${CMAKE_SOURCE_DIR}/scorer/include) # directory of hpp
-set (TST_DIR ${CMAKE_SOURCE_DIR}/scorer/example) # runtest directory
-set (PYC_DIR ${CMAKE_SOURCE_DIR}/scorer)         # cython directory
-set (OUT_DIR ./bin)
+set(INC_DIR  ${CMAKE_SOURCE_DIR}/scorer/include  CACHE PATH "Path where find header files"                     )
+set(TST_DIR  ${CMAKE_SOURCE_DIR}/scorer/example  CACHE PATH "Path where find test files"                       )
+set(PYC_DIR  ${CMAKE_SOURCE_DIR}/scorer          CACHE PATH "Path where find cython files"                     )         # cython directory
+set(OUT_DIR  ${CMAKE_SOURCE_DIR}/bin             CACHE PATH "Path where outputs will be installed"        FORCE)
+
 
 include_directories(${INC_DIR})
 include_directories(${TST_DIR})
 include_directories(${PYC_DIR})
 
 
-# Make the scripts available in the 'cmake' directory available for the
-# 'include()' command, 'find_package()' command.
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
-# Include the CMake script UseCython.cmake.  This defines add_cython_module().
-# Instruction for use can be found at the top of cmake/UseCython.cmake.
 include( UseCython )
-
-# With CMake, a clean separation can be made between the source tree and the
-# build tree.  When all source is compiled, as with pure C/C++, the source is
-# no-longer needed in the build tree.  However, with pure *.py source, the
-# source is processed directly.  To handle this, we reproduce the availability
-# of the source files in the build tree.
 
 #################################################################
 #                          SUMMARY                              #
 #################################################################
 
-message(STATUS ""                                                                    )
-message(STATUS "=================== Scorer configuration Summary ==================" )
-message(STATUS "   Scorer version: ${MAJOR}.${MINOR}.${REVISION}"                    )
-message(STATUS ""                                                                    )
-message(STATUS "   C++ :"                                                            )
-message(STATUS "      C++ Compiler : ${CMAKE_CXX_COMPILER}"                          )
-message(STATUS "      C++ flags    :"                                                )
-foreach(FLAG ${CMAKE_CXX_FLAGS})
-  message(STATUS "                    * ${FLAG}"                                     )
+message(STATUS ""                                                                       )
+message(STATUS "=================== Scorer configuration Summary =================="    )
+message(STATUS "   Scorer version: ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION}"  )
+message(STATUS ""                                                                       )
+message(STATUS "   Build type : ${CMAKE_BUILD_TYPE}"                                    )
+message(STATUS "   C++ :"                                                               )
+message(STATUS "      C++ Compiler : ${CMAKE_CXX_COMPILER}"                             )
+message(STATUS "      C++ flags    :"                                                   )
+foreach(FLAG ${CMAKE_CXX_FLAGS_LIST})
+  message(STATUS "                    * ${FLAG}"                                        )
 endforeach(FLAG)
-foreach(FLAG ${CMAKE_CXX_FLAGS_RELEASE})
-  message(STATUS "                    * ${FLAG}"                                     )
-endforeach(FLAG)
-message(STATUS "      Linker flags : "                                               )
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message(STATUS "      C++ Debug flags:"                                               )
+  foreach(FLAG ${CMAKE_CXX_FLAGS_DEBUG})
+    message(STATUS "                    * ${FLAG}"                                      )
+  endforeach(FLAG)
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+  message(STATUS "      C++ Release flags  :"                                           )
+  foreach(FLAG ${CMAKE_CXX_FLAGS_RELEASE})
+    message(STATUS "                    * ${FLAG}"                                      )
+  endforeach(FLAG)
+endif()
+message(STATUS "      Linker flags : "                                                  )
 foreach(FLAG ${linked_libs})
-  message(STATUS "                    * ${linked_libs}"                              )
+  message(STATUS "                    * ${FLAG}"                                        )
 endforeach(FLAG)
-message(STATUS ""                                                                    )
-message(STATUS "   OpenMP support : ${OMP}"                                          )
-message(STATUS ""                                                                    )
+message(STATUS ""                                                                       )
+message(STATUS "   OpenMP support : ${OMP}"                                             )
+message(STATUS ""                                                                       )
 
 #################################################################
 #                         MAIN RULES                            #
@@ -135,4 +165,4 @@ add_dependencies(example_test example)
 #                          INSTALLERS                           #
 #################################################################
 
-install(TARGETS example            DESTINATION ${CMAKE_SOURCE_DIR}/${OUT_DIR})
+install(TARGETS example            DESTINATION ${OUT_DIR})
