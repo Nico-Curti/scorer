@@ -77,7 +77,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
 
-      - os: linux
+    - os: linux
       compiler: gcc
       python: "3.6"
       name: ubuntu 14.04 - gcc@8.0 - python 3.6
