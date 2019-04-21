@@ -274,9 +274,9 @@ before_install:
   - pip install --user codecov
   - sudo pip install -r requirements.txt
   - which python
-  - ll /usr/bin/ | grep python
+  - ls -ltA /usr/bin/ | grep python
   - python --version
-  - ll /opt/local/bin | grep python
+  - ls -ltA /opt/local/bin | grep python
 
 install:
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo softwareupdate -l                                                                          ;fi
