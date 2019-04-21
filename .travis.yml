@@ -8,7 +8,6 @@ cache:
     - $HOME/.pyenv/versions/3.5.5
     - $HOME/.pyenv/versions/3.6.5
     - $HOME/.pyenv/versions/3.7.0
-- $HOME/downloads
 
 
 matrix:
@@ -23,7 +22,6 @@ matrix:
         - MATRIX_EVAL=""
         - COMPILER_ID="native-gcc"
         - PYTHON_VERSION=2.6
-        #- additional_defines="-DPYTHON_LIBRARIES= -DPYTHON_EXECUTABLE= -DPYTHON_INCLUDE_DIR="
 
     - os: linux
       compiler: gcc
