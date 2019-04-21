@@ -3,6 +3,12 @@ language: cpp
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/deps/llvm-3.9.0
+    - $HOME/.pyenv/versions/2.7.15
+    - $HOME/.pyenv/versions/3.4.8
+    - $HOME/.pyenv/versions/3.5.5
+    - $HOME/.pyenv/versions/3.6.5
+    - $HOME/.pyenv/versions/3.7.0
+- $HOME/downloads
 
 
 matrix:
@@ -16,7 +22,8 @@ matrix:
       env:
         - MATRIX_EVAL=""
         - COMPILER_ID="native-gcc"
-        - PYTHON=2.6
+        - PYTHON_VERSION=2.6
+        #- additional_defines="-DPYTHON_LIBRARIES= -DPYTHON_EXECUTABLE= -DPYTHON_INCLUDE_DIR="
 
     - os: linux
       compiler: gcc
@@ -32,7 +39,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
         - COMPILER_ID="gcc"
-        - PYTHON=2.7
+        - PYTHON_VERSION=2.7
 
     - os: linux
       compiler: gcc
@@ -48,7 +55,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
         - COMPILER_ID="gcc"
-        - PYTHON=3.3
+        - PYTHON_VERSION=3.3
 
     - os: linux
       compiler: gcc
@@ -64,7 +71,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
-        - PYTHON=3.4
+        - PYTHON_VERSION=3.4
 
     - os: linux
       compiler: gcc
@@ -80,7 +87,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
-        - PYTHON=3.5
+        - PYTHON_VERSION=3.5
 
     - os: linux
       compiler: gcc
@@ -96,7 +103,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
-        - PYTHON=3.6
+        - PYTHON_VERSION=3.6
 
 # linux + clang
 
@@ -268,6 +275,10 @@ before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - pip install --user codecov
   - sudo pip install -r requirements.txt
+  - which python
+  - ll /usr/bin/ | grep python
+  - python --version
+  - ll /opt/local/bin | grep python
 
 install:
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo softwareupdate -l                                                                          ;fi
