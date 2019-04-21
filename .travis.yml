@@ -15,7 +15,8 @@ matrix:
       name: ubuntu 14.04 - native gcc - python 2.6
       env:
         - MATRIX_EVAL=""
-        - COMPILER_ID="gcc"
+        - COMPILER_ID="native-gcc"
+        - PYTHON=2.6
 
     - os: linux
       compiler: gcc
@@ -31,6 +32,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
         - COMPILER_ID="gcc"
+        - PYTHON=2.7
 
     - os: linux
       compiler: gcc
@@ -46,6 +48,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
         - COMPILER_ID="gcc"
+        - PYTHON=3.3
 
     - os: linux
       compiler: gcc
@@ -61,6 +64,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
+        - PYTHON=3.4
 
     - os: linux
       compiler: gcc
@@ -76,6 +80,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
+        - PYTHON=3.5
 
     - os: linux
       compiler: gcc
@@ -91,6 +96,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
+        - PYTHON=3.6
 
 # linux + clang
 
@@ -280,8 +286,9 @@ install:
 before_script:
   - mkdir build
   - cd build
-  - if [[ "$COMPILER_ID" == "gcc"   ]]; then cmake "-DCMAKE_BUILD_TYPE=Debug" "-DOMP=ON" ..                                     ;fi
-  - if [[ "$COMPILER_ID" == "clang" ]]; then cmake "-DCMAKE_BUILD_TYPE=Debug" "-DOMP=OFF" ..                                              ;fi
+  - if [[ "$COMPILER_ID" == "native-gcc" ]]; then cmake "-DCMAKE_BUILD_TYPE=Debug" "-DOMP=OFF" ..                                             ;fi
+  - if [[ "$COMPILER_ID" == "gcc"        ]]; then cmake "-DCMAKE_BUILD_TYPE=Debug" "-DOMP=ON" ..                                              ;fi
+  - if [[ "$COMPILER_ID" == "clang"      ]]; then cmake "-DCMAKE_BUILD_TYPE=Debug" "-DOMP=OFF" ..                                             ;fi
 
 script:
   - cmake --build . --target install
