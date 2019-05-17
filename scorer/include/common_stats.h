@@ -100,6 +100,10 @@ struct
     std::unique_ptr<float[]> TN(new float[Nclass]);
     switch(Nclass)
     {
+      case 1:
+      {
+        std::cerr << "WARNING! Nclas must be greater than 1" << std::endl;
+      } break;
       case 2:
       {
         TN[0] = confusion_matrix[3];
