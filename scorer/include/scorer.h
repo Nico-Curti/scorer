@@ -45,6 +45,7 @@ struct scorer
 #endif
 
 		this->Nclass = static_cast<int>(classes.size());
+
 #ifdef _OPENMP
 #pragma omp single
 #endif
@@ -53,6 +54,7 @@ struct scorer
 			std :: cerr << "Number of classes must be greater than 1." << std :: endl;
 			std :: exit(1);
 		}
+
 
 #ifdef _OPENMP
 #pragma omp sections

@@ -3,6 +3,16 @@
 
 #include <common_stats.h>
 
+#ifdef _MSC_VER
+  #ifndef __unused
+  #define __unused
+  #endif
+#else
+  #ifndef __unused
+  #define __unused __attribute__((__unused__))
+  #endif
+#endif
+
 struct
 {
   auto operator()(const float *TP, const float *POP, const int &Nclass)
@@ -62,7 +72,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const int &Nclass)
+  auto operator()(__unused const float *classes, const int &Nclass)
   {
     return 1.f / static_cast<float>(Nclass);
   }
@@ -94,7 +104,7 @@ struct
 
 struct
 {
-  auto operator()(const float &overall_accuracy, const float &overall_random_accuracy, const float *POP, const int &Nclass)
+  auto operator()(const float &overall_accuracy, const float &overall_random_accuracy, const float *POP, __unused const int &Nclass)
   {
     return std::sqrt( (overall_accuracy * (1.f - overall_accuracy) ) / (POP[0] * (1.f - overall_random_accuracy)*(1.f - overall_random_accuracy)) );
   }
@@ -118,7 +128,7 @@ struct
 
 struct
 {
-  auto operator()(const float &overall_kappa, const float &kappa_SE)
+  auto operator()(__unused const float &overall_kappa, __unused const float &kappa_SE)
   {
     float kappa_CI = 0.f;
     // MISS
@@ -128,7 +138,7 @@ struct
 
 struct
 {
-  auto operator()(const float &overall_accuracy, const float *POP, const int &Nclass)
+  auto operator()(const float &overall_accuracy, const float *POP, __unused const int &Nclass)
   {
     return std::sqrt( (overall_accuracy * (1.f - overall_accuracy)) / POP[0]);
   }
@@ -136,7 +146,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *TOP, const float *P, const float *POP, const int &Nclass)
+  auto operator()(__unused const float *classes, const float *confusion_matrix, const float *TOP, const float *P, const float *POP, const int &Nclass)
   {
     float res = 0.f,
           expected;
@@ -152,7 +162,7 @@ struct
 
 struct
 {
-  auto operator()(const float &chi_square, const float *POP, const float &Nclass)
+  auto operator()(const float &chi_square, const float *POP, __unused const float &Nclass)
   {
     return chi_square / POP[0];
   }
@@ -160,7 +170,7 @@ struct
 
 struct
 {
-  auto operator()(const float &phi_square, const float *classes, const int &Nclass)
+  auto operator()(const float &phi_square, __unused const float *classes, const int &Nclass)
   {
     return std::sqrt(phi_square / static_cast<float>(Nclass - 1));
   }
@@ -195,7 +205,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *POP, const int &Nclass)
+  auto operator()(__unused const float *classes, const float *confusion_matrix, const float *POP, const int &Nclass)
   {
     float res = 0.f, p_prime;
     for (int i = 0; i < Nclass; ++i)
@@ -210,7 +220,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *P, const float *POP, const int &Nclass)
+  auto operator()(__unused const float *classes, const float *confusion_matrix, const float *P, const float *POP, const int &Nclass)
   {
     float res = 0.f, p_prime, tmp;
     for (int i = 0; i < Nclass; ++i)
@@ -251,7 +261,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *TOP, const float *POP, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const float *TOP, __unused const float *POP, __unused const int &Nclass)
   {
     float maxresponse = -inf,
           res = 0.f;
@@ -262,7 +272,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *P, const float *POP, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const float *P, __unused const float *POP, __unused const int &Nclass)
   {
     float maxreference = -inf,
           res = 0.f;
@@ -273,7 +283,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const int &Nclass)
+  auto operator()(__unused const float *classes, const int &Nclass)
   {
     return static_cast<float>((Nclass - 1)*(Nclass - 1));
   }
@@ -314,7 +324,7 @@ struct
 
 struct
 {
-  auto operator()(const float *TP, const float *POP, const int &Nclass, const float &NIR)
+  auto operator()(__unused const float *TP, __unused const float *POP, __unused const int &Nclass, __unused const float &NIR)
   {
     float p_value = 0.f;
     // MISS
@@ -324,7 +334,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *CEN, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const float *CEN, __unused const int &Nclass)
   {
     float overall_CEN = 0.f;
     // MISS
@@ -334,7 +344,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const float *MCEN, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const float *MCEN, __unused const int &Nclass)
   {
     float overall_MCEN = 0.f;
     // MISS

@@ -3,6 +3,16 @@
 
 #include <common_stats.h>
 
+#ifdef _MSC_VER
+  #ifndef __unused
+  #define __unused
+  #endif
+#else
+  #ifndef __unused
+  #define __unused __attribute__((__unused__))
+  #endif
+#endif
+
 struct
 {
   auto operator()(const float *TP, const float *FP, const int &Nclass)
@@ -284,7 +294,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const int &Nclass)
   {
     std::unique_ptr<float[]> CEN(new float[Nclass]);
     // MISS (modified = False)
@@ -294,7 +304,7 @@ struct
 
 struct
 {
-  auto operator()(const float *classes, const float *confusion_matrix, const int &Nclass)
+  auto operator()(__unused const float *classes, __unused const float *confusion_matrix, __unused const int &Nclass)
   {
     std::unique_ptr<float[]> MCEN(new float[Nclass]);
     // MISS (modified = True)
