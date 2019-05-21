@@ -46,6 +46,15 @@ struct scorer
 
 		this->Nclass = static_cast<int>(classes.size());
 
+		if ( this->Nclass == 1 )
+		{
+#ifdef _OPENMP
+#pragma omp single
+#endif
+			std::cerr << "Nclass must be greater than 1" << std::endl;
+			return;
+		}
+
 #ifdef _OPENMP
 #pragma omp sections
 		{

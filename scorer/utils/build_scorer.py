@@ -45,6 +45,14 @@ def parallel_func(member, output, params):
                     '\n'
                     ])
 
+def check_dimension():
+  return '\t' * 2 + 'if ( this->Nclass == 1 )\n' +
+         '\t' * 2 + '{\n' +
+         '#ifdef _OPENMP\n#pragma omp single\n#endif\n' +
+         '\t' * 3 + 'std::cerr << "Nclass must be greater than 1" << std::endl;\n' +
+         '\t' * 3 + 'return;\n' +
+         '\t' * 2 + '}\n\n'
+
 def build_scorer(workflow, dep):
   script = '\n'.join(['#ifndef SCORER_H',
                       '#define SCORER_H',
@@ -99,6 +107,7 @@ def build_scorer(workflow, dep):
     script += stop_omp_section()
     if lv == 0:
       script += '\t'*2 + 'this->Nclass = static_cast<int>(classes.size());\n\n'
+      script += check_dimension()
 
 #  script += stop_omp()
   script += '#ifdef PYTHONIC\n#ifdef _OPENMP\n\t}\n#endif\n#endif\n'
@@ -106,6 +115,7 @@ def build_scorer(workflow, dep):
   script += '\n\n'
 
   script += '\n'.join(['\ttemplate<typename OS> void print_class_stats(OS &os)', '\t{', '\n'])
+  script += '\n'.join(['\t'*2 + 'if ( this->Nclass == 1 ) return;', '\n'])
 
   for f in dep['common_stats.h'].keys():
     if f != 'confusion_matrix':
@@ -132,6 +142,7 @@ def build_scorer(workflow, dep):
 
 
   script += '\n'.join(['\tvoid print()', '\t{', '\n'])
+  script += '\n'.join(['\t'*2 + 'if ( this->Nclass == 1 ) return;', '\n'])
   script += '\n'.join(['\t'*2 + 'print_class_stats<std::ostream>(std::cout);',
                        '\t'*2 + 'std::cout << std::endl;',
                        '\t'*2 + 'print_overall_stats<std::ostream>(std::cout);',
