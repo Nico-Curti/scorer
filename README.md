@@ -1,6 +1,6 @@
 | **Authors**  | **Project** |  **Build Status**             | **Latest Version** | **License** |
 |:------------:|:-----------:|:-----------------------------:|:------------------:|:-----------:|
-|   N. Curti   |    scorer   |  **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | ![version](https://img.shields.io/badge/PyPI-v1.0.0-orange.svg?style=plastic) | [![license](https://img.shields.io/badge/license-GPL-blue.svg?style=plastic)](https://github.com/Nico-Curti/scorer/blob/master/LICENSE)
+|   [**N. Curti**](https://github.com/Nico-Curti)   |  **Scorer**   |  **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | ![version](https://img.shields.io/badge/PyPI-v1.0.0-orange.svg?style=plastic) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md)
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
@@ -88,7 +88,7 @@ If you have found `Scorer` helpful in your research, please consider citing the 
 ```tex
 @misc{Scorer,
   author = {Nico Curti},
-  title = {{S}corer},
+  title = {Scorer},
   year = {2019},
   publisher = {GitHub},
   howpublished = {\url{https://github.com/Nico-Curti/scorer}},
