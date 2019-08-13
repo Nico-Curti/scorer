@@ -8,29 +8,48 @@ from mpld3 import plugins, save_html
 from networkx import draw_networkx_edges, draw_networkx_labels
 from networkx.drawing.nx_pydot import graphviz_layout
 
-css = """
-table
-{
-  border-collapse: collapse;
-}
-th
-{
-  color: #ffffff;
-  background-color: #000000;
-}
-td
-{
-  background-color: #cccccc;
-}
-table, th, td
-{
-  font-family:Arial, Helvetica, sans-serif;
-  border: 1px solid black;
-  text-align: right;
-}
-"""
+css = '''
+      table
+      {
+        border-collapse: collapse;
+      }
+      th
+      {
+        color: #ffffff;
+        background-color: #000000;
+      }
+      td
+      {
+        background-color: #cccccc;
+      }
+      table, th, td
+      {
+        font-family:Arial, Helvetica, sans-serif;
+        border: 1px solid black;
+        text-align: right;
+      }
+      g.mpld3-xaxis, g.mpld3-xaxis
+      {
+        display: none;
+      }
+      g.mpld3-yaxis, g.mpld3-yaxis
+      {
+        display: none;
+      }
+'''
 
-def draw_network(filename, scripts):
+def draw_network (filename, scripts):
+  '''
+  Draw statistics network using HTML support.
+
+  Parameters
+  ----------
+    filename : string
+        Filename of the statistics dumped by Scorer object
+
+    scripts : string
+        Filename of sources c++ scripts in which read the statistics dependencies
+  '''
 
   data = pd.read_csv(filename, sep=',', index_col=0, header=None)
 
@@ -66,10 +85,11 @@ def draw_network(filename, scripts):
 
 if __name__ == '__main__':
 
-  scripts = ['../include/' + hpp for hpp in ['common_stats.h',
-                                             'class_stats.h',
-                                             #'overall_stats.h'
-                                             ]]
+  directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
+  scripts = [directory + hpp for hpp in ['common_stats.h',
+                                         'class_stats.h',
+                                          #'overall_stats.h'
+                                          ]]
 
 
   filename = 'cls_stats.csv'

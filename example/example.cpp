@@ -3,14 +3,15 @@
 
 #include <scorer.h>
 
-int main()
+int main ()
 {
   const int n_labels = 12;
 
-  std::array<int, n_labels> y_true = { {2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2} },
-                            y_pred = { {0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2} };
+  std :: array < int, n_labels> y_true = { {2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2} };
+  std :: array < int, n_labels> y_pred = { {0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2} };
 
   scorer score;
+
 #ifdef _OPENMP
 #pragma omp parallel shared(score)
   {

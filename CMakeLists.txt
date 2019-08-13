@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Scorer Version
-set (SCORER_MAJOR    1)
+set (SCORER_MAJOR    2)
 set (SCORER_MINOR    0)
 set (SCORER_REVISION 0)
 set (SCORER_VERSION ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION})
@@ -73,6 +73,12 @@ if (MSVC)
   set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
+include (CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG ("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
+if (COMPILER_SUPPORTS_MARCH_NATIVE AND NOT MSVC)
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -march=native -mtune=native")
+endif ()
+
 #################################################################
 #                         PARSE OPTIONS                         #
 #################################################################
@@ -102,16 +108,20 @@ endif()
 #                         SETTING DIRECTORIES                   #
 #################################################################
 
-set(INC_DIR  ${CMAKE_SOURCE_DIR}/scorer/include  CACHE PATH "Path where find header files"                     )
-set(TST_DIR  ${CMAKE_SOURCE_DIR}/scorer/example  CACHE PATH "Path where find test files"                       )
-set(PYC_DIR  ${CMAKE_SOURCE_DIR}/scorer          CACHE PATH "Path where find cython files"                     )         # cython directory
-set(OUT_DIR  ${CMAKE_SOURCE_DIR}/bin             CACHE PATH "Path where outputs will be installed"        FORCE)
+set(INC_DIR  ${CMAKE_SOURCE_DIR}/include  CACHE PATH "Path where find header files"                     )
+set(SRC_DIR  ${CMAKE_SOURCE_DIR}/src      CACHE PATH "Path where find cpp files"                        )
+set(TST_DIR  ${CMAKE_SOURCE_DIR}/example  CACHE PATH "Path where find test files"                       )
+set(PYC_DIR  ${CMAKE_SOURCE_DIR}/scorer   CACHE PATH "Path where find cython files"                     )  # cython directory
+set(LIB_DIR  ${CMAKE_SOURCE_DIR}/lib      CACHE PATH "Path where lib will be installed"            FORCE)
+set(OUT_DIR  ${CMAKE_SOURCE_DIR}/bin      CACHE PATH "Path where outputs will be installed"        FORCE)
 
+set (scorerlib scorer)
+file (GLOB SRC    "${SRC_DIR}/*.cpp")
+file (GLOB HEADER "${INC_DIR}/*.h"  )
+file (GLOB EXE    "${EXAMPLE}/*.cpp")
 
 include_directories(${INC_DIR})
-include_directories(${TST_DIR})
 include_directories(${PYC_DIR})
-
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
@@ -155,14 +165,27 @@ message(STATUS ""                                                               
 #                         MAIN RULES                            #
 #################################################################
 
-add_subdirectory(${PYC_DIR})
+add_library(${scorerlib} SHARED ${SRC} ${HEADER})
+set_property(TARGET ${scorerlib} PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(${scorerlib} ${linked_libs})
+
+add_subdirectory(${PYC_DIR}/source)
 
 add_custom_target(example_test)
 add_executable( example ${TST_DIR}/example.cpp )
 add_dependencies(example_test example)
+target_link_libraries(example ${linked_libs} ${scorerlib})
 
 #################################################################
 #                          INSTALLERS                           #
 #################################################################
+
+install(TARGETS ${scorerlib}        EXPORT ScorerTargets
+                                    RUNTIME DESTINATION ${OUT_DIR}
+                                    LIBRARY DESTINATION ${LIB_DIR}
+                                    ARCHIVE DESTINATION ${LIB_DIR}
+                                    PUBLIC_HEADER DESTINATION ${LIB_DIR}/include
+                                    COMPONENT dev
+                                    )
 
 install(TARGETS example            DESTINATION ${OUT_DIR})

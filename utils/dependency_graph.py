@@ -5,8 +5,8 @@ import pandas as pd
 from networkx import DiGraph
 from networkx.drawing.nx_pydot import graphviz_layout
 
-def functions_script(script_name):
-  """
+def functions_script (script_name):
+  '''
   Read the .h script and capture all the functors.
   Pay attention to the sintax of the c++ script:
     - each function must be defined as anonymous struct
@@ -19,27 +19,34 @@ def functions_script(script_name):
       which returns.
   The return dictionary has as key the function name (equal to the return name)
   and as value the list of variable needed to compute it.
-  """
+  '''
+
   dependency = dict()
   with open(script_name, 'r') as f:
+
     for line in f.readlines():
-      if 'auto operator()' in line:
-        link = re.findall('[&*]\w+[,\)]', line)
+
+      if 'auto operator() ' in line:
+        link = re.findall('[&*\s]\w+[,\)]', line)
         link = [i[1:-1] for i in link]
+
       if 'get_' in line:
         function = line.split('_', 1)[-1][:-2]
         dependency[function] = link
+
   return dependency
 
-def dependency_net(deps):
-  """
+def dependency_net (deps):
+  '''
   Filter the dependency in relation to the all set of
   functors name found in the c++ script.
   A direct graph is returned to model the dependencies
   of each variable in relation to the available (computable).
-  """
+  '''
+
   function = set(deps.keys())
   dependency_graph = DiGraph()
+
   for func, links in deps.items():
     links = list(set(links).intersection(function))
     dependency_graph.add_edges_from([(func, i) for i in links])
@@ -47,8 +54,8 @@ def dependency_net(deps):
   return dependency_graph
 
 
-def workflow_net(dep_net, list_deps):
-  """
+def workflow_net (dep_net, list_deps):
+  '''
   Extract the position of each node according to the
   dot layout given by graphviz.
   A dictionary of workflow is given in return with as
@@ -61,7 +68,8 @@ def workflow_net(dep_net, list_deps):
   by the nodes with in-degree equal to zero and that the layers
   of processing are given by the first near nodes following the tree
   structure.
-  """
+  '''
+
   pos = graphviz_layout(dep_net, prog='dot')
   pos_df = pd.DataFrame(data=pos).T
   pos_df.columns = ['x', 'y']
@@ -74,7 +82,7 @@ def workflow_net(dep_net, list_deps):
 
 if __name__ == '__main__':
 
-  directory = '../include/'
+  directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
 
   dependency = {hpp : functions_script(directory + hpp) for hpp in ['common_stats.h',
                                                                     'class_stats.h',
