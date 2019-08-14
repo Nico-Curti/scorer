@@ -1,0 +1,9 @@
+setup.py
+scorer/__init__.py
+scorer/__version__.py
+scorer/build.py
+scorer/example/test.py
+scorer/include/Scorer.pxd
+scorer/Scorer/__init__.py
+scorer/Scorer/Scorer.py
+scorer/source/scorer.pyx

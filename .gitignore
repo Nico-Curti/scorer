@@ -168,4 +168,4 @@ x64/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ss]corer/*cpp
+[Ss]corer/source/*.cpp
