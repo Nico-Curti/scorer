@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from .Scorer import Scorer
+try:
+
+  from .Scorer import Scorer
+
+except ImportError:
+  pass
+
 
 __all__ = ['Scorer']
 

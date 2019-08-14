@@ -138,7 +138,7 @@ class Scorer (_scorer):
     return str(self._obj)
 
   def __str__ (self):
-    value_fmt = '{name:<40} {value:<20.3f}'
+    value_fmt = '{name:<40} {value:<20}'
     array_fmt = ' '.join(['{val_%d:<20.3f}'%i for i in range(self.num_classes)])
 
     fmt = ''
@@ -146,14 +146,14 @@ class Scorer (_scorer):
     for k, v in self._score.items():
 
       try:
-
         key = {'val_{0}'.format(i) : vi for i, vi in enumerate(v)}
         arr_fmt = array_fmt.format(**key)
         fmt += value_fmt.format(name=k, value=arr_fmt)
 
-      except:
+      except TypeError:
 
-        fmt += value_fmt.format(name=k, value=v)
+        value = '{:.3f}'.format(v)
+        fmt += value_fmt.format(name=k, value=value)
 
       fmt += '\n'
 
