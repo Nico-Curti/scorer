@@ -82,6 +82,8 @@ def workflow_net (dep_net, list_deps):
 
 if __name__ == '__main__':
 
+  import os
+
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
 
   dependency = {hpp : functions_script(directory + hpp) for hpp in ['common_stats.h',

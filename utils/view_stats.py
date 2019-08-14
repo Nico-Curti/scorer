@@ -85,6 +85,8 @@ def draw_network (filename, scripts):
 
 if __name__ == '__main__':
 
+  import os
+
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
   scripts = [directory + hpp for hpp in ['common_stats.h',
                                          'class_stats.h',

@@ -56,6 +56,8 @@ The `make_script.py` allows to write the complete parallel version of the scorer
 
 With `view_stats.py` script you can see the complete graph of computed statistics with an HTML support with a more pleasant vision (ex. [graph](https://github.com/Nico-Curti/scorer/blob/master/img/dependency_graph.gif))
 
+A full list of informations about the score functions and their meaning can be found in the beautiful [docs](https://www.pycm.ir/doc/) of PyCM project.
+
 ## License
 
 The `Scorer` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md)
