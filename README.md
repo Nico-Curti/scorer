@@ -81,8 +81,6 @@ Thanks goes to all contributors of this project:
 | [<img src="https://avatars3.githubusercontent.com/u/23407684?s=400&v=4" width="100px;"/><br /><sub><b>Daniele Dall'Olio</b></sub>](https://github.com/DanieleDallOlio)
 |:---:|
 
-and to Raffaele Pepe who help me with Blender instructions.
-
 ### Citation
 
 If you have found `Scorer` helpful in your research, please consider citing the project
