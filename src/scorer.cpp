@@ -1,4 +1,7 @@
 #include <scorer.hpp>
+#include <common_stats.h>
+#include <class_stats.h>
+#include <overall_stats.h>
 
 
 scorer :: scorer ()

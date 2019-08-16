@@ -98,7 +98,10 @@ def check_dimension():
 
 def cpp_file (workflow):
 
-  libs = include_lib(['scorer.hpp'])
+  libs = include_lib(['scorer.hpp',
+                      'common_stats.h',
+                      'class_stats.h',
+                      'overall_stats.h'])
 
   members  = 'scorer :: scorer ()\n{\n}\n'
 
@@ -137,10 +140,7 @@ def hpp_file (dependencies):
 
   header = '\n'.join(['#ifndef __scorer_hpp__', '#define __scorer_hpp__', '', ''])
 
-  libs = include_lib(['scorer.h',
-                      'common_stats.h',
-                      'class_stats.h',
-                      'overall_stats.h'])
+  libs = include_lib(['scorer.h'])
 
   members = ''
   # dump members

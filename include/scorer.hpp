@@ -2,10 +2,6 @@
 #define __scorer_hpp__
 
 #include <scorer.h>
-#include <common_stats.h>
-#include <class_stats.h>
-#include <overall_stats.h>
-
 
 template < typename Os >
 void scorer :: print_class_stats (Os & os)
