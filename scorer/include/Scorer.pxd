@@ -74,6 +74,7 @@ cdef extern from "scorer.h":
     unique_ptr[float] OOC
     unique_ptr[float] AUPR
     unique_ptr[float] BCD
+    unique_ptr[float] ICSI
 
     float overall_accuracy
     float overall_random_accuracy_unbiased
@@ -119,6 +120,18 @@ cdef extern from "scorer.h":
     float RCI
     float overall_pearson_C
     float TPR_PPV_F1_micro
+    float CSI;
+    float cramer_V
+    float MCC_analysis
+    float kappa_analysis_cicchetti
+    float kappa_analysis_koch
+    float kappa_analysis_fleiss
+    float kappa_analysis_altman
+    float V_analysis
+    float TPR_macro
+    float PPV_macro
+    float ACC_macro
+    float F1_macro
 
     # Methods
     void compute_score(int *, int *, int, int)

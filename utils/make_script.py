@@ -103,7 +103,7 @@ def cpp_file (workflow):
                       'class_stats.h',
                       'overall_stats.h'])
 
-  members  = 'scorer :: scorer ()\n{\n}\n'
+  members  = 'scorer :: scorer ()\n{\n}\n\n'
 
   # compute score functions in parallel
   members += 'void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)'
@@ -128,8 +128,7 @@ def cpp_file (workflow):
       members += '\tthis->Nclass = static_cast < int >(classes.size());\n\n'
       members += check_dimension()
 
-  members += '#ifdef __pythonic__\n#ifdef _OPENMP\n\t}\n#endif\n#endif\n'
-  members += '\t} // end computation function'
+  members += '#ifdef __pythonic__\n#ifdef _OPENMP\n\t} // end computation function\n#endif\n#endif\n'
   members += '\n\n'
 
   members += '\n'.join(['}', '', '', ''])
@@ -233,12 +232,13 @@ if __name__ == '__main__':
   from collections import defaultdict
 
 
-  directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
+  include_dir = os.path.join(os.path.dirname(__file__), '..', 'include/')
+  src_dir     = os.path.join(os.path.dirname(__file__), '..', 'src/')
 
-  dependency = {hpp : functions_script(directory + hpp) for hpp in ['common_stats.h',
-                                                                    'class_stats.h',
-                                                                    'overall_stats.h'
-                                                                    ]}
+  dependency = {hpp : functions_script(include_dir + hpp) for hpp in ['common_stats.h',
+                                                                      'class_stats.h',
+                                                                      'overall_stats.h'
+                                                                     ]}
 
 
   all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
@@ -273,9 +273,9 @@ if __name__ == '__main__':
   hpp_script = hpp_file(dependency)
   cpp_script = cpp_file(utility)
 
-  header_file = os.path.join(directory, 'scorer.h')
-  hpp_file = os.path.join(directory, 'scorer.hpp')
-  cpp_file = os.path.join(directory, 'scorer.cpp')
+  header_file = os.path.join(include_dir, 'scorer.h')
+  hpp_file = os.path.join(include_dir, 'scorer.hpp')
+  cpp_file = os.path.join(src_dir, 'scorer.cpp')
 
   with open(header_file, 'w') as cpp:
     cpp.write(header_script)

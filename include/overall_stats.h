@@ -66,7 +66,7 @@ struct
       const float pi = (P[i] + TOP[i]) / (2.f * POP[i]);
       AC1 += pi * (1.f - pi);
     }
-    return AC1;
+    return AC1 / (Nclass - 1);
   }
 } get_PC_AC1;
 
@@ -80,12 +80,9 @@ struct
 
 struct
 {
-  auto operator() (const float * P, const float * TOP, const float * POP, const int & Nclass)
+  auto operator() (const float & PC_PI, const float & overall_accuracy)
   {
-    float PI = 0.f;
-    for (int i = 0; i < Nclass; ++i)
-      PI += (P[i] + TOP[i]) / (2.f * POP[i]) * (2.f * POP[i]);
-    return PI;
+    return (overall_accuracy - PC_PI) / (1.f - PC_PI);
   }
 } get_PI;
 
@@ -149,7 +146,7 @@ struct
 {
   auto operator() (const float & overall_accuracy, const float & overall_accuracy_se)
   {
-    return overall_accuracy / overall_accuracy_se;
+    return overall_accuracy - 1.96f * overall_accuracy_se;
   }
 } get_overall_accuracy_ci;
 
@@ -183,7 +180,7 @@ struct
   {
     return std::sqrt(phi_square / static_cast<float>(Nclass - 1));
   }
-} get_cramers_V_calc;
+} get_cramer_V;
 
 struct
 {
@@ -351,16 +348,16 @@ struct
   auto operator() (__unused const float * TP, __unused const float * POP, __unused const int & Nclass, __unused const float & NIR)
   {
     float p_value = 0.f;
-    const int x = std :: accumulate(TP, TP + Nclass, 0.f);
+    const int x = static_cast < int > (std :: accumulate(TP, TP + Nclass, 0.f));
 
-    for (int i = 0.f; i < x; ++i)
+    for (int i = 0; i < x; ++i)
     {
-      const int r = i < Nclass - i ? i : Nclass - i;
+      const int r = i < POP[0] - i ? i : POP[0] - i;
 
       int numer = 1;
 
-      int iter = Nclass;
-      while (iter < Nclass - r)
+      int iter = POP[0];
+      while (iter > POP[0] - r)
       {
         numer *= iter;
         -- iter;
@@ -377,7 +374,7 @@ struct
 
       const int ncr = numer / denom;
 
-      p_value += ncr * std :: pow(NIR, i) * std :: pow(1 - NIR, Nclass - i);
+      p_value += ncr * std :: pow(NIR, i) * std :: pow(1 - NIR, POP[0] - i);
     }
 
     return 1.f - p_value;
@@ -406,7 +403,7 @@ struct
 
 struct
 {
-  auto operator() (const float * TP, const float * TOP, const float * P, const float * CEN, const int & Nclass)
+  auto operator() (const float * TP, const float * TOP, const float * P, const float * MCEN, const int & Nclass)
   {
     float overall_MCEN = 0.f;
 
@@ -420,7 +417,7 @@ struct
       const float up = TOP[i] + P[i] - TP[i];
       const float down = 2.f * TOP_sum - alpha * TP_sum;
 
-      overall_MCEN += (up / down) * CEN[i];
+      overall_MCEN += (up / down) * MCEN[i];
     }
 
     return overall_MCEN;
@@ -500,6 +497,14 @@ struct
 
 struct
 {
+  auto operator() (const float * ICSI, const int & Nclass)
+  {
+    return std :: accumulate(ICSI, ICSI + Nclass, 0.f) / Nclass;
+  }
+} get_CSI;
+
+struct
+{
   auto operator() (const float & chi_square, const float * POP)
   {
     return std :: sqrt (chi_square / (POP[0] + chi_square));
@@ -518,7 +523,91 @@ struct
   }
 } get_TPR_PPV_F1_micro;
 
+struct
+{
+  auto operator() (const float & overall_MCC, __unused const int & Nclass)
+  {
+    return std :: isnan(overall_MCC) || std :: isinf(overall_MCC) ? -1.f : overall_MCC < .3f ? 0.f : overall_MCC >= .3f && overall_MCC < .5f ? 1.f : overall_MCC >= .5f && overall_MCC < .7f ? 2.f : overall_MCC >= .7f && overall_MCC < .9f ? 3.f : 4.f;
+  }
 
+} get_MCC_analysis;
+
+struct
+{
+  auto operator() (const float & overall_kappa, __unused const int & Nclass)
+  {
+    return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .4f ? 0.f : overall_kappa >= .4f && overall_kappa < .59f ? 1.f : overall_kappa >= .59f && overall_kappa < .74f ? 2.f : overall_kappa >= .74f && overall_kappa < 1.f ? 3.f : 0.f;
+  }
+
+} get_kappa_analysis_cicchetti;
+
+struct
+{
+  auto operator() (const float & overall_kappa, __unused const int & Nclass)
+  {
+    return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .0f ? 0.f : overall_kappa >= .0f && overall_kappa < .2f ? 1.f : overall_kappa >= .2f && overall_kappa < .4f ? 2.f : overall_kappa >= .4f && overall_kappa < 6.f ? 3.f : overall_kappa >= .6f && overall_kappa < .8f ? 4.f : overall_kappa >= .8f && overall_kappa <= 1.f ? 5.f : 0.f;
+  }
+
+} get_kappa_analysis_koch;
+
+struct
+{
+  auto operator() (const float & overall_kappa, __unused const int & Nclass)
+  {
+    return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .4f ? 0.f : overall_kappa >= .4f && overall_kappa < .75f ? 1.f : overall_kappa >= .75f ? 2.f : 0.f;
+  }
+
+} get_kappa_analysis_fleiss;
+
+struct
+{
+  auto operator() (const float & overall_kappa, __unused const int & Nclass)
+  {
+    return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .2f ? 0.f : overall_kappa >= .2f && overall_kappa < .4f ? 1.f : overall_kappa >= .4f && overall_kappa < .6f ? 2.f : overall_kappa >= .6f && overall_kappa < .8f ? 3.f : overall_kappa >= .8f && overall_kappa <= 1.f ? 4.f : 0.f;
+  }
+
+} get_kappa_analysis_altman;
+
+struct
+{
+  auto operator() (const float & cramer_V, __unused const int & Nclass)
+  {
+    return cramer_V < .1f ? 0.f : cramer_V >= .1f && cramer_V < .2f ? 1.f : cramer_V >= .2f && cramer_V < .4f ? 2.f : cramer_V >= .4f && cramer_V < .6f ? 3.f : cramer_V >= .6f && cramer_V < .8f ? 4.f : 5.f;
+  }
+
+} get_V_analysis;
+
+struct
+{
+  auto operator() (const float * TPR, const int & Nclass)
+  {
+    return std :: accumulate(TPR, TPR + Nclass, 0.f) / Nclass;
+  }
+} get_TPR_macro;
+
+struct
+{
+  auto operator() (const float * PPV, const int & Nclass)
+  {
+    return std :: accumulate(PPV, PPV + Nclass, 0.f) / Nclass;
+  }
+} get_PPV_macro;
+
+struct
+{
+  auto operator() (const float * ACC, const int & Nclass)
+  {
+    return std :: accumulate(ACC, ACC + Nclass, 0.f) / Nclass;
+  }
+} get_ACC_macro;
+
+struct
+{
+  auto operator() (const float * F1_SCORE, const int & Nclass)
+  {
+    return std :: accumulate(F1_SCORE, F1_SCORE + Nclass, 0.f) / Nclass;
+  }
+} get_F1_macro;
 
 
 

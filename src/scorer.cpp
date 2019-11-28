@@ -7,6 +7,7 @@
 scorer :: scorer ()
 {
 }
+
 void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)
 {
 #ifdef __pythonic__
@@ -71,6 +72,11 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
+		this->TP = get_TP (this->confusion_matrix.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
 		this->FN = get_FN (this->confusion_matrix.get(), Nclass);
 
 #ifdef _OPENMP
@@ -82,11 +88,6 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #pragma omp section
 #endif
 		this->TN = get_TN (this->confusion_matrix.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->TP = get_TP (this->confusion_matrix.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -110,7 +111,7 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->N = get_N (this->TN.get(), this->FP.get(), Nclass);
+		this->POP = get_POP (this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -120,7 +121,37 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->POP = get_POP (this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
+		this->N = get_N (this->TN.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->TOP = get_TOP (this->TP.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->TON = get_TON (this->TN.get(), this->FN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->TPR = get_TPR (this->TP.get(), this->FN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->TNR = get_TNR (this->TN.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PPV = get_PPV (this->TP.get(), this->FP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->NPV = get_NPV (this->TN.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -130,17 +161,12 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->AGF = get_AGF (this->TP.get(), this->FP.get(), this->FN.get(), this->TN.get(), Nclass);
+		this->F1_SCORE = get_F1_SCORE (this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
 		this->F05_SCORE = get_F05_SCORE (this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->F1_SCORE = get_F1_SCORE (this->TP.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -155,37 +181,12 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->NPV = get_NPV (this->TN.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PPV = get_PPV (this->TP.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 		this->Q = get_Q (this->TP.get(), this->TN.get(), this->FP.get(), this->FN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->TNR = get_TNR (this->TN.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->TON = get_TON (this->TN.get(), this->FN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->TOP = get_TOP (this->TP.get(), this->FP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->TPR = get_TPR (this->TP.get(), this->FN.get(), Nclass);
+		this->AGF = get_AGF (this->TP.get(), this->FP.get(), this->FN.get(), this->TN.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -204,47 +205,7 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->AM = get_AM (this->TOP.get(), this->P.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->AUC = get_AUC (this->TNR.get(), this->TPR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->AUPR = get_AUPR (this->PPV.get(), this->TPR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->BM = get_BM (this->TPR.get(), this->TNR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->DP = get_DP (this->TPR.get(), this->TNR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->ERR_ACC = get_ERR_ACC (this->ACC.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->FDR = get_FDR (this->PPV.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 		this->FNR = get_FNR (this->TPR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->FOR = get_FOR (this->NPV.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -254,17 +215,57 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
+		this->FDR = get_FDR (this->PPV.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->FOR = get_FOR (this->NPV.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->BM = get_BM (this->TPR.get(), this->TNR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->MK = get_MK (this->PPV.get(), this->NPV.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->ICSI = get_ICSI (this->PPV.get(), this->TPR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PRE = get_PRE (this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
 		this->G = get_G (this->PPV.get(), this->TPR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->GM = get_GM (this->TNR.get(), this->TPR.get(), Nclass);
+		this->RACC = get_RACC (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->IBA = get_IBA (this->TPR.get(), this->TNR.get(), Nclass);
+		this->ERR_ACC = get_ERR_ACC (this->ACC.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->RACCU = get_RACCU (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->jaccard_index = get_jaccard_index (this->TP.get(), this->TOP.get(), this->P.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -274,12 +275,42 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->MCCI = get_MCCI (this->MCC.get(), Nclass);
+		this->AUC = get_AUC (this->TNR.get(), this->TPR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->MK = get_MK (this->PPV.get(), this->NPV.get(), Nclass);
+		this->dIND = get_dIND (this->TNR.get(), this->TPR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->DP = get_DP (this->TPR.get(), this->TNR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->AM = get_AM (this->TOP.get(), this->P.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->OP = get_OP (this->ACC.get(), this->TPR.get(), this->TNR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->IBA = get_IBA (this->TPR.get(), this->TNR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->GM = get_GM (this->TNR.get(), this->TPR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->MCCI = get_MCCI (this->MCC.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -294,122 +325,7 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->OP = get_OP (this->ACC.get(), this->TPR.get(), this->TNR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PRE = get_PRE (this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->RACC = get_RACC (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->RACCU = get_RACCU (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->dIND = get_dIND (this->TNR.get(), this->TPR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->jaccard_index = get_jaccard_index (this->TP.get(), this->TOP.get(), this->P.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->CBA = get_CBA (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->NIR = get_NIR (this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PC_AC1 = get_PC_AC1 (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PC_PI = get_PC_PI (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PC_S = get_PC_S (Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PI = get_PI (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->RR = get_RR (this->TOP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->chi_square = get_chi_square (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->conditional_entropy = get_conditional_entropy (this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->cross_entropy = get_cross_entropy (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->hamming_loss = get_hamming_loss (this->TP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->join_entropy = get_join_entropy (this->confusion_matrix.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->kl_divergence = get_kl_divergence (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->lambda_A = get_lambda_A (this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->lambda_B = get_lambda_B (this->confusion_matrix.get(), this->TOP.get(), this->POP.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->overall_CEN = get_overall_CEN (this->TOP.get(), this->P.get(), this->CEN.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->overall_MCC = get_overall_MCC (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->overall_MCEN = get_overall_MCEN (this->TP.get(), this->TOP.get(), this->P.get(), this->CEN.get(), Nclass);
+		this->AUPR = get_AUPR (this->PPV.get(), this->TPR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -419,7 +335,22 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->reference_entropy = get_reference_entropy (this->P.get(), this->POP.get(), Nclass);
+		this->PC_PI = get_PC_PI (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PC_AC1 = get_PC_AC1 (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PC_S = get_PC_S (Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->chi_square = get_chi_square (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -429,7 +360,97 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
+		this->reference_entropy = get_reference_entropy (this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->cross_entropy = get_cross_entropy (this->TOP.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->join_entropy = get_join_entropy (this->confusion_matrix.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->conditional_entropy = get_conditional_entropy (this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->kl_divergence = get_kl_divergence (this->P.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->lambda_B = get_lambda_B (this->confusion_matrix.get(), this->TOP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->lambda_A = get_lambda_A (this->confusion_matrix.get(), this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->hamming_loss = get_hamming_loss (this->TP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
 		this->zero_one_loss = get_zero_one_loss (this->TP.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->NIR = get_NIR (this->P.get(), this->POP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->overall_CEN = get_overall_CEN (this->TOP.get(), this->P.get(), this->CEN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->overall_MCEN = get_overall_MCEN (this->TP.get(), this->TOP.get(), this->P.get(), this->MCEN.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->overall_MCC = get_overall_MCC (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->RR = get_RR (this->TOP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->CBA = get_CBA (this->confusion_matrix.get(), this->TOP.get(), this->P.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->TPR_macro = get_TPR_macro (this->TPR.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PPV_macro = get_PPV_macro (this->PPV.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->ACC_macro = get_ACC_macro (this->ACC.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->F1_macro = get_F1_macro (this->F1_SCORE.get(), Nclass);
 
 #ifdef _OPENMP
 	}
@@ -443,22 +464,32 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->AGM = get_AGM (this->TPR.get(), this->TNR.get(), this->GM.get(), this->N.get(), this->POP.get(), Nclass);
+		this->PLR = get_PLR (this->TPR.get(), this->FPR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->AUCI = get_AUCI (this->AUC.get(), Nclass);
+		this->NLR = get_NLR (this->FNR.get(), this->TNR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->BCD = get_BCD (this->TOP.get(), this->P.get(), this->AM.get(), Nclass);
+		this->sIND = get_sIND (this->dIND.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->Y = get_Y (this->BM.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
 		this->DPI = get_DPI (this->DP.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->AUCI = get_AUCI (this->AUC.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -473,37 +504,32 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->NLR = get_NLR (this->FNR.get(), this->TNR.get(), Nclass);
+		this->AGM = get_AGM (this->TPR.get(), this->TNR.get(), this->GM.get(), this->N.get(), this->POP.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->PLR = get_PLR (this->TPR.get(), this->FPR.get(), Nclass);
+		this->BCD = get_BCD (this->TOP.get(), this->P.get(), this->AM.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->Y = get_Y (this->BM.get(), Nclass);
+		this->overall_random_accuracy_unbiased = get_overall_random_accuracy_unbiased (this->RACCU.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->sIND = get_sIND (this->dIND.get(), Nclass);
+		this->overall_random_accuracy = get_overall_random_accuracy (this->RACC.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PI = get_PI (this->PC_PI, this->overall_accuracy);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
 		this->AC1 = get_AC1 (this->PC_AC1, this->overall_accuracy);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->AUNP = get_AUNP (this->P.get(), this->POP.get(), this->AUC.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->AUNU = get_AUNU (this->AUC.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -518,12 +544,17 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->mutual_information = get_mutual_information (this->response_entropy, this->conditional_entropy);
+		this->overall_accuracy_se = get_overall_accuracy_se (this->overall_accuracy, this->POP.get());
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->overall_accuracy_se = get_overall_accuracy_se (this->overall_accuracy, this->POP.get());
+		this->phi_square = get_phi_square (this->chi_square, this->POP.get());
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->mutual_information = get_mutual_information (this->response_entropy, this->conditional_entropy);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -533,27 +564,32 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->overall_pearson_C = get_overall_pearson_C (this->chi_square, this->POP.get());
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->overall_random_accuracy = get_overall_random_accuracy (this->RACC.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->overall_random_accuracy_unbiased = get_overall_random_accuracy_unbiased (this->RACCU.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 		this->p_value = get_p_value (this->TP.get(), this->POP.get(), Nclass, this->NIR);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->phi_square = get_phi_square (this->chi_square, this->POP.get());
+		this->AUNU = get_AUNU (this->AUC.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->AUNP = get_AUNP (this->P.get(), this->POP.get(), this->AUC.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->CSI = get_CSI (this->ICSI.get(), Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->overall_pearson_C = get_overall_pearson_C (this->chi_square, this->POP.get());
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->MCC_analysis = get_MCC_analysis (this->overall_MCC, Nclass);
 
 #ifdef _OPENMP
 	}
@@ -572,22 +608,17 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->NLRI = get_NLRI (this->NLR.get(), Nclass);
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
 		this->PLRI = get_PLRI (this->PLR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->RCI = get_RCI (this->mutual_information, this->reference_entropy);
+		this->NLRI = get_NLRI (this->NLR.get(), Nclass);
 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->cramers_V_calc = get_cramers_V_calc (this->phi_square, Nclass);
+		this->overall_kappa = get_overall_kappa (this->overall_random_accuracy, this->overall_accuracy);
 
 #ifdef _OPENMP
 #pragma omp section
@@ -607,7 +638,12 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #ifdef _OPENMP
 #pragma omp section
 #endif
-		this->overall_kappa = get_overall_kappa (this->overall_random_accuracy, this->overall_accuracy);
+		this->cramer_V = get_cramer_V (this->phi_square, Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->RCI = get_RCI (this->mutual_information, this->reference_entropy);
 
 #ifdef _OPENMP
 	}
@@ -624,6 +660,31 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 		this->kappa_CI = get_kappa_CI (this->overall_kappa, this->kappa_SE);
 
 #ifdef _OPENMP
+#pragma omp section
+#endif
+		this->kappa_analysis_cicchetti = get_kappa_analysis_cicchetti (this->overall_kappa, Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->kappa_analysis_koch = get_kappa_analysis_koch (this->overall_kappa, Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->kappa_analysis_fleiss = get_kappa_analysis_fleiss (this->overall_kappa, Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->kappa_analysis_altman = get_kappa_analysis_altman (this->overall_kappa, Nclass);
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->V_analysis = get_V_analysis (this->cramer_V, Nclass);
+
+#ifdef _OPENMP
 	}
 #endif
 
@@ -632,6 +693,7 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 	} // end computation function
 #endif
 #endif
+
 
 }
 

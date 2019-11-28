@@ -190,6 +190,16 @@ struct
 
 struct
 {
+  auto operator() (const float * PPV, const float * TPR, const int & Nclass)
+  {
+    std :: unique_ptr < float[] > ICSI(new float[Nclass]);
+    std :: transform(PPV, PPV + Nclass, TPR, ICSI.get(), [](const float & tp, const float & tn){return tp + tn - 1.f;});
+    return ICSI;
+  }
+} get_ICSI;
+
+struct
+{
   auto operator() (const float * TPR, const float * FPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > PLR(new float[Nclass]);
@@ -265,7 +275,7 @@ struct
   {
     std :: unique_ptr < float[] > RACCU(new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      RACCU[i] = (TOP[i] + P[i]) / (POP[i] * POP[i] * 4.f);
+      RACCU[i] = ( (TOP[i] + P[i]) * (TOP[i] + P[i]) ) / (POP[i] * POP[i] * 4.f);
     return RACCU;
   }
 } get_RACCU;
@@ -287,14 +297,14 @@ struct
   {
     std :: unique_ptr < float[] > IS(new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      IS[i] = -std :: log2((TP[i] + FN[i]) / POP[i]) / (std :: log2(TP[i] / (TP[i] + FP[i])));
+      IS[i] = -std :: log2((TP[i] + FN[i]) / POP[i]) + (std :: log2(TP[i] / (TP[i] + FP[i])));
     return IS;
   }
 } get_IS;
 
 struct
 {
-  auto operator() (__unused const float * classes, __unused const float * confusion_matrix, __unused const int & Nclass)
+  auto operator() (__unused const float * classes, __unused const float * confusion_matrix, const int & Nclass)
   {
     std :: unique_ptr < float[] > CEN(new float[Nclass]);
 
@@ -328,7 +338,7 @@ struct
 
 struct
 {
-  auto operator() (__unused const float * classes, __unused const float * confusion_matrix, __unused const int & Nclass)
+  auto operator() (__unused const float * classes, __unused const float * confusion_matrix, const int & Nclass)
   {
     std :: unique_ptr < float[] > MCEN(new float[Nclass]);
 
@@ -421,7 +431,7 @@ struct
   auto operator() (const float * PLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > PLRI(new float[Nclass]);
-    std :: transform(PLR, PLR + Nclass, PLRI.get(), [](const float & plr){return plr < 1.f ? 0.f : plr >= 1.f && plr < 5.f ? 1.f : plr >= 5.f && plr < 10.f ? 2.f : 3.f;});
+    std :: transform(PLR, PLR + Nclass, PLRI.get(), [](const float & plr){return std :: isnan(plr) || std :: isinf(plr) ? -1.f : plr < 1.f ? 0.f : plr >= 1.f && plr < 5.f ? 1.f : plr >= 5.f && plr < 10.f ? 2.f : 3.f;});
     return PLRI;
   }
 
@@ -432,7 +442,7 @@ struct
   auto operator() (const float * NLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > NLRI(new float[Nclass]);
-    std :: transform(NLR, NLR + Nclass, NLRI.get(), [](const float & nlr){return nlr < .1f ? 3.f : nlr >= .1f && nlr < .2f ? 2.f : nlr >= .2f && nlr < .5f ? 1.f : 0.f;});
+    std :: transform(NLR, NLR + Nclass, NLRI.get(), [](const float & nlr){return std :: isnan(nlr) || std :: isinf(nlr) ? -1.f : nlr < .1f ? 0.f : nlr >= .1f && nlr < .2f ? 1.f : nlr >= .2f && nlr < .5f ? 2.f : 3.f;});
     return NLRI;
   }
 
@@ -443,7 +453,7 @@ struct
   auto operator() (const float * DP, const int & Nclass)
   {
     std :: unique_ptr < float[] > DPI(new float[Nclass]);
-    std :: transform(DP, DP + Nclass, DPI.get(), [](const float & dp){return dp < 1.f ? 0.f : dp >= 1.f && dp < 2.f ? 1.f : dp >= 2.f && dp < 3.f ? 2.f : 3.f;});
+    std :: transform(DP, DP + Nclass, DPI.get(), [](const float & dp){return std :: isnan(dp) || std :: isinf(dp) ? -1.f : dp < 1.f ? 0.f : dp >= 1.f && dp < 2.f ? 1.f : dp >= 2.f && dp < 3.f ? 2.f : 3.f;});
     return DPI;
   }
 
@@ -454,7 +464,7 @@ struct
   auto operator() (const float * AUC, const int & Nclass)
   {
     std :: unique_ptr < float[] > AUCI(new float[Nclass]);
-    std :: transform(AUC, AUC + Nclass, AUCI.get(), [](const float & auc){return auc < .6f ? 0.f : auc >= .6 && auc < .7f ? 1.f : auc >= .7f && auc < .8f ? 2.f : 3.f;});
+    std :: transform(AUC, AUC + Nclass, AUCI.get(), [](const float & auc){return std :: isnan(auc) || std :: isinf(auc) ? -1.f : auc < .6f ? 0.f : auc >= .6 && auc < .7f ? 1.f : auc >= .7f && auc < .8f ? 2.f : 3.f;});
     return AUCI;
   }
 
@@ -569,7 +579,7 @@ struct
   auto operator() (const float * MCC, const int & Nclass)
   {
     std :: unique_ptr < float[] > MCCI(new float[Nclass]);
-    std :: transform(MCC, MCC + Nclass, MCCI.get(), [](const float & mcc){return mcc < .3f ? 0.f : mcc >= .3f && mcc < .5f ? 1.f : mcc >= .5f && mcc < .7f ? 2.f : mcc >= .7 && mcc < .9f ? 3.f : 4.f;});
+    std :: transform(MCC, MCC + Nclass, MCCI.get(), [](const float & mcc){return std :: isnan(mcc) || std :: isinf(mcc) ? -1.f : mcc < .3f ? 0.f : mcc >= .3f && mcc < .5f ? 1.f : mcc >= .5f && mcc < .7f ? 2.f : mcc >= .7 && mcc < .9f ? 3.f : 4.f;});
     return MCCI;
   }
 
@@ -583,7 +593,7 @@ struct
     for (int i = 0; i < Nclass; ++i)
     {
       const float F2 = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i]);
-      const float F05_inv = (1.25f * TN[i]) / (5.f * TN[i] + FN[i] + .25f * FP[i]);
+      const float F05_inv = (1.25f * TN[i]) / (1.25f * TN[i] + FN[i] + .25f * FP[i]);
       AGF[i] = std :: sqrt(F2 * F05_inv);
     }
 

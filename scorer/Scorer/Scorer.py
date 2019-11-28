@@ -99,6 +99,7 @@ class Scorer (_scorer):
     y_pred = np.ascontiguousarray(y_pred)
 
     self._score = self._obj.evaluate(y_true, y_pred, len(y_true))
+    self._score['Confusion Matrix'] = np.reshape(self._score['Confusion Matrix'], newshape=(len(self._score['classes']), len(self._score['classes'])))
 
     return self
 
@@ -138,24 +139,36 @@ class Scorer (_scorer):
     return str(self._obj)
 
   def __str__ (self):
-    value_fmt = '{name:<40} {value:<20}'
-    array_fmt = ' '.join(['{val_%d:<20.3f}'%i for i in range(self.num_classes)])
 
     fmt = ''
 
+    fmt += 'Classes: {}\n'.format(', '.join(['{:d}'.format(int(c)) for c in self._score['classes']]))
+    fmt += 'Confusion Matrix:\n'
+    fmt += '\n'.join([''.join(['{:4}'.format(item) for item in row])
+                      for row in self._score['Confusion Matrix']])
+
+    fmt += '\n\nClass Statistics:\n\n'
+
+    numeric_fmt = ' '.join(['{:>20.3f}' for _ in range(len(self._score['classes']))])
+    array_fmt   = ' '.join(['{:>20}'    for _ in range(len(self._score['classes']))])
+
     for k, v in self._score.items():
+      if isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
+        try:
+          fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : numeric_fmt.format(*v)})
 
-      try:
-        key = {'val_{0}'.format(i) : vi for i, vi in enumerate(v)}
-        arr_fmt = array_fmt.format(**key)
-        fmt += value_fmt.format(name=k, value=arr_fmt)
+        except ValueError:
+          fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : array_fmt.format(*v)})
 
-      except TypeError:
 
-        value = '{:.3f}'.format(v)
-        fmt += value_fmt.format(name=k, value=value)
+    fmt += '\nOverall Statistics:\n\n'
 
-      fmt += '\n'
+    for k, v in self._score.items():
+      if not isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
+        try:
+          fmt += '{name:<80} {value:.3f}\n'.format(**{'name' : k, 'value' : v})
+        except ValueError:
+          fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : v})
 
     return fmt
 
