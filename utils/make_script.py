@@ -242,9 +242,14 @@ if __name__ == '__main__':
 
 
   all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
+  
+  src = dict()
+  for k, v in dependency.items():
+    for i in v.keys():
+        src[i] = k
 
   dep_net = dependency_net(all_deps)
-  workflow = workflow_net(dep_net, dependency)
+  workflow = workflow_net(dep_net, all_deps, src)
 
   utility = defaultdict(list)
   already_computed = dict()
