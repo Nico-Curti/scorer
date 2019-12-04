@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
+from Cython.Distutils import build_ext
+from distutils.sysconfig import customize_compiler
 
 __author__  = ['Nico Curti']
 __email__ = ['nico.curit2@unibo.it']
-
-from Cython.Distutils import build_ext
-from distutils.sysconfig import customize_compiler
 
 
 def read_version (CMakeLists):

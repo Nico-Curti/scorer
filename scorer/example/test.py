@@ -7,7 +7,6 @@ from __future__ import print_function
 #import numpy as np
 from scorer import Scorer
 
-__package__ = 'Scorer example test'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
