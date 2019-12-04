@@ -1,8 +1,8 @@
 
 # Installation
 
-1.  Follow your system prerequisites (below)
-2.  Clone the scorer library from this repository, or download a stable release
+1. Follow your system prerequisites (below)
+2. Clone the scorer library from this repository, or download a stable release
 
 ```bash
 git clone https://github.com/Nico-Curti/scorer.git
@@ -89,8 +89,6 @@ or edit and use the `build.sh` script inside the project.
 
 **NOTE:** To enable OpenMP support define the `-DOMP=ON` option. To enable the viewer support define the `-DVIEW=ON`. To enable the avx sse support define `-DAVX=ON`.
 
-
-
 ### macOS
 
 1) If not already installed, install the XCode Command Line Tools, typing this command in a terminal:
@@ -136,7 +134,6 @@ cd ..
 ```
 
 See the **Ubuntu** installer for more informations about the build flags.
-
 
 ### Windows (7+)
 

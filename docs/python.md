@@ -4,7 +4,6 @@
 
 The only dependency of the scorer package are Cython, Numpy and Sklearn and you can easy install them with `pip install -r requirements.txt`. The file [requirements.txt](https://github.com/Nico-Curti/scorer/blob/master/requirements.txt) is available in the principal folder of the scorer project.
 
-
 ## Installation
 
 First of all ensure that a right Python version is installed (Python >= 2.7 is required).

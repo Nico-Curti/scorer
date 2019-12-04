@@ -68,7 +68,6 @@ def dependency_net (deps):
       DAG in NetworkX format
   '''
   dependency_graph = nx.DiGraph(deps)
-  # dependency_graph = nx.algorithms.dag.transitive_reduction(dependency_graph)
 
   useless_func = set(dependency_graph.nodes) - set(deps.keys())
   dependency_graph.remove_nodes_from(useless_func)
@@ -102,8 +101,7 @@ def graph_layering (G):
     scores = {k : 0 for k in zero_indegree}
 
     if len(zero_indegree) > 1: # there are multiple roots
-      # temporary add a dummy-vertex as absolute root of the graph
-      G.add_node('dummy-node')
+      G.add_node('dummy-node') # temporary add a dummy-vertex as absolute root of the graph
       G.add_edges_from((('dummy-node', r) for r in zero_indegree))
       zero_indegree = ['dummy-node'] # it is the new root
       scores['dummy-node'] = -1 # useless node layer
@@ -127,15 +125,13 @@ def graph_layering (G):
           zero_indegree.append(child)
           del indegree_map[child]
 
-      # ancestors of the current node
-      ancestors = nx.algorithms.dag.ancestors(G, node)
+      ancestors = nx.algorithms.dag.ancestors(G, node) # ancestors of the current node
 
       if ancestors: # if not it is a root
         # the right layer is the max + 1 of its ancestors
         scores[node] = max((scores[k] for k in ancestors)) + 1
 
-      # remove dummy node if necessary
-      if G.has_node('dummy-node'):
+      if G.has_node('dummy-node'): # remove dummy node if necessary
         G.remove_node('dummy-node')
         scores.pop('dummy-node')
 

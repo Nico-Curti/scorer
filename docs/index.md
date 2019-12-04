@@ -18,6 +18,6 @@
 
 Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/pycm) library with c++ support and network dependencies.
 
--  [Installation](./install.md)
--  [Python version](./python.md)
--  [Authors](./authors.md)
+- [Installation](./install.md)
+- [Python version](./python.md)
+- [Authors](./authors.md)

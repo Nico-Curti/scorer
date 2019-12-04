@@ -104,7 +104,6 @@ def cpp_file (workflow):
 
   members  = 'scorer :: scorer ()\n{\n}\n\n'
 
-  # compute score functions in parallel
   members += 'void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)'
   members += '\n'
   members += '{'
@@ -141,7 +140,6 @@ def hpp_file (dependencies):
   libs = include_lib(['scorer.h'])
 
   members = ''
-  # dump members
 
   regex_dump_array = '\tos << std :: left << std :: setw(40) << "{name}";\n'
   regex_dump_array += '\tfor (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << {name}[i] << " ";\n\tos << std :: endl;'
