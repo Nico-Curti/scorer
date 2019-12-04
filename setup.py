@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
 import os
 import platform
-import multiprocessing
 
 try:
   from setuptools import setup
@@ -85,7 +82,7 @@ compile_args = [ '-std=c++14', # std
                ]
 
 
-whole_compiler_args = [ *compile_args, *define_args, *linker_args ]
+whole_compiler_args = sum([compile_args, define_args, linker_args], [])
 
 
 setup(

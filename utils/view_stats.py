@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from dependency_graph import functions_script, dependency_net
 
@@ -7,6 +8,9 @@ import matplotlib.pyplot as plt
 from mpld3 import plugins, save_html
 from networkx import draw_networkx_edges, draw_networkx_labels
 from networkx.drawing.nx_pydot import graphviz_layout
+
+__author__  = ['Nico Curti']
+__email__   = ['nico.curti2@unibo.it']
 
 css = '''
       table

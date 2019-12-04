@@ -10,7 +10,6 @@ import numpy as np
 import warnings
 from sklearn.preprocessing import LabelEncoder
 
-__package__ = 'scorer_wrap'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 

@@ -3,15 +3,10 @@
 
 from __future__ import print_function
 
-__package__ = "build_scorer"
 
 __author__  = ['Nico Curti']
-
 __email__ = ['nico.curit2@unibo.it']
 
-import json
-import subprocess
-import multiprocessing
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
 

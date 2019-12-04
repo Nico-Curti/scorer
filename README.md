@@ -1,6 +1,6 @@
-| **Authors**  | **Project** |  **Build Status**             | **Latest Version** | **License** |
-|:------------:|:-----------:|:-----------------------------:|:------------------:|:-----------:|
-|   [**N. Curti**](https://github.com/Nico-Curti)   |  **Scorer**   |  **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | ![version](https://img.shields.io/badge/PyPI-v2.0.1-orange.svg?style=plastic) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md)
+| **Authors**  | **Project** |  **Build Status**             | **Latest Version** | **License** | **Code Quality** |
+|:------------:|:-----------:|:-----------------------------:|:------------------:|:-----------:|:----------------:|
+|   [**N. Curti**](https://github.com/Nico-Curti)   |  **Scorer**   |  **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | ![version](https://img.shields.io/badge/PyPI-v2.0.1-orange.svg?style=plastic) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy]](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) |
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
@@ -18,14 +18,14 @@
 
 Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/pycm) library with c++ support and network dependencies.
 
-1. [Getting Started](#getting-started)
-2. [Prerequisites](#prerequisites)
-3. [Usage](#usage)
-4. [License](#license)
-5. [Contribution](#contribution)
-6. [Authors](#authors)
-7. [Acknowledgments](#acknowledgments)
-8. [Citation](#citation)
+1.  [Getting Started](#getting-started)
+2.  [Prerequisites](#prerequisites)
+3.  [Usage](#usage)
+4.  [License](#license)
+5.  [Contribution](#contribution)
+6.  [Authors](#authors)
+7.  [Acknowledgments](#acknowledgments)
+8.  [Citation](#citation)
 
 ## Getting Started
 
@@ -70,7 +70,7 @@ If you want update the list of scorer functions please pay attention to the synt
 
 ## Authors
 
-* **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
+*  **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
 
 See also the list of [contributors](https://github.com/Nico-Curti/Scorer/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/graphs/contributors/) who participated to this project.
 

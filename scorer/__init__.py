@@ -9,8 +9,5 @@ except ImportError:
   pass
 
 
-__all__ = ['Scorer']
-
-__package__ = 'Multi-statistical scorer'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']

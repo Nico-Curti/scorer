@@ -1,12 +1,13 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import re
-import operator
 import networkx as nx
-from heapq import heappush
-from heapq import heappop
-from itertools import count
 from collections import defaultdict
+
+__author__  = ['Nico Curti']
+__email__   = ['nico.curti2@unibo.it']
+
 
 def functions_script (script_name):
   '''

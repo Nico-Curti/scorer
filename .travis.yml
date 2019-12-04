@@ -291,6 +291,7 @@ before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - pip install --user codecov
   - sudo pip install -r requirements.txt
+  - pip install codecov
 
 install:
   # CMake upgrade
@@ -310,3 +311,8 @@ script:
   # pay attention to omp for gcc old version
   - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
   - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
+
+  # - coverage run tests.py
+
+# after_succes:
+#   - codecov

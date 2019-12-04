@@ -4,7 +4,6 @@
 from __future__ import division
 from __future__ import print_function
 
-__package__ = 'Auto-generate Scorer object'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -144,7 +143,8 @@ def hpp_file (dependencies):
   members = ''
   # dump members
 
-  regex_dump_array = '\tos << std :: left << std :: setw(40) << "{name}";\n\tfor (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << {name}[i] << " ";\n\tos << std :: endl;'
+  regex_dump_array = '\tos << std :: left << std :: setw(40) << "{name}";\n'
+  regex_dump_array += '\tfor (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << {name}[i] << " ";\n\tos << std :: endl;'
   regex_dump_value = '\tos << std :: left << std :: setw(40) << "{name}" << std :: setw(20) << {name} << std :: endl;\n'
 
 
@@ -242,7 +242,7 @@ if __name__ == '__main__':
 
 
   all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
-  
+
   src = dict()
   for k, v in dependency.items():
     for i in v.keys():
