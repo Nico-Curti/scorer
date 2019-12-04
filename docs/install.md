@@ -1,8 +1,8 @@
 
 # Installation
 
-1. Follow your system prerequisites (below)
-2. Clone the scorer library from this repository, or download a stable release
+1.  Follow your system prerequisites (below)
+2.  Clone the scorer library from this repository, or download a stable release
 
 ```bash
 git clone https://github.com/Nico-Curti/scorer.git
@@ -211,4 +211,3 @@ PS \>                 cd $env:WORKSPACE
 PS Code>              cd scorer
 PS Code\scorer>        .\build.ps1
 ```
-
