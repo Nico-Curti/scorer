@@ -1,0 +1,18 @@
+---
+engines:
+ rubocop:
+   enabled: true
+
+pylint:
+  enabled: true
+  python_version: 3
+
+exclude_paths:
+  - '.github/**'
+  - '**.md'
+  - 'docs/**'
+  - 'paper/**'
+  - scorer/__init__.py
+  - scorer/Scorer/__init__.py
+  - scorer/test/*
+  - utils/**

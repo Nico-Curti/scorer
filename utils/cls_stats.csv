@@ -1,37 +1,61 @@
-classes,0,1,2
-TP,3,1,3
-FN,0,2,3
-FP,2,1,2
-TN,7,8,4
-POP,12,12,12
-P,3,3,6
-N,9,9,6
-TOP,5,2,5
-TON,7,10,7
-TPR,1,0.333333,0.5
-TNR,0.777778,0.888889,0.666667
-PPV,0.6,0.5,0.6
-NPV,1,0.8,0.571429
-FNR,0,0.666667,0.5
-FPR,0.222222,0.111111,0.333333
-FDR,0.4,0.5,0.4
-FOR,0,0.2,0.428571
-ACC,0.833333,0.75,0.583333
-F1_SCORE,0.75,0.4,0.545455
-F05_SCORE,0.652174,0.454545,0.576923
-F2_SCORE,0.882353,0.357143,0.517241
-MCC,0.68313,0.258199,0.169031
-BM,0.777778,0.222222,0.166667
-MK,0.6,0.3,0.171429
-PLR,4.5,3,1.5
-NLR,0,0.75,0.75
-DOR,inf,4,2
-PRE,0.25,0.25,0.5
-G,0.774597,0.408248,0.547723
-RACC,0.104167,0.0416667,0.208333
-ERR_ACC,0.166667,0.25,0.416667
-RACCU,0.0138889,0.00868056,0.0190972
-jaccard_index,0.6,0.25,0.375
-IS,-2.71383,-2,-1.35692
-CEN,0,0,0
-MCEN,0,0,0
+"Classes",0,1,2
+"TP(True positive/hit)",3.000,1.000,3.000
+"FN(False negative/miss/type 2 error)",0.000,2.000,3.000
+"FP(False positive/type 1 error/false alarm)",2.000,1.000,2.000
+"TN(True negative/correct rejection)",7.000,8.000,4.000
+"POP(Population)",12.000,12.000,12.000
+"P(Condition positive or support)",3.000,3.000,6.000
+"N(Condition negative)",9.000,9.000,6.000
+"TOP(Test outcome positive)",5.000,2.000,5.000
+"TON(Test outcome negative)",7.000,10.000,7.000
+"TPR(Sensitivity / recall / hit rate / true positive rate)",1.000,0.333,0.500
+"TNR(Specificity or true negative rate)",0.778,0.889,0.667
+"PPV(Precision or positive predictive value)",0.600,0.500,0.600
+"NPV(Negative predictive value)",1.000,0.800,0.571
+"FNR(Miss rate or false negative rate)",0.000,0.667,0.500
+"FPR(Fall-out or false positive rate)",0.222,0.111,0.333
+"FDR(False discovery rate)",0.400,0.500,0.400
+"FOR(False omission rate)",0.000,0.200,0.429
+"ACC(Accuracy)",0.833,0.750,0.583
+"F1(F1 score - harmonic mean of precision and sensitivity)",0.750,0.400,0.545
+"F0.5(F0.5 score)",0.652,0.455,0.577
+"F2(F2 score)",0.882,0.357,0.517
+"MCC(Matthews correlation coefficient)",0.683,0.258,0.169
+"BM(Informedness or bookmaker informedness)",0.778,0.222,0.167
+"MK(Markedness)",0.600,0.300,0.171
+"PLR(Positive likelihood ratio)",4.500,3.000,1.500
+"NLR(Negative likelihood ratio)",0.000,0.750,0.750
+"DOR(Diagnostic odds ratio)",inf,4.000,2.000
+"PRE(Prevalence)",0.250,0.250,0.500
+"G(G-measure geometric mean of precision and sensitivity)",0.775,0.408,0.548
+"RACC(Random accuracy)",0.104,0.042,0.208
+"ERR(Error rate)",0.167,0.250,0.417
+"RACCU(Random accuracy unbiased)",0.111,0.043,0.210
+"J(Jaccard index)",0.600,0.250,0.375
+"IS(Information score)",1.263,1.000,0.263
+"CEN(Confusion entropy)",0.250,0.497,0.604
+"MCEN(Modified confusion entropy)",0.264,0.500,0.688
+"AUC(Area Under the ROC curve)",0.889,0.611,0.583
+"dInd(Distance index)",0.222,0.676,0.601
+"sInd(Similarity index)",0.843,0.522,0.575
+"DP(Discriminant power)",inf,0.332,0.166
+"Y(Youden index)",0.778,0.222,0.167
+"PLRI(Positive likelihood ratio interpretation)",Poor,Poor,Poor
+"NLRI(Negative likelihood ratio interpretation)",Good,Negligible,Negligible
+"DPI(Discriminant power interpretation)",None,Poor,Poor
+"AUCI(AUC value interpretation)",Very Good,Fair,Poor
+"GI(Gini index)",0.778,0.222,0.167
+"LS(Lift score)",2.400,2.000,1.200
+"AM(Difference between automatic and manual classification)",2.000,-1.000,-1.000
+"OP(Optimized precision)",0.708,0.295,0.440
+"IBA(Index of balanced accuracy)",0.951,0.132,0.278
+"GM(G-mean geometric mean of specificity and sensitivity)",0.882,0.544,0.577
+"Q(Yule Q - coefficient of colligation)",nan,0.600,0.333
+"AGM(Adjusted geometric mean)",0.837,0.692,0.607
+"MCCI(Matthews correlation coefficient interpretation)",Moderate,Negligible,Negligible
+"AGF(Adjusted F-score)",0.914,0.540,0.552
+"OC(Overlap coefficient)",1.000,0.500,0.600
+"OOC(Otsuka-Ochiai coefficient)",0.775,0.408,0.548
+"AUPR(Area under the PR curve)",0.800,0.417,0.550
+"BCD(Bray-Curtis dissimilarity)",0.083,0.042,0.042
+"ICSI(Individual classification success index)",0.600,-0.167,0.100

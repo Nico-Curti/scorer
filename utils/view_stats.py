@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from dependency_graph import functions_script, dependency_net
+from dependency_graph import dependency_net
+from dependency_graph import functions_script
+from dependency_graph import layering_layout
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from mpld3 import plugins, save_html
-from networkx import draw_networkx_edges, draw_networkx_labels
-from networkx.drawing.nx_pydot import graphviz_layout
+from mpld3 import save_html
+from mpld3 import plugins
+from networkx import draw_networkx_edges
+from networkx import draw_networkx_labels
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
@@ -57,30 +60,38 @@ def draw_network (filename, scripts):
 
   data = pd.read_csv(filename, sep=',', index_col=0, header=None)
 
-  dependency = {hpp : functions_script(hpp) for hpp in scripts}
-  all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
-  dep_net = dependency_net(all_deps)
-  dep_net.remove_node('confusion_matrix')
+  dependency = {}
+  for hpp in scripts:
+    dep = functions_script(hpp)
+    dependency.update(dep)
+    
+  dependency.pop('confusion_matrix')
 
-  pos = graphviz_layout(dep_net, prog='dot')
+  dep_net = dependency_net(dependency)
+  pos = layering_layout(dep_net)
+
   dep_net = dep_net.reverse()
 
-  fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(50, 10))
+  fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(30, 10))
   net = draw_networkx_edges(dep_net, pos=pos, ax=ax, edge_color='lightgray')
-  pos_lbl = {n : (x, y + 10) for n, (x, y) in pos.items()}
+  
+  pos_lbl = {n : (x, y + 0.1) for n, (x, y) in pos.items()}
   lbl = {n : n for n, _ in pos.items()}
+  
   net = draw_networkx_labels(dep_net, pos=pos_lbl, labels=lbl, ax=ax,
-                             font_size=20, font_weight='bold', alpha=.8)
+                             font_size=20, font_weight='bold', alpha=1)
+  
   net = ax.scatter(*zip(*pos.values()),
                    marker='o',
                    s=400,
                    color='b',
                    alpha=.6,
                    edgecolors='k',
-                   linewidths=0.05
+                   linewidths=0.05,
                    )
 
-  labels = [str(data.loc[func].to_frame().to_html()) for func, _ in pos.items()]
+  labels = [str(data.loc[dependency[name]['label']].to_frame().to_html()) 
+            for name, _ in pos.items()]
   tooltip = plugins.PointHTMLTooltip(net, labels,
                                      voffset=10, hoffset=10, css=css)
   plugins.connect(fig, tooltip)
@@ -92,11 +103,8 @@ if __name__ == '__main__':
   import os
 
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
-  scripts = [directory + hpp for hpp in ['common_stats.h',
-                                         'class_stats.h',
-                                          #'overall_stats.h'
-                                          ]]
-
+  scripts = [directory + hpp 
+             for hpp in ('common_stats.h', 'class_stats.h')]#, 'overall_stats.h')]
 
   filename = 'cls_stats.csv'
 

@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import re
 import networkx as nx
+from operator import itemgetter
+from collections import Counter
 from collections import defaultdict
 
 __author__  = ['Nico Curti']
@@ -35,22 +38,32 @@ def functions_script (script_name):
       Dependencies dictionary
   '''
 
-  dependency = dict()
-  with open(script_name, 'r') as f:
+  filename = os.path.basename(script_name)
 
-    for line in f.readlines():
+  op = re.compile(r'auto operator\(\)\s+\((.*)')
+  name = re.compile(r'\}[\s+]get_(.*);')
+  deps = re.compile(r'[&*]\s+(\w+)[,\)]')
+  types = re.compile(r'[&*]')
+  tags = re.compile(r'struct // (.*)')
 
-      if 'auto operator() ' in line:
-        link = re.findall('[&*\s]\w+[,\)]', line)
-        link = [i[1:-1] for i in link]
+  with open(script_name, 'r') as fp:
+    code = fp.read()
+    
+  operations = op.findall(code)
+  names = name.findall(code)
+  
+  graph = dict()
+  for name, op, tag in zip(names, operations, tags.findall(code)):
+    dep = deps.findall(op)
+    type = types.findall(op)
+    graph[name] = {'dependency': list(zip(dep, type)),
+                   'label': tag,
+                   'file': filename
+                   }
+  
+  return graph
 
-      if 'get_' in line:
-        function = line.split('_', 1)[-1][:-2]
-        dependency[function] = link
-
-  return dependency
-
-def dependency_net (deps):
+def dependency_net (dependency):
   '''
   Filter the dependency in relation to the all set of
   functors name found in the c++ script.
@@ -59,7 +72,7 @@ def dependency_net (deps):
 
   Parameters
   ----------
-    deps: dict
+    dependency: dict
       Dependencies graph as DAG
 
   Returns
@@ -67,6 +80,7 @@ def dependency_net (deps):
     dependency_graph: nx.Digraph
       DAG in NetworkX format
   '''
+  deps = {name : map(itemgetter(0), var['dependency']) for name, var in dependency.items()}
   dependency_graph = nx.DiGraph(deps)
 
   useless_func = set(dependency_graph.nodes) - set(deps.keys())
@@ -138,9 +152,9 @@ def graph_layering (G):
     return scores
 
 
-def workflow_net (dep_net, list_deps, src):
+def workflow_net (dep_net, list_deps):
   '''
-  Extract the position of each node according to the
+  Extract the positions of each node according to the
   graph layering function.
   A dictionary of workflow is given in return with as
   keys the number of processing layer and as values
@@ -155,42 +169,55 @@ def workflow_net (dep_net, list_deps, src):
       dictionary with dependencies
       Key: function name
       Value: list of functions required by the Key-function
-
-    src: dict
-      dictionary of dependencies
-      Key: function name
-      Value: original C++ file in which the function can be found
   '''
   scores = graph_layering(dep_net)
 
   groups = defaultdict(list)
   for k, score in scores.items():
-    groups[score].append((src[k], k, list_deps[k]))
+    groups[score].append((k, list_deps[k]))
 
   return dict(groups)
 
 
+def layering_layout (dep_net, increment=1.):
+  '''
+  Extract the coordinates of each node according to the
+  graph layering function.
+  A dictionary of positions is given in return with as
+  keys the node name and as values
+  the (x, y) coordinates in the layering layout
+  
+  Parameters
+  ----------
+    dep_net: nx.DiGraph
+      dependency graph as DAG
+    
+    increment: float
+      x coordinate increment
+  '''
+  scores = graph_layering(dep_net)
+  groups = Counter(scores.values())
+  seen = Counter()
+  
+  pos = {}
+  for node, level in scores.items():
+    last_x = seen[level]
+    pos[node] = (last_x - groups[level] * .5, level)
+    seen[level] += increment
+
+  return pos
 
 
 if __name__ == '__main__':
 
-  import os
-
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
 
-  dependency = {hpp : functions_script(directory + hpp) for hpp in ['common_stats.h',
-                                                                    'class_stats.h',
-                                                                    'overall_stats.h'
-                                                                    ]}
+  dependency = {}
+  for hpp in ('common_stats.h', 'class_stats.h', 'overall_stats.h'):
+    dep = functions_script(directory + hpp)
+    dependency.update(dep)
 
-  all_deps = dict(pair for d in [v for i,v in dependency.items()] for pair in d.items())
-
-  src = dict()
-  for k, v in dependency.items():
-    for i in v.keys():
-        src[i] = k
-
-  dep_net = dependency_net(all_deps)
-  workflow = workflow_net(dep_net, all_deps, src)
+  dep_net = dependency_net(dependency)
+  workflow = workflow_net(dep_net, dependency)
 
 

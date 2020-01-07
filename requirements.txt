@@ -1,7 +1,2 @@
 numpy>=1.15.4
-pandas>=0.23.3
-matplotlib>=2.2.2
-mpld3>=0.3
-networkx>=2.2
 cython>=0.29
-scikit-learn>=0.20.3

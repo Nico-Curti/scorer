@@ -89,9 +89,11 @@ cdef extern from "scorer.h":
     float kappa_SE
     float kappa_unbiased
     float kappa_no_prevalence
-    float kappa_CI
+    float kappa_CI_up
+    float kappa_CI_down
     float overall_accuracy_se
-    float overall_accuracy_ci
+    float overall_accuracy_ci_up
+    float overall_accuracy_ci_down
     float chi_square
     float phi_square
     float cramers_V_calc

@@ -1,4 +1,3 @@
-
 # Installation
 
 1. Follow your system prerequisites (below)

@@ -8,7 +8,6 @@ from lib.scorer.pyscorer import _scorer
 
 import numpy as np
 import warnings
-from sklearn.preprocessing import LabelEncoder
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
@@ -61,9 +60,8 @@ class Scorer (_scorer):
       The C++ function allows only numerical (integer) values as labels in input.
       For more general support refers to the C++ example.
     '''
-    self.le = LabelEncoder()
-    self.le.fit(arr)
-    numeric_labels = self.le.transform(arr)
+    unique = tuple(set(arr))
+    numeric_labels = np.array([unique.index(x) for x in arr])
     return numeric_labels
 
   def evaluate (self, lbl_true, lbl_pred):
@@ -166,7 +164,7 @@ class Scorer (_scorer):
       if not isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
         try:
           fmt += '{name:<80} {value:.3f}\n'.format(**{'name' : k, 'value' : v})
-        except ValueError:
+        except (ValueError, TypeError):
           fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : v})
 
     return fmt

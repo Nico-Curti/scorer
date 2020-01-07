@@ -14,9 +14,51 @@ except ImportError:
   from distutils.core import Extension
   from distutils.core import find_packages
 
-from scorer.build import get_requires
-from scorer.build import scorer_build_ext
-from scorer.build import read_description
+from Cython.Distutils import build_ext
+from distutils.sysconfig import customize_compiler
+
+def get_requires (requirements_filename):
+  '''
+  What packages are required for this module to be executed?
+  '''
+  with open(requirements_filename, 'r') as fp:
+    requirements = fp.read()
+
+  return list(filter(lambda x: x != '', requirements.split()))
+
+
+
+class scorer_build_ext (build_ext):
+  '''
+  Custom build type
+  '''
+
+  def build_extensions (self):
+
+    customize_compiler(self.compiler)
+
+    try:
+      self.compiler.compiler_so.remove('-Wstrict-prototypes')
+
+    except (AttributeError, ValueError):
+      pass
+
+    build_ext.build_extensions(self)
+
+
+def read_description (readme_filename):
+  '''
+  Description package from filename
+  '''
+
+  try:
+
+    with open(readme_filename, 'r') as fp:
+      description = '\n'
+      description += fp.read()
+
+  except Exception:
+    return ''
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -28,8 +70,8 @@ EMAIL = ['nico.curti2@unibo.it']
 AUTHOR = ['Nico Curti']
 REQUIRES_PYTHON = '>=2.7'
 VERSION = None
-KEYWORDS = "machine-learning score-calculator confusion-matrix statistics parallel"
-
+KEYWORDS = 'machine-learning score-calculator confusion-matrix statistics parallel'
+ENABLE_OMP = True
 
 CPP_COMPILER = platform.python_compiler()
 README_FILENAME = os.path.join(here, 'README.md')
@@ -57,6 +99,55 @@ else:
 # parse version variables and add them to command line as definitions
 Version = about['__version__'].split('.')
 
+if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
+  cpp_compiler_args = ['-std=c++14', '-g0']
+
+  compile_args = [ '-Wno-unused-function', # disable unused-function warnings
+                   '-Wno-narrowing', # disable narrowing conversion warnings
+                    # enable common warnings flags
+                   '-Wall',
+                   '-Wextra',
+                   '-Wno-unused-result',
+                   '-Wno-unknown-pragmas',
+                   '-Wfatal-errors',
+                   '-Wpedantic',
+                   '-march=native',
+                   '-Ofast'
+                 ]
+
+  try:
+
+    compiler, compiler_version = CPP_COMPILER.split()
+
+  except ValueError:
+
+    compiler, compiler_version = (CPP_COMPILER, '0')
+
+  if compiler == 'GCC':
+    BUILD_SCORER = True if int(compiler_version[0]) > 4 else False
+
+  if compiler == 'Clang':
+    BUILD_SCORER = True
+    ENABLE_OMP = False
+
+  if ENABLE_OMP:
+    linker_args = ['-fopenmp']
+
+  else:
+    linker_args = []
+
+elif 'MSC' in CPP_COMPILER:
+  cpp_compiler_args = ['/std:c++14']
+  compile_args = []
+  BUILD_SCORER = True
+
+  if ENABLE_OMP:
+    linker_args = ['/openmp']
+  else:
+    linker_args = []
+
+else:
+  raise ValueError('Unknown c++ compiler arg')
 
 define_args = [ '-DMAJOR={}'.format(Version[0]),
                 '-DMINOR={}'.format(Version[1]),
@@ -64,25 +155,8 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
                 #'-D__pythonic__'
               ]
 
-linker_args = [ ] #'-fopenmp' ] # openmp flags
 
-compile_args = [ '-std=c++14', # std
-                 '-g0', # disable debug mode
-                 '-Wno-unused-function', # disable unused-function warnings
-                 '-Wno-narrowing', # disable narrowing conversion warnings
-                  # enable common warnings flags
-                 '-Wall',
-                 '-Wextra',
-                 '-Wno-unused-result',
-                 '-Wno-unknown-pragmas',
-                 '-Wfatal-errors',
-                 '-Wpedantic',
-                 '-march=native',
-                 '-Ofast'
-               ]
-
-
-whole_compiler_args = sum([compile_args, define_args, linker_args], [])
+whole_compiler_args = sum([cpp_compiler_args, compile_args, define_args], [])
 
 
 setup(
@@ -130,7 +204,7 @@ setup(
                                                              os.path.join('usr', 'local', 'lib'),
                                               ], # path to .a or .so file(s)
                                               extra_compile_args=whole_compiler_args,
-                                              extra_link_args=[],#'-fopenmp'],
+                                              extra_link_args=linker_args,
                                               language='c++',
                                               ),
                                             ],

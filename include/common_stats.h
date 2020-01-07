@@ -12,16 +12,16 @@
 
 constexpr float inf = std :: numeric_limits < float > :: infinity();
 
-struct
+struct // Classes
 {
   auto operator() (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)
   {
     assert (n_pred == n_true);
 
-    std :: set < int > u1(lbl_true, lbl_true + n_true);
-    std :: set < int > u2(lbl_pred, lbl_pred + n_pred);
+    std :: set < int > u1 (lbl_true, lbl_true + n_true);
+    std :: set < int > u2 (lbl_pred, lbl_pred + n_pred);
 
-    std :: vector < float > classes(u1.size() + u2.size());
+    std :: vector < float > classes (u1.size() + u2.size());
     auto it = std :: set_union(u1.begin(), u1.end(), u2.begin(), u2.end(), classes.begin());
     classes.resize(it - classes.begin());
 
@@ -30,11 +30,11 @@ struct
 } get_classes;
 
 
-struct
+struct // Confusion Matrix
 {
   auto operator() (const int * lbl_true, const int * lbl_pred, const int & n_lbl, const float * classes, const int & Nclass)
   {
-    std :: unique_ptr < float[] > confusion_matrix(new float[Nclass * Nclass]);
+    std :: unique_ptr < float[] > confusion_matrix (new float[Nclass * Nclass]);
 
     std :: fill_n(confusion_matrix.get(), Nclass * Nclass, 0.f);
 
@@ -53,22 +53,22 @@ struct
   }
 } get_confusion_matrix;
 
-struct
+struct // TP(True positive/hit)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
-    std :: unique_ptr < float[] > TP(new float[Nclass]);
+    std :: unique_ptr < float[] > TP (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
       TP[i] = confusion_matrix[i * Nclass + i];
     return TP;
   }
 } get_TP;
 
-struct
+struct // FN(False negative/miss/type 2 error)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
-    std :: unique_ptr < float[] > FN(new float[Nclass]);
+    std :: unique_ptr < float[] > FN (new float[Nclass]);
     int N;
     for (int i = 0; i < Nclass; ++i)
     {
@@ -80,11 +80,11 @@ struct
   }
 } get_FN;
 
-struct
+struct // FP(False positive/type 1 error/false alarm)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
-    std :: unique_ptr < float[] > FP(new float[Nclass]);
+    std :: unique_ptr < float[] > FP (new float[Nclass]);
     std :: fill_n(FP.get(), Nclass, 0.f);
     for (int i = 0; i < Nclass; ++i)
       for (int j = 0; j < Nclass; ++j)
@@ -94,11 +94,11 @@ struct
   }
 } get_FP;
 
-struct
+struct // TN(True negative/correct rejection)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
-    std :: unique_ptr < float[] > TN(new float[Nclass]);
+    std :: unique_ptr < float[] > TN (new float[Nclass]);
     switch (Nclass)
     {
       case 1:
@@ -132,32 +132,32 @@ struct
   }
 } get_TN;
 
-struct
+struct // POP(Population)
 {
   auto operator() (const float * TP, const float * TN, const float * FP, const float * FN, const int & Nclass)
   {
-    std :: unique_ptr < float[] > POP(new float[Nclass]);
+    std :: unique_ptr < float[] > POP (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
       POP[i] = TP[i] + TN[i] + FP[i] + FN[i];
     return POP;
   }
 } get_POP;
 
-struct
+struct // P(Condition positive or support)
 {
   auto operator() (const float * TP, const float * FN, const int & Nclass)
   {
-    std :: unique_ptr < float[] > P(new float[Nclass]);
+    std :: unique_ptr < float[] > P (new float[Nclass]);
     std :: transform(TP, TP + Nclass, FN, P.get(), [](const float & tp, const float & fn){return tp + fn;});
     return P;
   }
 } get_P;
 
-struct
+struct // N(Condition negative)
 {
-  auto operator() (const float *TN, const float *FP, const int & Nclass)
+  auto operator() (const float * TN, const float * FP, const int & Nclass)
   {
-    std :: unique_ptr < float[] > N(new float[Nclass]);
+    std :: unique_ptr < float[] > N (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i) N[i] = TN[i] + FP[i];
     std :: transform(TN, TN + Nclass, FP, N.get(), [](const float & tn, const float & fp){return tn + fp;});
     return N;
