@@ -70,7 +70,7 @@ C++ supported compilers:
 
 Python version supported :
 
-![Python version](https://img.shields.io/badge/python-2.7|3.3|3.4|3.5|3.6|3.7-blue.svg)
+![Python version](https://img.shields.io/badge/python-2.7%20|%203.3%20|%203.4%20|%203.5%20|%203.6%20|%203.7-blue.svg)
 
 The OMP version of the code is automatically available if OMP is installed and in this way all the metric computations are performed in parallel according to the generated dependency graph.
 

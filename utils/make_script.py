@@ -8,40 +8,40 @@ __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
 def header ():
-  return '\n'.join(('#ifndef __scorer_h__', 
-                    '#define __scorer_h__', 
+  return '\n'.join(('#ifndef __scorer_h__',
+                    '#define __scorer_h__',
                     '', ''))
 
 def include_lib (libs):
   return '\n'.join(('#include <{}>'.format(lib) for lib in libs))
 
 def header_file (dependency):
-  
+
   deps = dependency.copy()
   deps.pop('classes')
 
   obj = '\n'.join(('', 'struct scorer', '{', ''))
-  
+
   variables = '\n'.join(('\tstd :: unique_ptr < float[] > {};'.format(name)
                           if cppvar['file'] in ('common_stats.h', 'class_stats.h')
                           else '\tfloat {};'.format(name)
                           for name, cppvar in deps.items()))
 
-  variables = '\n'.join((variables, '', 
+  variables = '\n'.join((variables, '',
                          '\tstd :: vector < float > classes;', '',
                          '\tint Nclass;', ''))
 
   constructor = '\n'.join(('', '\tscorer ();', '', '\t// Members', ''))
 
-  members = '\n'.join(('', '\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);', 
-                       '', 
-                       '', '\ttemplate < typename Os >', '\tvoid print_class_stats (Os & os);', 
+  members = '\n'.join(('', '\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);',
                        '',
-                       '', '\ttemplate < typename Os >', '\tvoid print_overall_stats (Os & os);', 
+                       '', '\ttemplate < typename Os >', '\tvoid print_class_stats (Os & os);',
                        '',
-                       '', '\tvoid print ();', 
+                       '', '\ttemplate < typename Os >', '\tvoid print_overall_stats (Os & os);',
                        '',
-                       '', '\tvoid dump (const std :: string & filename);', 
+                       '', '\tvoid print ();',
+                       '',
+                       '', '\tvoid dump (const std :: string & filename);',
                        ''))
 
   tail = '\n'.join(('', '};', '', '', '#endif // __scorer_h__', '', ''))
@@ -59,7 +59,7 @@ def header_file (dependency):
                      obj,
                      variables,
                      constructor,
-                     members, 
+                     members,
                      tail))
   return scripts
 
@@ -94,9 +94,9 @@ def stop_omp_section():
                     ))
 
 def parallel_func(output, params):
-  params = ', '.join(('this->{}.get()'.format(x) 
-                      if t == '*' 
-                      else 'this->{}'.format(x) 
+  params = ', '.join(('this->{}.get()'.format(x)
+                      if t == '*'
+                      else 'this->{}'.format(x)
                       for x, t in params))
   params = params.replace('this->classes.get()', 'this->classes.data()')
   params = params.replace('this->lbl_true.get()', 'lbl_true')
@@ -143,9 +143,9 @@ def cpp_file (workflow):
                        '\tassert (n_true == n_pred);',
                        '\tauto n_lbl = n_true;',
                        ''))
-  
+
   for level, deps in workflow.items():
-    members = ''.join((members, 
+    members = ''.join((members,
                        start_omp_section(),
                        ''.join((parallel_func(name, cppvar['dependency'])
                                 for name, cppvar in deps)),
@@ -156,8 +156,8 @@ def cpp_file (workflow):
                            '\tthis->Nclass = static_cast < int >(classes.size());\n',
                            check_dimension()
                            ))
-  
-  members = '\n'.join((members, 
+
+  members = '\n'.join((members,
                        '#ifdef __pythonic__',
                        '#ifdef _OPENMP',
                        '\t} // end computation function',
@@ -166,12 +166,12 @@ def cpp_file (workflow):
                        '', '',
                        '}', '', '', ''))
 
-  return ''.join((libs, 
-                  '\n\n\n', 
+  return ''.join((libs,
+                  '\n\n\n',
                   members))
 
 def hpp_file (dependency):
-  
+
   deps = dependency.copy()
   deps.pop('confusion_matrix')
 
@@ -190,12 +190,12 @@ def hpp_file (dependency):
   members = '\n'.join(('template < typename Os >',
                        'void scorer :: print_class_stats (Os & os)',
                        '{', ''))
-  
+
   printers = '\n'.join((regex_dump_array.format(name=name, tag=cppvar['label'])
                        for name, cppvar in deps.items()
                        if cppvar['file'] in ('common_stats.h', 'class_stats.h')))
-  
-  members = '\n'.join((members, printers, 
+
+  members = '\n'.join((members, printers,
                        '}', '', '', '',
                        'template < typename Os >',
                        'void scorer :: print_overall_stats (Os & os)',
@@ -205,7 +205,7 @@ def hpp_file (dependency):
   overall = '\n'.join(regex_dump_value.format(name=name, tag=cppvar['label'])
                       for name, cppvar in deps.items()
                       if cppvar['file'] in ('overall_stats.h'))
-  
+
   members = '\n'.join((members, overall,
                        '}', '', '', '',
                        'void scorer :: print ()',
@@ -229,9 +229,9 @@ def hpp_file (dependency):
 
   tail = '\n'.join(('', '', '#endif // __scorer_hpp__', '', ''))
 
-  return ''.join((header, libs, 
+  return ''.join((header, libs,
                   '\n\n\n',
-                  members, 
+                  members,
                   tail))
 
 

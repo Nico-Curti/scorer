@@ -64,7 +64,7 @@ def draw_network (filename, scripts):
   for hpp in scripts:
     dep = functions_script(hpp)
     dependency.update(dep)
-    
+
   dependency.pop('confusion_matrix')
 
   dep_net = dependency_net(dependency)
@@ -74,13 +74,13 @@ def draw_network (filename, scripts):
 
   fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(30, 10))
   net = draw_networkx_edges(dep_net, pos=pos, ax=ax, edge_color='lightgray')
-  
+
   pos_lbl = {n : (x, y + 0.1) for n, (x, y) in pos.items()}
   lbl = {n : n for n, _ in pos.items()}
-  
+
   net = draw_networkx_labels(dep_net, pos=pos_lbl, labels=lbl, ax=ax,
                              font_size=20, font_weight='bold', alpha=1)
-  
+
   net = ax.scatter(*zip(*pos.values()),
                    marker='o',
                    s=400,
@@ -90,7 +90,7 @@ def draw_network (filename, scripts):
                    linewidths=0.05,
                    )
 
-  labels = [str(data.loc[dependency[name]['label']].to_frame().to_html()) 
+  labels = [str(data.loc[dependency[name]['label']].to_frame().to_html())
             for name, _ in pos.items()]
   tooltip = plugins.PointHTMLTooltip(net, labels,
                                      voffset=10, hoffset=10, css=css)
@@ -103,7 +103,7 @@ if __name__ == '__main__':
   import os
 
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
-  scripts = [directory + hpp 
+  scripts = [directory + hpp
              for hpp in ('common_stats.h', 'class_stats.h')]#, 'overall_stats.h')]
 
   filename = 'cls_stats.csv'
