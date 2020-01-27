@@ -31,16 +31,6 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 		this->classes = get_classes ( lbl_true, lbl_pred, n_true, n_pred );
 
 #ifdef _OPENMP
-#pragma omp section
-#endif
-		this->PC_S = get_PC_S ( this->Nclass );
-
-#ifdef _OPENMP
-#pragma omp section
-#endif
-		this->DF = get_DF ( this->Nclass );
-
-#ifdef _OPENMP
 	}
 #endif
 
@@ -59,6 +49,16 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #pragma omp sections
 	{
 #endif
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->DF = get_DF ( this->classes.data(), this->Nclass );
+
+#ifdef _OPENMP
+#pragma omp section
+#endif
+		this->PC_S = get_PC_S ( this->classes.data(), this->Nclass );
 
 #ifdef _OPENMP
 #pragma omp section

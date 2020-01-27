@@ -8,7 +8,7 @@ template < typename Os >
 void scorer :: print_class_stats (Os & os)
 {
 
-	os << std :: left << std :: setw(40) << "classes";
+	os << std :: left << std :: setw(40) << "Classes";
 	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << classes[i] << " ";
 	os << std :: endl;
 
@@ -48,7 +48,7 @@ void scorer :: print_class_stats (Os & os)
 	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TON[i] << " ";
 	os << std :: endl;
 
-	os << std :: left << std :: setw(40) << "TPR(Sensitivity, recall, hit rate, or true positive rate)";
+	os << std :: left << std :: setw(40) << "TPR(Sensitivity / recall / hit rate / true positive rate)";
 	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TPR[i] << " ";
 	os << std :: endl;
 

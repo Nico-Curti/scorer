@@ -3,6 +3,20 @@
 
 #include <common_stats.h>
 
+#ifdef _MSC_VER
+
+  #ifndef __unused
+    #define __unused
+  #endif
+
+#else // Not Visual Studio Compiler
+
+  #ifndef __unused
+    #define __unused __attribute__((__unused__))
+  #endif
+
+#endif
+
 struct // Overall ACC
 {
   auto operator() (const float * TP, const float * POP, const int & Nclass)
@@ -62,7 +76,8 @@ struct // PC_AC1
 
 struct // PC_S
 {
-  auto operator() (const int & Nclass)
+  // we need "classes" because the auto-generated code must put this function AFTER the Nclass evalution
+  auto operator() (__unused const float * classes, const int & Nclass)
   {
     return 1.f / static_cast < float >(Nclass);
   }
@@ -311,7 +326,8 @@ struct // Lambda A
 
 struct // Chi-Squared DF
 {
-  auto operator() (const int & Nclass)
+  // we need "classes" because the auto-generated code must put this function AFTER the Nclass evalutions
+  auto operator() (__unused const float * classes, const int & Nclass)
   {
     return static_cast< float >((Nclass - 1) * (Nclass - 1));
   }
