@@ -12,3 +12,8 @@ exclude_paths:
   - '**.md'
   - 'docs/**'
   - scorer/__init__.py
+  - scorer/Scorer/__init__.py
+  - docker/**
+  - build.ps1
+  - build.sh
+  - setup.py

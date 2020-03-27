@@ -4,14 +4,9 @@
 from cython.operator cimport dereference as deref
 from libcpp.memory cimport unique_ptr
 
-from Scorer cimport scorer
+from scorer cimport scorer
 
 cdef class _scorer:
-
-  cdef unique_ptr[scorer] thisptr
-
-  cdef public:
-    int Nclass
 
   def __init__ (self):
     self.thisptr.reset(new scorer())

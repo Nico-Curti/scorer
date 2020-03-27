@@ -3,6 +3,7 @@ branch = True
 omit =
     */scorer/__init__.py
     */scorer/__version__.py
+    */scorer/Scorer/__init__.py
     */scorer/test/*
     */utils/*
 [report]

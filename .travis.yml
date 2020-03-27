@@ -282,6 +282,39 @@ matrix:
         - MATRIX_EVAL="brew update && brew install llvm && CC=clang-7.0 && CXX=clang++-7.0"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
+    - os: linux
+      compiler: gcc
+      python: 3.5
+      name: ubuntu 14.04 - gcc@8.0 & native python@3
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - WITH_PYTHON=ON
+
+    - os: linux
+      compiler: gcc
+      python: 3.5
+      name: ubuntu 14.04 - gcc@8.0 & python@3.5
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - python3.5
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - WITH_PYTHON=ON
+
   allow_failures:
     - name: ubuntu 14.04 - clang@3.8
     - name: ubuntu 14.04 - gcc@4.8.5
@@ -290,9 +323,19 @@ matrix:
 
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
-  - pip install --user codecov
-  - sudo pip install -r requirements.txt
-  - pip install codecov
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 --version                                                                                   ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --upgrade pip --user                                                         ;fi
+
+  # install python packages
+
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.15.4                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
+
+  # testing libraries
+
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest==3.0.7                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest-cov                                                            ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user codecov                                                               ;fi
 
 install:
   # CMake upgrade
@@ -307,13 +350,17 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$COMPILER_ID" == "gcc" ]]; then tar -xzf cmake-3.13.1-Linux-x86_64.tar.gz                                                     ;fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$COMPILER_ID" == "gcc" ]]; then export PATH=$PWD/cmake-3.13.1-Linux-x86_64/bin:$PATH                                          ;fi
 
+  # python version
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 setup.py develop --user                                                                     ;fi
+
 script:
   - chmod 777 ./build.sh
   # pay attention to omp for gcc old version
   - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
   - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
 
-  # - coverage run tests.py
+  # python testing
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pytest --cov=scorer --cov-config=.coveragerc                                             ;fi
 
-# after_succes:
-#   - codecov
+after_success:
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then codecov                                                                                             ;fi

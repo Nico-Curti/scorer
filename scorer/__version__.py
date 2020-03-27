@@ -7,9 +7,19 @@ import re
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
+
 def read_version (CMakeLists):
   '''
   Read version from variables set in CMake file
+
+  Parameters
+  ----------
+  CMakeLists : CMake file path
+
+  Returns
+  -------
+  version : tuple
+    Version as (major, minor, revision)
   '''
   major = re.compile(r'set\s+\(SCORER_MAJOR\s+(\d+)\)')
   minor = re.compile(r'set\s+\(SCORER_MINOR\s+(\d+)\)')

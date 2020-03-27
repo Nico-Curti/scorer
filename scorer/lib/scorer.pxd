@@ -141,16 +141,14 @@ cdef extern from "scorer.h":
     void print_overall_stats[T](T&)
 
 
-
-cdef extern from "<iostream>" namespace "std":
-
-  cdef cppclass ostream:
-        ostream& write(const char*, int) except +
-
-  ostream cout
-
 cdef extern from "<utility>" namespace "std" nogil:
 
   cdef unique_ptr[scorer] move(unique_ptr[scorer])
 
 
+cdef class _scorer:
+
+  cdef unique_ptr[scorer] thisptr
+
+  cdef public:
+    int Nclass

@@ -136,6 +136,7 @@ struct scorer
 	int Nclass;
 
 	scorer ();
+	~scorer () = default;
 
 	// Members
 

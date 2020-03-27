@@ -4,7 +4,7 @@
 from __future__ import division
 from __future__ import print_function
 
-from lib.scorer.pyscorer import _scorer
+from scorer.lib.scorer import _scorer
 
 import numpy as np
 import warnings
@@ -13,7 +13,7 @@ __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
 
-class Scorer (_scorer):
+class Scorer (object):
 
   def __init__ (self):
     '''
@@ -36,9 +36,9 @@ class Scorer (_scorer):
     '''
     if len(true) != len(pred):
       class_name = self.__class__.__name__
-      raise ValueError('{0}: wrong shapes found. \
-        Found {1} true labels and {2} predicted labels. \
-        Input arrays must have the same length'.format(class_name, len(true), len(pred)))
+      raise ValueError('{0}: wrong shapes found. '
+        'Found {1} true labels and {2} predicted labels. '
+        'Input arrays must have the same length'.format(class_name, len(true), len(pred)))
 
 
   def _label2numbers (self, arr):
@@ -61,6 +61,10 @@ class Scorer (_scorer):
       For more general support refers to the C++ example.
     '''
     unique = tuple(set(arr))
+
+    if len(unique) <= 1:
+      raise ValueError('The number of classes must be greater than 1')
+
     numeric_labels = np.array([unique.index(x) for x in arr])
     return numeric_labels
 
@@ -129,7 +133,7 @@ class Scorer (_scorer):
       raise KeyError('{0}: statistic not found. Available statistics are {1}'.format(class_name, ','.join(self._score.keys())))
 
   def __setitem__ (self, stat, values):
-    warnings.warn('Setting new statistics does not enable the computation of the dependencies')
+    warnings.warn(UserWarning('Setting new statistics does not enable the computation of the dependencies'))
     self._score[stat] = values
 
   def __repr__ (self):

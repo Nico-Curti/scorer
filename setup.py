@@ -20,12 +20,48 @@ from distutils.sysconfig import customize_compiler
 def get_requires (requirements_filename):
   '''
   What packages are required for this module to be executed?
+
+  Parameters
+  ----------
+    requirements_filename : str
+      filename of requirements (e.g requirements.txt)
+
+  Returns
+  -------
+    requirements : list
+      list of required packages
   '''
   with open(requirements_filename, 'r') as fp:
     requirements = fp.read()
 
   return list(filter(lambda x: x != '', requirements.split()))
 
+
+def read_description (readme_filename):
+  '''
+  Description package from filename
+
+  Parameters
+  ----------
+    readme_filename : str
+      filename with readme information (e.g README.md)
+
+  Returns
+  -------
+    description : str
+      str with description
+  '''
+
+  try:
+
+    with open(readme_filename, 'r') as fp:
+      description = '\n'
+      description += fp.read()
+
+    return description
+
+  except IOError:
+    return ''
 
 
 class scorer_build_ext (build_ext):
@@ -46,20 +82,6 @@ class scorer_build_ext (build_ext):
     build_ext.build_extensions(self)
 
 
-def read_description (readme_filename):
-  '''
-  Description package from filename
-  '''
-
-  try:
-
-    with open(readme_filename, 'r') as fp:
-      description = '\n'
-      description += fp.read()
-
-  except Exception:
-    return ''
-
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Package meta-data.
@@ -71,7 +93,7 @@ AUTHOR = ['Nico Curti']
 REQUIRES_PYTHON = '>=2.7'
 VERSION = None
 KEYWORDS = 'machine-learning score-calculator confusion-matrix statistics parallel'
-ENABLE_OMP = True
+ENABLE_OMP = False
 
 CPP_COMPILER = platform.python_compiler()
 README_FILENAME = os.path.join(here, 'README.md')
@@ -100,7 +122,7 @@ else:
 Version = about['__version__'].split('.')
 
 if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
-  cpp_compiler_args = ['-std=c++14', '-g0']
+  cpp_compiler_args = ['-std=c++1z', '-g0']
 
   compile_args = [ '-Wno-unused-function', # disable unused-function warnings
                    '-Wno-narrowing', # disable narrowing conversion warnings
@@ -123,23 +145,18 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
 
     compiler, compiler_version = (CPP_COMPILER, '0')
 
-  if compiler == 'GCC':
-    BUILD_SCORER = True if int(compiler_version[0]) > 4 else False
-
-  if compiler == 'Clang':
-    BUILD_SCORER = True
-    ENABLE_OMP = False
-
-  if ENABLE_OMP:
+  if ENABLE_OMP and compiler == 'GCC':
     linker_args = ['-fopenmp']
 
   else:
     linker_args = []
 
+  if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
+    cpp_compiler_args += ['-stdlib=libc++']
+
 elif 'MSC' in CPP_COMPILER:
-  cpp_compiler_args = ['/std:c++14']
+  cpp_compiler_args = ['/std:c++latest']
   compile_args = []
-  BUILD_SCORER = True
 
   if ENABLE_OMP:
     linker_args = ['/openmp']
@@ -188,15 +205,14 @@ setup(
   license                       = 'GNU Lesser General Public License v2 or later (LGPLv2+)',
   cmdclass                      = {'build_ext': scorer_build_ext},
   ext_modules                   = [
-                                    Extension(name='.'.join(['lib', 'scorer', 'pyscorer']),
+                                    Extension(name='.'.join(['scorer', 'lib', 'scorer']),
                                               sources=[
-                                                       os.path.join(os.getcwd(), 'scorer', 'source', 'scorer.pyx'),
-                                                       os.path.join(os.getcwd(), 'src', 'scorer.cpp')
+                                                       os.path.join(here, 'scorer', 'source', 'scorer.pyx'),
+                                                       os.path.join(here, 'src', 'scorer.cpp')
                                               ],
                                               include_dirs=[
-                                                  '.',
-                                                  os.path.join(os.getcwd(), 'include'),
-                                                  os.path.join(os.getcwd(), 'scorer', 'include'),
+                                                  os.path.join(here, 'include'),
+                                                  os.path.join(here, 'scorer', 'lib'),
                                               ],
                                               library_dirs=[
                                                              os.path.join(here, 'lib'),

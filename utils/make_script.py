@@ -31,7 +31,7 @@ def header_file (dependency):
                          '\tstd :: vector < float > classes;', '',
                          '\tint Nclass;', ''))
 
-  constructor = '\n'.join(('', '\tscorer ();', '', '\t// Members', ''))
+  constructor = '\n'.join(('', '\tscorer ();', '', '\t~scorer () = default;', '', '\t// Members', ''))
 
   members = '\n'.join(('', '\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);',
                        '',
