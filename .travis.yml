@@ -325,6 +325,12 @@ before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - pip install --user codecov
   - sudo pip install -r requirements.txt
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 --version                                                                                   ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --upgrade pip --user                                                         ;fi
+
+  # install python packages
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.15.4                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
 
   # testing libraries
 
