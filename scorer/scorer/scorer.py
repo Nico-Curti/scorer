@@ -13,14 +13,14 @@ __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
 
-class Scorer (object):
+class Scorer (dict):
 
   def __init__ (self):
     '''
     Multi-class score computation
     '''
     self._obj = _scorer()
-    self._score = dict()
+    super(Scorer, self).__init__({})
 
   def _check_params (self, true, pred):
     '''
@@ -98,10 +98,13 @@ class Scorer (object):
     y_true = np.ascontiguousarray(y_true)
     y_pred = np.ascontiguousarray(y_pred)
 
-    self._score = self._obj.evaluate(y_true, y_pred, len(y_true))
-    self._score['Confusion Matrix'] = np.reshape(self._score['Confusion Matrix'], newshape=(len(self._score['classes']), len(self._score['classes'])))
+    score = self._obj.evaluate(y_true, y_pred, len(y_true))
+    self.update(score)
 
-    self._score['classes'] = true_names
+    with warnings.catch_warnings():
+      warnings.simplefilter("ignore")
+      self['Confusion Matrix'] = np.reshape(self['Confusion Matrix'], newshape=(len(self['classes']), len(self['classes'])))
+      self['classes'] = true_names
 
     return self
 
@@ -110,32 +113,50 @@ class Scorer (object):
     '''
     Return the score list as dictionary
     '''
-    return self._score
+    return self
 
   @property
   def num_classes (self):
     '''
     Return number of classes identified
     '''
-    return len(self._score['classes']) if 'classes' in self._score else 0
+    return len(self['classes']) if 'classes' in self else 0
+
+  def __getattr__ (self, stat):
+    '''
+    Access to score stats as attribute
+    '''
+
+    if stat in self:
+      return self[stat]
+
+    else:
+      stat = stat.lower().replace('_', ' ')
+
+      for x in self.keys():
+        if x.lower().find(stat) >= 0:
+          return super(Scorer, self).__getitem__(x)
+
+      else:
+        raise AttributeError('Attribute {} not found'.format(stat))
 
   def __getitem__ (self, stat):
 
-    if not len(self._score):
+    if not len(self):
       class_name = self.__class__.__name__
       raise ValueError('{0}: score not computed yet. Please use the "evaluate" method before'.format(class_name))
 
     try:
 
-      return self._score[stat]
+      return super(Scorer, self).__getitem__(stat)
 
     except KeyError:
       class_name = self.__class__.__name__
-      raise KeyError('{0}: statistic not found. Available statistics are {1}'.format(class_name, ','.join(self._score.keys())))
+      raise KeyError('{0}: statistic not found. Available statistics are {1}'.format(class_name, ','.join(self.keys())))
 
   def __setitem__ (self, stat, values):
     warnings.warn(UserWarning('Setting new statistics does not enable the computation of the dependencies'))
-    self._score[stat] = values
+    super(Scorer, self).__setitem__(stat, values)
 
   def __repr__ (self):
     return str(self._obj)
@@ -144,17 +165,17 @@ class Scorer (object):
 
     fmt = ''
 
-    fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self._score['classes']]))
+    fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self['classes']]))
     fmt += 'Confusion Matrix:\n'
     fmt += '\n'.join([''.join(['{:4}'.format(item) for item in row])
-                      for row in self._score['Confusion Matrix']])
+                      for row in self['Confusion Matrix']])
 
     fmt += '\n\nClass Statistics:\n\n'
 
-    numeric_fmt = ' '.join(['{:>20.3f}' for _ in range(len(self._score['classes']))])
-    array_fmt   = ' '.join(['{:>20}'    for _ in range(len(self._score['classes']))])
+    numeric_fmt = ' '.join(['{:>20.3f}' for _ in range(len(self['classes']))])
+    array_fmt   = ' '.join(['{:>20}'    for _ in range(len(self['classes']))])
 
-    for k, v in self._score.items():
+    for k, v in self.items():
       if isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
         try:
           fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : numeric_fmt.format(*v)})
@@ -165,7 +186,7 @@ class Scorer (object):
 
     fmt += '\nOverall Statistics:\n\n'
 
-    for k, v in self._score.items():
+    for k, v in self.items():
       if not isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
         try:
           fmt += '{name:<80} {value:.3f}\n'.format(**{'name' : k, 'value' : v})

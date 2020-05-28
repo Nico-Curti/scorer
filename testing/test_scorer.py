@@ -106,3 +106,44 @@ class TestScorer:
 
     with pytest.warns(UserWarning):
       scorer['Nico'] = 'Nico'
+
+  def test_encoder (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
+    str_score = scorer.score
+
+    y_true = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
+    y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
+
+    scorer.evaluate(y_true, y_pred)
+    num_score = scorer.score
+
+    assert str_score == num_score
+
+  def test_keys (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    assert len(scorer.keys()) == 0
+
+    scorer.evaluate(y_true, y_pred)
+    assert len(scorer.keys()) == 116
+
+  def test_getter_alias (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
+
+    assert np.allclose(scorer['ACC(Accuracy)'], scorer.accuracy)
+    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.fp)
+    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.false_positive)
+    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.type_1_error)
