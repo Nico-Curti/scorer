@@ -133,7 +133,7 @@ class Scorer (dict):
     else:
       stat = stat.lower().replace('_', ' ')
 
-      for x in self.keys():
+      for x in sorted(self.keys()):
         if x.lower().find(stat) >= 0:
           return super(Scorer, self).__getitem__(x)
 
