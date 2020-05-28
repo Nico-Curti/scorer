@@ -7,6 +7,9 @@
 #include <fstream>
 #include <cassert>
 #include <vector>
+#include <algorithm>
+#include <iterator>
+#include <unordered_set>
 
 
 
@@ -136,6 +139,7 @@ struct scorer
 	int Nclass;
 
 	scorer ();
+
 	~scorer () = default;
 
 	// Members
@@ -155,6 +159,10 @@ struct scorer
 
 
 	void dump (const std :: string & filename);
+
+
+	template < typename dtype >
+	int * encoder (dtype * arr, const int & size);
 
 };
 

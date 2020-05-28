@@ -60,13 +60,12 @@ class Scorer (object):
       The C++ function allows only numerical (integer) values as labels in input.
       For more general support refers to the C++ example.
     '''
-    unique = tuple(set(arr))
+    unique, numeric_labels = np.unique(arr, return_inverse=True)
 
-    if len(unique) <= 1:
+    if unique.size <= 1:
       raise ValueError('The number of classes must be greater than 1')
 
-    numeric_labels = np.array([unique.index(x) for x in arr])
-    return numeric_labels
+    return numeric_labels.astype('int32'), unique
 
   def evaluate (self, lbl_true, lbl_pred):
     '''
@@ -92,8 +91,8 @@ class Scorer (object):
 
     self._check_params(lbl_true, lbl_pred)
 
-    y_true = self._label2numbers(lbl_true).astype('int32')
-    y_pred = self._label2numbers(lbl_pred).astype('int32')
+    y_true, true_names = self._label2numbers(lbl_true)
+    y_pred, true_names = self._label2numbers(lbl_pred)
 
     # set contiguous order memory for c++ compatibility
     y_true = np.ascontiguousarray(y_true)
@@ -101,6 +100,8 @@ class Scorer (object):
 
     self._score = self._obj.evaluate(y_true, y_pred, len(y_true))
     self._score['Confusion Matrix'] = np.reshape(self._score['Confusion Matrix'], newshape=(len(self._score['classes']), len(self._score['classes'])))
+
+    self._score['classes'] = true_names
 
     return self
 
@@ -143,7 +144,7 @@ class Scorer (object):
 
     fmt = ''
 
-    fmt += 'Classes: {}\n'.format(', '.join(['{:d}'.format(int(c)) for c in self._score['classes']]))
+    fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self._score['classes']]))
     fmt += 'Confusion Matrix:\n'
     fmt += '\n'.join([''.join(['{:4}'.format(item) for item in row])
                       for row in self._score['Confusion Matrix']])

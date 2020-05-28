@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
   directory = os.path.join(os.path.dirname(__file__), '..', 'include/')
   scripts = [directory + hpp
-             for hpp in ('common_stats.h', 'class_stats.h')]#, 'overall_stats.h')]
+             for hpp in ('common_stats.h', 'class_stats.h', 'overall_stats.h')]
 
   filename = 'cls_stats.csv'
 

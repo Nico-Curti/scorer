@@ -10,7 +10,7 @@ set_source_files_properties( ${PYC_SRC_DIR}/scorer.pyx PROPERTIES CYTHON_IS_CXX 
 include_directories(${PYC_INC_DIR})
 
 # Multi-file cython modules do not appear to be working at the moment.
-cython_add_module( pyscorer scorer.pyx ${INC_DIR}/scorer.h )
+cython_add_module( pyscorer scorer.pyx ${SRC_DIR}/scorer.cpp ${INC_DIR}/scorer.h )
 target_link_libraries(pyscorer ${linked_libs} ${scorerlib})
 
 # Installation of targets

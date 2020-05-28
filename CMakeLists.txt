@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.8)
 # Scorer Version
 set (SCORER_MAJOR    2)
 set (SCORER_MINOR    0)
-set (SCORER_REVISION 1)
+set (SCORER_REVISION 2)
 set (SCORER_VERSION ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION})
 
 project (Scorer LANGUAGES CXX VERSION ${SCORER_VERSION} DESCRIPTION "Machine Learning Scorer")

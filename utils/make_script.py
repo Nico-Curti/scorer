@@ -42,6 +42,8 @@ def header_file (dependency):
                        '', '\tvoid print ();',
                        '',
                        '', '\tvoid dump (const std :: string & filename);',
+                       '',
+                       '', '\ttemplate < typename dtype >', '\tint * encoder (dtype * arr, const int & size);',
                        ''))
 
   tail = '\n'.join(('', '};', '', '', '#endif // __scorer_h__', '', ''))
@@ -51,7 +53,10 @@ def header_file (dependency):
                       'iomanip',
                       'fstream',
                       'cassert',
-                      'vector'
+                      'vector',
+                      'algorithm',
+                      'iterator',
+                      'unordered_set',
                       ))
 
   scripts = ''.join((header(), libs,
@@ -225,7 +230,20 @@ def hpp_file (dependency):
                        '\tos << "stats,score" << std :: endl;',
                        '\tthis->print_overall_stats < std :: ofstream >(os);',
                        '\tos.close();',
-                       '}', ''))
+                       '}', '',
+                       ''
+                       'template < typename dtype >',
+                       'int * scorer :: encoder (dtype * arr, const int & size)',
+                       '{', '',
+                       '\tint * encode = new int [size];',
+                       '',
+                       '\tstd :: unordered_set < dtype > lbl (arr, arr + size, size * sizeof(dtype));',
+                       '',
+                       '\tstd :: transform (arr, arr + size, encode, [&](const dtype & l) {return std :: distance(lbl.begin(), lbl.find(l));});',
+                       '',
+                       '\treturn encode;',
+                       '}', '',
+                       ))
 
   tail = '\n'.join(('', '', '#endif // __scorer_hpp__', '', ''))
 

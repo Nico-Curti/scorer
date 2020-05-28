@@ -31,7 +31,7 @@ class TestScorer:
     scorer = Scorer()
     scorer.evaluate(y_true, y_pred)
     print(scorer)
-
+    repr(scorer)
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
@@ -43,6 +43,7 @@ class TestScorer:
     scorer = Scorer()
     scorer.evaluate(y_true, y_pred)
     print(scorer)
+    repr(scorer)
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
@@ -77,6 +78,9 @@ class TestScorer:
     assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], np.zeros(shape=(len(set(y_true)), )))
     assert np.allclose(scorer.score['FN(False negative/miss/type 2 error)'], np.zeros(shape=(len(set(y_true)), )))
     assert np.allclose(scorer.score['ACC(Accuracy)'], np.ones(shape=(len(set(y_true)), )))
+
+    with pytest.raises(KeyError):
+      print(scorer['dummy'])
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)

@@ -398,6 +398,19 @@ void scorer :: dump (const std :: string & filename)
 	os.close();
 }
 
+template < typename dtype >
+int * scorer :: encoder (dtype * arr, const int & size)
+{
+
+	int * encode = new int [size];
+
+	std :: unordered_set < dtype > lbl (arr, arr + size, size * sizeof(dtype));
+
+	std :: transform (arr, arr + size, encode, [&](const dtype & l) {return std :: distance(lbl.begin(), lbl.find(l));});
+
+	return encode;
+}
+
 
 #endif // __scorer_hpp__
 
