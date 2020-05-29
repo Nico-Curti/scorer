@@ -21,7 +21,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    steps:
     - uses: actions/checkout@v2
 
     - name: 'Update apt'
@@ -69,7 +68,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    steps:
     - uses: actions/checkout@v2
 
     - name: 'Update apt'
@@ -116,7 +114,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    steps:
     - uses: actions/checkout@v2
 
     - name: 'Update apt'
