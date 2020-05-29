@@ -37,11 +37,11 @@ jobs:
       run: |
         mkdir buildDirectory_debug
         cd buildDirectory_debug
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DOMP=OFF
         cd ..
         mkdir buildDirectory_release
         cd buildDirectory_release
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release"
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -DOMP=OFF
         cd ..
     - name: 'Build'
       run: |
@@ -128,11 +128,11 @@ jobs:
       run: |
         mkdir buildDirectory_debug
         cd buildDirectory_debug
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug"
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DOMP=OFF
         cd ..
         mkdir buildDirectory_release
         cd buildDirectory_release
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release"
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -DOMP=OFF
         cd ..
     - name: 'Build'
       run: |
