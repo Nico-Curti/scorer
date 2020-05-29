@@ -143,7 +143,7 @@ class TestScorer:
     scorer = Scorer()
     scorer.evaluate(y_true, y_pred)
 
-    assert np.allclose(scorer['ACC(Accuracy)'], scorer.accuracy)
-    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.fp)
-    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.false_positive)
-    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.type_1_error)
+    assert np.allclose(scorer['ACC(Accuracy)'], scorer.ACC)
+    assert np.allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.FP)
+    assert np.allclose(scorer['TOP(Test outcome positive)'], scorer.TOP)
+    assert np.allclose(scorer['FDR(False discovery rate)'], scorer.FDR)

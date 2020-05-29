@@ -131,10 +131,13 @@ class Scorer (dict):
       return self[stat]
 
     else:
-      stat = stat.lower().replace('_', ' ')
 
       for x in sorted(self.keys()):
-        if x.lower().find(stat) >= 0:
+        y = x.split('(')[0]
+        y = y.replace('%', '')
+        y = y.replace(' ', '_')
+        y = y.replace('-', '_')
+        if y == stat:
           return super(Scorer, self).__getitem__(x)
 
       else:
