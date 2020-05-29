@@ -9,6 +9,18 @@ on:
 jobs:
   ubuntu-cmake:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
     steps:
     - uses: actions/checkout@v2
 
@@ -16,6 +28,11 @@ jobs:
       run: sudo apt update
     - name: 'Install CMake'
       run: sudo apt install cmake
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: 'Configure build'
       run: |
@@ -36,8 +53,22 @@ jobs:
         cmake --build . --target install -- -j8
         cd ..
 
+
+
   ubuntu-cmake-omp:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
     steps:
     - uses: actions/checkout@v2
 
@@ -45,6 +76,11 @@ jobs:
       run: sudo apt update
     - name: 'Install CMake'
       run: sudo apt install cmake
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: 'Configure build'
       run: |
@@ -68,11 +104,28 @@ jobs:
 
   osx-cmake:
     runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
     steps:
     - uses: actions/checkout@v2
 
     - name: 'Update apt'
       run: brew update
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: 'Configure build'
       run: |
