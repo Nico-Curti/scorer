@@ -17,6 +17,7 @@ add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SC
 #################################################################
 
 option (OMP     "Enable OpenMP                support" ON  )
+option (PYwrap  "Enable Python wrap compilation      " ON  )
 
 #################################################################
 #                         SETTING VARIABLES                     #
@@ -125,7 +126,9 @@ include_directories(${PYC_DIR})
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
-include( UseCython )
+if (PYwrap)
+  include( UseCython )
+endif ()
 
 #################################################################
 #                          SUMMARY                              #
@@ -159,6 +162,7 @@ foreach(FLAG ${linked_libs})
 endforeach(FLAG)
 message(STATUS ""                                                                       )
 message(STATUS "   OpenMP support : ${OMP}"                                             )
+message(STATUS "   Cython support : ${PYwrap}"                                          )
 message(STATUS ""                                                                       )
 
 #################################################################
@@ -169,7 +173,9 @@ add_library(${scorerlib} SHARED ${SRC} ${HEADER})
 set_property(TARGET ${scorerlib} PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(${scorerlib} ${linked_libs})
 
-add_subdirectory(${PYC_DIR}/source)
+if (PYwrap)
+  add_subdirectory(${PYC_DIR}/source)
+endif ()
 
 add_custom_target(example_test)
 add_executable( example ${TST_DIR}/example.cpp )
