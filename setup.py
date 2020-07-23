@@ -155,7 +155,7 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
     cpp_compiler_args += ['-stdlib=libc++']
 
 elif 'MSC' in CPP_COMPILER:
-  cpp_compiler_args = ['/std:c++latest']
+  cpp_compiler_args = ['/std:c++latest', '/Ox', '/Wall', '/W3']
   compile_args = []
 
   if ENABLE_OMP:
