@@ -169,3 +169,4 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ss]corer/source/*.cpp
+[Uu]tils/dependency_graph.html
