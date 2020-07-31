@@ -356,8 +356,8 @@ install:
 script:
   - chmod 777 ./build.sh
   # pay attention to omp for gcc old version
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
-  - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
+  - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF -DPYTHON_EXECUTABLE:FILEPATH=python3                                  ;fi
+  - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF -DPYTHON_EXECUTABLE:FILEPATH=python3                                  ;fi
   # python version
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 setup.py develop --user                                                                     ;fi
 
