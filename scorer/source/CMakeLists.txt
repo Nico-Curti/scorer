@@ -12,6 +12,8 @@ include_directories(${PYC_INC_DIR})
 # Multi-file cython modules do not appear to be working at the moment.
 cython_add_module( pyscorer scorer.pyx ${SRC_DIR}/scorer.cpp ${INC_DIR}/scorer.h )
 target_link_libraries(pyscorer ${linked_libs} ${scorerlib})
+set_target_properties(pyscorer PROPERTIES OUTPUT_NAME "scorer")
 
 # Installation of targets
-install(TARGETS pyscorer          DESTINATION ${PYC_INC_DIR}/scorer)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pyscorer.cpp      DESTINATION ${PYC_SRC_DIR} RENAME scorer.cpp)
+install(TARGETS pyscorer                                    DESTINATION ${PYC_INC_DIR})

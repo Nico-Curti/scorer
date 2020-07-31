@@ -74,7 +74,7 @@ mark_as_advanced( CYTHON_ANNOTATE CYTHON_NO_DOCSTRINGS CYTHON_FLAGS )
 find_package( Cython REQUIRED )
 find_package( PythonLibs REQUIRED )
 
-set( CYTHON_CXX_EXTENSION "cxx" )
+set( CYTHON_CXX_EXTENSION "cpp" )
 set( CYTHON_C_EXTENSION "c" )
 
 # Create a *.c or *.cxx file from a *.pyx file.
@@ -279,7 +279,6 @@ function( cython_add_module _name )
   else()
     target_link_libraries( ${_name} ${PYTHON_LIBRARIES} )
   endif()
-  install(TARGETS ${_name}            DESTINATION ${PYC_DIR})
 endfunction()
 
 include( CMakeParseArguments )
