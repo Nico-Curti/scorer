@@ -170,3 +170,5 @@ bld/
 [Oo]bj/
 [Ss]corer/source/*.cpp
 [Uu]tils/dependency_graph.html
+[Ss]hare/
+*.pc

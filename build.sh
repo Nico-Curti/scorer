@@ -10,7 +10,7 @@ compiler=$(echo "${CXX##*/}")
 number_of_build_workers=8
 
 allow_omp=$2
-other=$3
+other="${@:3}"
 
 if [ "$allow_omp" == "ON" ] || [ "$allow_omp" == "on" ] || [ "$allow_omp" == "OFF" ] || [ "$allow_omp" == "off" ]; then
   allow_omp=$allow_omp
