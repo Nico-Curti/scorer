@@ -17,6 +17,8 @@ except ImportError:
 from distutils import sysconfig
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
+from distutils.command.sdist import sdist as _sdist
+
 
 def get_requires (requirements_filename):
   '''
@@ -78,7 +80,7 @@ def get_ext_filename_without_platform_suffix (filename):
     if idx == -1:
       return filename
     else:
-      return name[:idx] + ext    
+      return name[:idx] + ext
 
 
 class scorer_build_ext (build_ext):
@@ -112,7 +114,13 @@ class scorer_build_ext (build_ext):
     build_ext.build_extensions(self)
 
 
-here = os.path.abspath(os.path.dirname(__file__))
+class sdist(_sdist):
+  def run(self):
+    self.run_command("build_ext")
+    _sdist.run(self)
+
+
+here = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 
 # Package meta-data.
 NAME = 'scorer'
@@ -205,6 +213,9 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
 
 whole_compiler_args = sum([cpp_compiler_args, compile_args, define_args], [])
 
+cmdclass = {'build_ext': scorer_build_ext,
+            'sdist': sdist}
+
 
 setup(
   name                          = NAME,
@@ -221,7 +232,11 @@ setup(
   url                           = URL,
   download_url                  = URL,
   keywords                      = KEYWORDS,
+  setup_requires                = [# Setuptools 18.0 properly handles Cython extensions.
+                                   'setuptools>=18.0',
+                                   'cython'],
   packages                      = find_packages(include=['scorer', 'scorer.*'], exclude=('test', 'example')),
+  include_package_data          = True,
   platforms                     = 'any',
   classifiers                   = [
                                     # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -233,19 +248,19 @@ setup(
                                     'Programming Language :: Python :: Implementation :: PyPy'
                                   ],
   license                       = 'GNU Lesser General Public License v2 or later (LGPLv2+)',
-  cmdclass                      = {'build_ext': scorer_build_ext},
+  cmdclass                      = cmdclass,
   ext_modules                   = [
                                     Extension(name='.'.join(['scorer', 'lib', 'scorer']),
                                               sources=[
-                                                       os.path.join(here, 'scorer', 'source', 'scorer.pyx'),
-                                                       os.path.join(here, 'src', 'scorer.cpp')
+                                                       './scorer/source/scorer.pyx',
+                                                       './src/scorer.cpp'
                                               ],
                                               include_dirs=[
-                                                  os.path.join(here, 'include'),
-                                                  os.path.join(here, 'scorer', 'lib'),
+                                                  './include',
+                                                  './scorer/lib',
                                               ],
                                               library_dirs=[
-                                                             os.path.join(here, 'lib'),
+                                                             './lib',
                                                              os.path.join('usr', 'lib'),
                                                              os.path.join('usr', 'local', 'lib'),
                                               ], # path to .a or .so file(s)

@@ -1,3 +1,6 @@
 include *.md
 include *.txt
 include *.yml
+include include/*
+include scorer/lib/*.pxd
+include scorer/source/*.pyx
