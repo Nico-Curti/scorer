@@ -126,8 +126,8 @@ here = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 NAME = 'scorer'
 DESCRIPTION = 'Multi-class scorer computation library.'
 URL = 'https://github.com/Nico-Curti/scorer'
-EMAIL = ['nico.curti2@unibo.it']
-AUTHOR = ['Nico Curti']
+EMAIL = 'nico.curti2@unibo.it'
+AUTHOR = 'Nico Curti'
 REQUIRES_PYTHON = '>=2.7'
 VERSION = None
 KEYWORDS = 'machine-learning score-calculator confusion-matrix statistics parallel'
@@ -240,7 +240,6 @@ setup(
   platforms                     = 'any',
   classifiers                   = [
                                     # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-                                    'License :: OSI Approved :: GPL License',
                                     'Programming Language :: Python',
                                     'Programming Language :: Python :: 3',
                                     'Programming Language :: Python :: 3.6',
