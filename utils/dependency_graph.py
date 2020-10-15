@@ -46,7 +46,7 @@ def functions_script (script_name):
   types = re.compile(r'[&*]')
   tags = re.compile(r'struct // (.*)')
 
-  with open(script_name, 'r') as fp:
+  with open(script_name, 'r', encoding='utf-8') as fp:
     code = fp.read()
 
   operations = op.findall(code)
