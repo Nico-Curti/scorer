@@ -329,7 +329,7 @@ If you have found `Scorer` helpful in your research, please consider citing the 
 
 ```tex
 @misc{Scorer,
-  author = {Nico Curti},
+  author = {Nico Curti \& Daniele Dall'Olio},
   title = {Scorer},
   year = {2019},
   publisher = {GitHub},

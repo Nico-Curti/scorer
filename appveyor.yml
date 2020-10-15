@@ -27,6 +27,7 @@ install:
   - "python --version"
   - "pip --version"
   - "pip install -r requirements.txt"
+  - "pip install networkx"
 
   - cinst -y ninja
   - SET "PATH=C:\Program Files\CMake\bin;%PATH%"
