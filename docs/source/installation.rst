@@ -27,6 +27,10 @@ The full list of prerequisites of Python version is the following:
 	- matplotlib>=2.2.2
 	- mpld3>=0.3
 
+.. warning::
+
+	For both the Python and C++ installation of the library is required Python with the support of _`networkx` package.
+	Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
 
 .. |gcc version| image:: https://img.shields.io/badge/gcc-4.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg
 .. |clang version| image:: https://img.shields.io/badge/clang-3.*%20|4.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg
@@ -34,6 +38,7 @@ The full list of prerequisites of Python version is the following:
 .. _CMake: https://github.com/Nico-Curti/scorer/blob/master/CMakeLists.txt
 .. _Makefile: https://github.com/Nico-Curti/scorer/blob/master/Makefile
 .. _utils: https://github.com/Nico-Curti/scorer/tree/master/utils
+.. _`networkx`: https://networkx.github.io/
 
 .. toctree::
    :maxdepth: 2

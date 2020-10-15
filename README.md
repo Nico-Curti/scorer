@@ -98,6 +98,9 @@ In this case you need to install also the following Python packages:
 - matplotlib>=2.2.2
 - mpld3>=0.3
 
+> :warning: For both the Python and C++ installation of the library is required Python with the support of [`networkx`](https://networkx.github.io/) package.
+> Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
+
 ## Usage
 
 You can use the libraries either inside your c++ project with a simple include of the [scorer.h](https://github.com/Nico-Curti/scorer/blob/master/include/scorer.h) header file or inside your Python application, where the scorer class is wrapped to give a simple dictionary in return.
