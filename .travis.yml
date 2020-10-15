@@ -323,8 +323,7 @@ matrix:
 
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
-  - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-  - python3 get-pip.py pip==19.1
+  - sudo apt-get install python3-pip
   - python3 -m pip install --user codecov
   - sudo python3 -m pip install -r requirements.txt
   - sudo python3 -m pip install networkx
