@@ -323,10 +323,10 @@ matrix:
 
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
+  - python3 --version
   - sudo apt-get install python3-pip
   - sudo apt-get install python3-setuptools
   - python3 -m pip install --user codecov
-  - sudo python3 -m pip install -r requirements.txt
   - sudo python3 -m pip install networkx
 
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 --version                                                                                   ;fi
