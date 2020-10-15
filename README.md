@@ -6,6 +6,9 @@
 
 ![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)
 
+[![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22rFBP+Docs+CI%22)
+
+[![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
 
@@ -61,6 +64,13 @@ python setup.py develop --user
 
 If you are working without *root* privileges we suggest to use the [`Shut`](https://github.com/Nico-Curti/shut) scripts to easily install all the required dependencies.
 
+> :warning: The setup file requires the `Cython` package, thus make sure to pre-install them!
+> We are working on some workarounds to solve this issue.
+
+> :warning: The current installation via pip has no requirements about the version of `setuptools` package.
+> If the already installed version of `setuptools` is `>= 50.*` you can find some troubles during the installation of our package (ref. [issue](https://github.com/Nico-Curti/rFBP/issues/5)).
+> We suggest to temporary downgrade the `setuptools` version to `49.3.0` to workaround this `setuptools` issue.
+
 ## Prerequisites
 
 To build the c++ version of the code at least c++14 is required.
@@ -70,7 +80,7 @@ C++ supported compilers:
 
 ![clang version](https://img.shields.io/badge/clang-3.*%20|4.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg)
 
-![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64-blue.svg)
+![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64|%20vs2019%20x86%20|%20vs2019%20x64-blue.svg)
 
 Python version supported :
 
@@ -83,12 +93,10 @@ The full list of prerequisites of Python version is listed in [requirements](htt
 **Note**: if you are interested on the visualization of the dependency graph and some other utilities to manage the evaluated metrics you can find all the scripts in the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder.
 In this case you need to install also the following Python packages:
 
-```
-networkx>=2.2
-pandas>=0.23.3
-matplotlib>=2.2.2
-mpld3>=0.3
-```
+- networkx>=2.2
+- pandas>=0.23.3
+- matplotlib>=2.2.2
+- mpld3>=0.3
 
 ## Usage
 
@@ -296,26 +304,24 @@ A full list of informations about the score functions and their meaning can be f
 
 ## License
 
-The `Scorer` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md)
+The `Scorer` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE)
 
 ## Contribution
 
-Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/scorer/blob/master/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/scorer/blob/master/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
+Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/scorer/blob/master/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/scorer/blob/master/.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
 
-See [here](https://github.com/Nico-Curti/scorer/blob/master/CONTRIBUTING.md) for further informations about how to contribute with this project.
+See [here](https://github.com/Nico-Curti/scorer/blob/master/.github/CONTRIBUTING.md) for further informations about how to contribute with this project.
 
 ## Authors
 
 * <img src="https://avatars0.githubusercontent.com/u/24650975?s=400&v=4" width="25px"> **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
+* <img src="https://avatars3.githubusercontent.com/u/23407684?s=400&v=4" width="25px"> **Daniele Dall'Olio** [git](https://github.com/DanieleDallOlio), [unibo](https://www.unibo.it/sitoweb/daniele.dallolio)
 
 See also the list of [contributors](https://github.com/Nico-Curti/Scorer/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/graphs/contributors/) who participated to this project.
 
 ## Acknowledgments
 
-Thanks goes to all contributors of this project:
-
-| [<img src="https://avatars3.githubusercontent.com/u/23407684?s=400&v=4" width="100px;"/><br /><sub><b>Daniele Dall'Olio</b></sub>](https://github.com/DanieleDallOlio)
-|:---:|
+Thanks goes to all contributors of this project.
 
 ### Citation
 

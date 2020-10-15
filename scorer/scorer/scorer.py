@@ -4,8 +4,6 @@
 from __future__ import division
 from __future__ import print_function
 
-from scorer.lib.scorer import _scorer
-
 import numpy as np
 import warnings
 
@@ -14,11 +12,43 @@ __email__   = ['nico.curti2@unibo.it']
 
 
 class Scorer (dict):
+  '''
+  Multi-class score computation.
+
+  This class represents an optimized and extended version of the PyCM_ library.
+  The full list of scores are evaluated using C++ functions wrapped into a single
+  score object.
+  The evaluation of the score functions can be performed into a parallel environment
+  using OMP multhithreading.
+  The C++ code is in fact auto-generated using the scripts provided into the utils_
+  directory and the optimal dependency graph is computed to allow the work distribution
+  among the available threads.
+
+  Example
+  -------
+  >>> from scorer import Scorer
+  >>>
+  >>> y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+  >>> y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+  >>>
+  >>> scorer = Scorer()
+  >>> scorer.evaluate(y_true, y_pred)
+
+  References
+  ----------
+  - Haghighi, S., Jasemi, M., Hessabi, S. and Zolanvari, A. (2018). PyCM: Multiclass confusion matrix library in Python. Journal of Open Source Software, 3(25), p.729.
+
+  .. _PyCM : https://github.com/sepandhaghighi/pycm
+  .. _utils : https://github.com/Nico-Curti/scorer/blob/master/utils/
+  '''
 
   def __init__ (self):
     '''
-    Multi-class score computation
+    Default constructor
     '''
+
+    from scorer.lib.scorer import _scorer
+
     self._obj = _scorer()
     super(Scorer, self).__init__({})
 
@@ -33,6 +63,12 @@ class Scorer (dict):
 
       pred : array-like
         Predicted label array
+
+    Notes
+    -----
+    .. note::
+      The array of true labels and predicted ones mush have the same length.
+      If the given arrays have different shapes a ValueError is raised.
     '''
     if len(true) != len(pred):
       class_name = self.__class__.__name__
@@ -57,8 +93,17 @@ class Scorer (dict):
 
     Notes
     -----
-      The C++ function allows only numerical (integer) values as labels in input.
-      For more general support refers to the C++ example.
+      .. note::
+        The C++ function allows only numerical (integer) values as labels in input.
+        For more general support refers to the C++ example.
+
+    Examples
+    --------
+    >>> from scorer import scorer
+    >>> y = ('A', 'A', 'B', 'B')
+    >>> num_y = scorer()._label2numbers(y)
+    >>> print(num_y)
+      [0, 0, 1, 1]
     '''
     unique, numeric_labels = np.unique(arr, return_inverse=True)
 
@@ -81,12 +126,30 @@ class Scorer (dict):
 
     Returns
     -------
-    self
+      self
+
+    Examples
+    --------
+    >>> from scorer import scorer
+    >>> size = 10
+    >>> y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>> y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>>
+    >>> scorer = Scorer()
+    >>> scorer.evaluate(y_true, y_pred)
+    >>>
+    >>> # Or using simple lists
+    >>>
+    >>> y_true = y_true.tolist()
+    >>> y_pred = y_pred.tolist()
+    >>>
+    >>> scorer.evaluate(y_true, y_pred)
 
     Notes
     -----
-    The score evaluation is possible only with integer labels.
-    The input labels are encoded in integers using LabelEncoder class of sklearn
+    .. note::
+      The score evaluation is possible only with integer labels.
+      The input labels are encoded in integers using the C++ version of the label encoder (_label2numbers).
     '''
 
     self._check_params(lbl_true, lbl_pred)
@@ -111,20 +174,55 @@ class Scorer (dict):
   @property
   def score (self):
     '''
-    Return the score list as dictionary
+    Return the score list as dictionary.
     '''
     return self
 
   @property
   def num_classes (self):
     '''
-    Return number of classes identified
+    Return the number of classes identified.
+    If the scores are not yet evaluated the return value is 0.
     '''
     return len(self['classes']) if 'classes' in self else 0
 
   def __getattr__ (self, stat):
     '''
     Access to score stats as attribute
+
+    Parameters
+    ----------
+      stat: name
+        Name of the score
+
+    Examples
+    --------
+    >>> from scorer import scorer
+    >>> size = 10
+    >>> y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>> y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>>
+    >>> scorer = Scorer()
+    >>> scorer.evaluate(y_true, y_pred)
+    >>> print(scorer.ACC, scorer.TP, scorer.FP)
+
+    Notes
+    -----
+    .. note::
+      In many cases the string related to the score is very long and it includes
+      information about the mathematical meaning of that score.
+      To facilitate the usage of the class the search of the attributes is performed
+      using a "regex" search.
+      In this way it is possible to access member values as in the following example
+
+      .. code-block:: python
+
+        np.testing.assert_allclose(scorer['ACC(Accuracy)'], scorer.ACC)
+        np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.FP)
+        np.testing.assert_allclose(scorer['TOP(Test outcome positive)'], scorer.TOP)
+        np.testing.assert_allclose(scorer['FDR(False discovery rate)'], scorer.FDR)
+
+      If the attribute is not found an AttributeError is raised.
     '''
 
     if stat in self:
@@ -144,6 +242,32 @@ class Scorer (dict):
         raise AttributeError('Attribute {} not found'.format(stat))
 
   def __getitem__ (self, stat):
+    '''
+    Get the value of the required score
+
+    Parameters
+    ----------
+      stat: str
+        Name of the score
+
+    Examples
+    --------
+    >>> from scorer import scorer
+    >>> size = 10
+    >>> y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>> y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>>
+    >>> scorer = Scorer()
+    >>> scorer.evaluate(y_true, y_pred)
+    >>>
+    >>> print(scorer['ACC(Accuracy)'])
+
+    Notes
+    -----
+    .. note::
+      The search of the score name is performed using the key name of the dictionary.
+      This function is different from __getattr__.
+    '''
 
     if not len(self):
       class_name = self.__class__.__name__
@@ -158,14 +282,43 @@ class Scorer (dict):
       raise KeyError('{0}: statistic not found. Available statistics are {1}'.format(class_name, ','.join(self.keys())))
 
   def __setitem__ (self, stat, values):
+    '''
+    Set a score variable.
+
+    Parameters
+    ----------
+      stat: str
+        Key as name of the new score
+
+      values: float or list
+        Value(s) of the new score
+
+    Examples
+    --------
+    >>> from scorer import scorer
+    >>> size = 10
+    >>> y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>> y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    >>>
+    >>> scorer = Scorer()
+    >>> scorer.evaluate(y_true, y_pred)
+    >>>
+    >>> scorer['dummy'] = 'dummy'
+      UserWarning: Setting new statistics does not enable the computation of the dependencies
+    '''
     warnings.warn(UserWarning('Setting new statistics does not enable the computation of the dependencies'))
     super(Scorer, self).__setitem__(stat, values)
 
   def __repr__ (self):
+    '''
+    Object representation
+    '''
     return str(self._obj)
 
   def __str__ (self):
-
+    '''
+    Print the object as table of scores
+    '''
     fmt = ''
 
     fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self['classes']]))

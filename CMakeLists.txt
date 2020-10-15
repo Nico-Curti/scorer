@@ -16,8 +16,9 @@ add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SC
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-option (OMP     "Enable OpenMP                support" ON  )
-option (PYWRAP  "Enable Python wrap compilation      " ON  )
+option (OMP         "Enable OpenMP                  support" ON  )
+option (PYWRAP      "Enable Python wrap compilation        " ON  )
+option (BUILD_DOCS  "Enable Documentaion builid     support" OFF )
 
 #################################################################
 #                         SETTING VARIABLES                     #
@@ -139,8 +140,18 @@ if (PYWRAP)
   include( UseCython )
 endif ()
 
+if (BUILD_DOCS)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
+endif ()
+
 configure_file(${CMAKE_SOURCE_DIR}/Scorer.pc.in ${CMAKE_SOURCE_DIR}/Scorer.pc @ONLY)
 message(STATUS "Pkg-config generated")
+
+find_package (Python REQUIRED)
+add_custom_target(make_scorer_obj ALL
+                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_script.py
+                  COMMENT "Generate scorer object using dependency graph"
+                  )
 
 #################################################################
 #                          SUMMARY                              #
@@ -175,6 +186,7 @@ endforeach(FLAG)
 message(STATUS ""                                                                       )
 message(STATUS "   OpenMP support : ${OMP}"                                             )
 message(STATUS "   Cython support : ${PYWRAP}"                                          )
+message(STATUS "   Documentation support : ${BUILD_DOCS}"                               )
 message(STATUS ""                                                                       )
 
 #################################################################
@@ -185,6 +197,7 @@ add_library(${scorerlib} SHARED ${SRC} ${HEADER})
 set_target_properties(${scorerlib} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(${scorerlib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<INSTALL_INTERFACE:${Scorer_INSTALL_INCLUDE_DIR}>)
 target_link_libraries(${scorerlib} ${linked_libs})
+add_dependencies(${scorerlib} make_scorer_obj)
 
 set_target_properties(${scorerlib} PROPERTIES PUBLIC_HEADER "${HEADER}")
 

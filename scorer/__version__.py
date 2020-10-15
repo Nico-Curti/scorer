@@ -14,12 +14,13 @@ def read_version (CMakeLists):
 
   Parameters
   ----------
-  CMakeLists : CMake file path
+    CMakeLists : string
+      Main CMakefile filename or path
 
   Returns
   -------
-  version : tuple
-    Version as (major, minor, revision)
+    version : tuple
+      Version as (major, minor, revision) of strings
   '''
   major = re.compile(r'set\s+\(SCORER_MAJOR\s+(\d+)\)')
   minor = re.compile(r'set\s+\(SCORER_MINOR\s+(\d+)\)')

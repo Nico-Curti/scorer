@@ -1,6 +1,9 @@
 include *.md
+include LICENSE
+include CMakeLists.txt
 include *.txt
 include *.yml
 include include/*
 include scorer/lib/*.pxd
 include scorer/source/*.pyx
+include utils/*.py

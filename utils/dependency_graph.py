@@ -48,10 +48,10 @@ def functions_script (script_name):
 
   with open(script_name, 'r') as fp:
     code = fp.read()
-    
+
   operations = op.findall(code)
   names = name.findall(code)
-  
+
   graph = dict()
   for name, op, tag in zip(names, operations, tags.findall(code)):
     dep = deps.findall(op)
@@ -60,7 +60,7 @@ def functions_script (script_name):
                    'label': tag,
                    'file': filename
                    }
-  
+
   return graph
 
 def dependency_net (dependency):
@@ -169,6 +169,12 @@ def workflow_net (dep_net, list_deps):
       dictionary with dependencies
       Key: function name
       Value: list of functions required by the Key-function
+
+  Returns
+  -------
+    groups: dict
+      Dictionary of workflow levels.
+      For each level the list of scores is stored in the values
   '''
   scores = graph_layering(dep_net)
 
@@ -186,19 +192,25 @@ def layering_layout (dep_net, increment=1.):
   A dictionary of positions is given in return with as
   keys the node name and as values
   the (x, y) coordinates in the layering layout
-  
+
   Parameters
   ----------
     dep_net: nx.DiGraph
       dependency graph as DAG
-    
+
     increment: float
       x coordinate increment
+
+  Returns
+  -------
+    pos: dict
+      Dictionary of node positions.
+      The keys are given by the node names and the value is a tuple (x, y)
   '''
   scores = graph_layering(dep_net)
   groups = Counter(scores.values())
   seen = Counter()
-  
+
   pos = {}
   for node, level in scores.items():
     last_x = seen[level]

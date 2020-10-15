@@ -10,8 +10,20 @@
 #include <cmath>
 #include <cassert>
 
+/// @cond DEF
 constexpr float inf = std :: numeric_limits < float > :: infinity();
+/// @endcond
 
+/**
+* @brief Get the array of classes.
+*
+* @param lbl_true array of true labels as integers
+* @param lbl_pred array of predicted labels as integers
+* @param n_true size of lbl_true array
+* @param n_pred size of lbl_pred array
+*
+* @return Vector of classes found
+*/
 struct // Classes
 {
   auto operator() (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)
@@ -30,6 +42,19 @@ struct // Classes
 } get_classes;
 
 
+/**
+* @brief Get the confusion matrix of the labels
+*
+* @details A confusion matrix, also known as an error matrix, is a specific table layout that allows visualization of the performance of an algorithm.
+*
+* @param lbl_true array of true labels as integers
+* @param lbl_pred array of predicted labels as integers
+* @param n_lbl size of label arrays
+* @param classes array of classes
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The confusion matrix as ravel array
+*/
 struct // Confusion Matrix
 {
   auto operator() (const int * lbl_true, const int * lbl_pred, const int & n_lbl, const float * classes, const int & Nclass)
@@ -53,6 +78,16 @@ struct // Confusion Matrix
   }
 } get_confusion_matrix;
 
+/**
+* @brief Get the True positive score
+*
+* @details A true positive test result is one that detects the condition when the condition is present (correctly identified).
+*
+* @param confusion_matrix the confusion matrix of the labels
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of True positive scores (lenght := Nclass)
+*/
 struct // TP(True positive/hit)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
@@ -64,6 +99,16 @@ struct // TP(True positive/hit)
   }
 } get_TP;
 
+/**
+* @brief Get the False negative score
+*
+* @details A false negative test result is one that does not detect the condition when the condition is present (incorrectly rejected).
+*
+* @param confusion_matrix the confusion matrix of the labels
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of False negative scores (lenght := Nclass)
+*/
 struct // FN(False negative/miss/type 2 error)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
@@ -80,6 +125,16 @@ struct // FN(False negative/miss/type 2 error)
   }
 } get_FN;
 
+/**
+* @brief Get the False positive score
+*
+* @details A false positive test result is one that detects the condition when the condition is absent (incorrectly identified).
+*
+* @param confusion_matrix the confusion matrix of the labels
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of False positive scores (lenght := Nclass)
+*/
 struct // FP(False positive/type 1 error/false alarm)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
@@ -94,6 +149,16 @@ struct // FP(False positive/type 1 error/false alarm)
   }
 } get_FP;
 
+/**
+* @brief Get the True negative score
+*
+* @details A true negative test result is one that does not detect the condition when the condition is absent (correctly rejected).
+*
+* @param confusion_matrix the confusion matrix of the labels
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of True negative scores (lenght := Nclass)
+*/
 struct // TN(True negative/correct rejection)
 {
   auto operator() (const float * confusion_matrix, const int & Nclass)
@@ -132,6 +197,21 @@ struct // TN(True negative/correct rejection)
   }
 } get_TN;
 
+/**
+* @brief Get the Total sample size.
+*
+* ```python
+* POP = TP + TN + FN + FP
+* ```
+*
+* @param TP array of true positives
+* @param TN array of true negatives
+* @param FP array of false positives
+* @param FN array of false negative
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of total samples for each class.
+*/
 struct // POP(Population)
 {
   auto operator() (const float * TP, const float * TN, const float * FP, const float * FN, const int & Nclass)
@@ -143,6 +223,21 @@ struct // POP(Population)
   }
 } get_POP;
 
+/**
+* @brief Number of positive samples.
+*
+* @details Also known as support (the number of occurrences of each class in y_true).
+*
+* ```python
+* P = TP + FN
+* ```
+*
+* @param TP array of true positives
+* @param FN array of false negative
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of the number of positive samples for each class.
+*/
 struct // P(Condition positive or support)
 {
   auto operator() (const float * TP, const float * FN, const int & Nclass)
@@ -153,6 +248,19 @@ struct // P(Condition positive or support)
   }
 } get_P;
 
+/**
+* @brief Number of negative samples
+*
+* ```python
+* N = TN + FP
+* ```
+*
+* @param TN array of true negatives
+* @param FP array of false positives
+* @param Nclass size of classes array (aka number of classes)
+*
+* @return The array of the number of negative samples for each class
+*/
 struct // N(Condition negative)
 {
   auto operator() (const float * TN, const float * FP, const int & Nclass)

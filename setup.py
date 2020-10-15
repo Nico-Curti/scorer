@@ -9,6 +9,10 @@ try:
   from setuptools import Extension
   from setuptools import find_packages
 
+  from setuptools import dist
+
+  dist.Distribution().fetch_build_eggs(['Cython>=0.29'])
+
 except ImportError:
   from distutils.core import setup
   from distutils.core import Extension
@@ -124,10 +128,10 @@ here = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 
 # Package meta-data.
 NAME = 'scorer'
-DESCRIPTION = 'Multi-class scorer computation library.'
+DESCRIPTION = 'Multi-class scorer computation library'
 URL = 'https://github.com/Nico-Curti/scorer'
 EMAIL = 'nico.curti2@unibo.it'
-AUTHOR = 'Nico Curti'
+AUTHOR = "Nico Curti, Daniele Dall'Olio"
 REQUIRES_PYTHON = '>=2.7'
 VERSION = None
 KEYWORDS = 'machine-learning score-calculator confusion-matrix statistics parallel'
@@ -237,6 +241,9 @@ setup(
                                    'cython'],
   packages                      = find_packages(include=['scorer', 'scorer.*'], exclude=('test', 'example')),
   include_package_data          = True,
+  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE']),
+                                   ('utils', ['dependency_graph.py', 'make_script.py', 'view_stast.py'])
+                                  ],
   platforms                     = 'any',
   classifiers                   = [
                                     # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers

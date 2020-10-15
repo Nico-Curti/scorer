@@ -13,6 +13,7 @@ include_directories(${PYC_INC_DIR})
 cython_add_module( pyscorer scorer.pyx ${SRC_DIR}/scorer.cpp ${INC_DIR}/scorer.h )
 target_link_libraries(pyscorer ${linked_libs} ${scorerlib})
 set_target_properties(pyscorer PROPERTIES OUTPUT_NAME "scorer")
+add_dependencies(pyscorer make_scorer_obj)
 
 # Installation of targets
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pyscorer.cpp      DESTINATION ${PYC_SRC_DIR} RENAME scorer.cpp)

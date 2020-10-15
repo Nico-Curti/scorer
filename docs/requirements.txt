@@ -1,0 +1,8 @@
+numpy>=1.16.0
+cython>=0.29
+
+breathe<4.13.0
+sphinx==1.8
+sphinx-rtd-theme
+sphinxcontrib-napoleon
+sphinxcontrib-programoutput

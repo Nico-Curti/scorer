@@ -20,30 +20,89 @@ def header_file (dependency):
   deps = dependency.copy()
   deps.pop('classes')
 
-  obj = '\n'.join(('', 'struct scorer', '{', ''))
+  class_description = '/**\n\
+* @class scorer\n\
+* @brief Abstract type which stores the full list of scores and allows their evaluation using parallel environment\n\
+*\n\
+* @details Each member of the class represents a different score (class statistics and overall statistics).\n\
+*\n\
+*/'
 
-  variables = '\n'.join(('\tstd :: unique_ptr < float[] > {};'.format(name)
+  obj = '\n'.join(('', '{}\nstruct scorer'.format(class_description), '{', ''))
+
+  variables = '\n'.join(('\tstd :: unique_ptr < float[] > {}; ///< {} array'.format(name, name)
                           if cppvar['file'] in ('common_stats.h', 'class_stats.h')
-                          else '\tfloat {};'.format(name)
+                          else '\tfloat {}; ///< {} value'.format(name, name)
                           for name, cppvar in deps.items()))
 
   variables = '\n'.join((variables, '',
-                         '\tstd :: vector < float > classes;', '',
-                         '\tint Nclass;', ''))
+                         '\tstd :: vector < float > classes; ///< array of classes', '',
+                         '\tint Nclass; ///< number of classes', ''))
 
-  constructor = '\n'.join(('', '\tscorer ();', '', '\t~scorer () = default;', '', '\t// Members', ''))
 
-  members = '\n'.join(('', '\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);',
+
+  constructor = '\n'.join(('', '\t/**\n\t* @brief Default constructor.\n\t*\n\t*/\n\tscorer ();', '',
+                               '\t/**\n\t* @brief Default destructor.\n\t*\n\t*/\n\t~scorer () = default;', '',
+                               '\t// Members', ''))
+
+  description_compute_score = '\t/**\n\
+\t* @brief Compute the available scores related to the input labels. This is the core function of the object.\n\
+\t*\n\
+\t* @param lbl_true array of true labels\n\
+\t* @param lbl_pred array of predicted labels\n\
+\t* @param n_true size of the array lbl_true (aka number of true labels)\n\
+\t* @param n_pred size of the array lbl_pred (aka number of predicted labels)\n\
+\t*\n\
+\t*/\n'
+
+  description_print_class_stats = '\t/**\n\
+\t* @brief Print the scores related to class statistics, i.e a score for each class. The output is a table in which each score is represented by a row.\n\
+\t*\n\
+\t* @tparam Os output stream data type\n\
+\t* @param os ostream (es. std :: cout)\n\
+\t*\n\
+\t*/\n'
+
+  description_print_overall_stats = '\t/**\n\
+\t* @brief Print the scores related to overall statistics, i.e a global score among classes. The output is a table in which each score is represented by a row.\n\
+\t*\n\
+\t* @tparam Os output stream data type\n\
+\t* @param os ostream (es. std :: cout)\n\
+\t*\n\
+\t*/\n'
+
+  description_print = '\t/**\n\
+\t* @brief Print the full list of scores, i.e the class statistics followed by the overall statistics.\n\
+\t*\n\
+\t*/\n'
+
+  description_dump = '\t/**\n\
+\t* @brief Dump the statistics to file. The file will save only the class statistics in csv format.\n\
+\t*\n\
+\t* @param filename Output filename or path\n\
+\t*\n\
+\t*/\n'
+
+  description_encoder = '\t/**\n\
+\t* @brief Convert/Encode the input labels from any type to int (categorical).\n\
+\t*\n\
+\t* @tparam dtype Any "simple" type in which the label are stored.\n\
+\t* @param arr Array of input labels.\n\
+\t* @param size Lenght of the input array.\n\
+\t*\n\
+\t*/\n'
+
+  members = '\n'.join(('', '{}\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);'.format(description_compute_score),
                        '',
-                       '', '\ttemplate < typename Os >', '\tvoid print_class_stats (Os & os);',
+                       '', '{}\ttemplate < typename Os >'.format(description_print_class_stats), '\tvoid print_class_stats (Os & os);',
                        '',
-                       '', '\ttemplate < typename Os >', '\tvoid print_overall_stats (Os & os);',
+                       '', '{}\ttemplate < typename Os >'.format(description_print_overall_stats), '\tvoid print_overall_stats (Os & os);',
                        '',
-                       '', '\tvoid print ();',
+                       '', '{}\tvoid print ();'.format(description_print),
                        '',
-                       '', '\tvoid dump (const std :: string & filename);',
+                       '', '{}\tvoid dump (const std :: string & filename);'.format(description_dump),
                        '',
-                       '', '\ttemplate < typename dtype >', '\tint * encoder (dtype * arr, const int & size);',
+                       '', '{}\ttemplate < typename dtype >'.format(description_encoder), '\tint * encoder (dtype * arr, const int & size);',
                        ''))
 
   tail = '\n'.join(('', '};', '', '', '#endif // __scorer_h__', '', ''))

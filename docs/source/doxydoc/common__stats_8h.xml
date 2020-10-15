@@ -1,0 +1,655 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="common__stats_8h" kind="file" language="C++">
+    <compoundname>common_stats.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">set</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cassert</includes>
+    <includedby refid="class__stats_8h" local="no">/home/nico/Code/scorer/include/class_stats.h</includedby>
+    <includedby refid="overall__stats_8h" local="no">/home/nico/Code/scorer/include/overall_stats.h</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="9">
+        <label>cassert</label>
+      </node>
+      <node id="4">
+        <label>numeric</label>
+      </node>
+      <node id="1">
+        <label>/home/nico/Code/scorer/include/common_stats.h</label>
+        <link refid="common__stats_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+      <node id="7">
+        <label>climits</label>
+      </node>
+      <node id="6">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>/home/nico/Code/scorer/include/common_stats.h</label>
+        <link refid="common__stats_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/nico/Code/scorer/include/class_stats.h</label>
+        <link refid="class__stats_8h"/>
+      </node>
+      <node id="3">
+        <label>/home/nico/Code/scorer/include/overall_stats.h</label>
+        <link refid="overall__stats_8h"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="common__stats_8h_1a409d6fd2909cec85afd9d3865a80e619" prot="public" static="no" mutable="no">
+        <type>struct @53</type>
+        <definition>struct @53 get_classes</definition>
+        <argsstring></argsstring>
+        <name>get_classes</name>
+        <briefdescription>
+<para>Get the array of classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lbl_true</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true labels as integers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lbl_pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of predicted labels as integers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n_true</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of lbl_true array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n_pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of lbl_pred array</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of classes found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="42" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a796471a709f49ba952ace53b2ce765a1" prot="public" static="no" mutable="no">
+        <type>struct @54</type>
+        <definition>struct @54 get_confusion_matrix</definition>
+        <argsstring></argsstring>
+        <name>get_confusion_matrix</name>
+        <briefdescription>
+<para>Get the confusion matrix of the labels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A confusion matrix, also known as an error matrix, is a specific table layout that allows visualization of the performance of an algorithm.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lbl_true</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true labels as integers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lbl_pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of predicted labels as integers </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n_lbl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of label arrays </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>classes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of classes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The confusion matrix as ravel array </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="79" column="22"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a5be4361ad9156b9a7caec60dbe96e29f" prot="public" static="no" mutable="no">
+        <type>struct @55</type>
+        <definition>struct @55 get_TP</definition>
+        <argsstring></argsstring>
+        <name>get_TP</name>
+        <briefdescription>
+<para>Get the True positive score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A true positive test result is one that detects the condition when the condition is present (correctly identified).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confusion_matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the confusion matrix of the labels </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of True positive scores (lenght := Nclass) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="100" column="8"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a7a598f9bf1f70cdef117eac14501cd80" prot="public" static="no" mutable="no">
+        <type>struct @56</type>
+        <definition>struct @56 get_FN</definition>
+        <argsstring></argsstring>
+        <name>get_FN</name>
+        <briefdescription>
+<para>Get the False negative score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A false negative test result is one that does not detect the condition when the condition is present (incorrectly rejected).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confusion_matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the confusion matrix of the labels </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of False negative scores (lenght := Nclass) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="126" column="8"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a9533d3fc71fc3d5d92b3db686c245723" prot="public" static="no" mutable="no">
+        <type>struct @57</type>
+        <definition>struct @57 get_FP</definition>
+        <argsstring></argsstring>
+        <name>get_FP</name>
+        <briefdescription>
+<para>Get the False positive score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A false positive test result is one that detects the condition when the condition is absent (incorrectly identified).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confusion_matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the confusion matrix of the labels </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of False positive scores (lenght := Nclass) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="150" column="8"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a9d8ad610e1392015e250c698adce102d" prot="public" static="no" mutable="no">
+        <type>struct @58</type>
+        <definition>struct @58 get_TN</definition>
+        <argsstring></argsstring>
+        <name>get_TN</name>
+        <briefdescription>
+<para>Get the True negative score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A true negative test result is one that does not detect the condition when the condition is absent (correctly rejected).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>confusion_matrix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the confusion matrix of the labels </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of True negative scores (lenght := Nclass) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="198" column="8"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a997a5ef0ccfa4337dd01756767956450" prot="public" static="no" mutable="no">
+        <type>struct @59</type>
+        <definition>struct @59 get_POP</definition>
+        <argsstring></argsstring>
+        <name>get_POP</name>
+        <briefdescription>
+<para>Get the Total sample size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".python"><codeline><highlight class="normal">POP<sp/>=<sp/>TP<sp/>+<sp/>TN<sp/>+<sp/>FN<sp/>+<sp/>FP</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>TP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true positives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>TN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true negatives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of false positives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of false negative </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of total samples for each class. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="224" column="9"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a3305fa9cbb0227a0beaa373fda59b09a" prot="public" static="no" mutable="no">
+        <type>struct @60</type>
+        <definition>struct @60 get_P</definition>
+        <argsstring></argsstring>
+        <name>get_P</name>
+        <briefdescription>
+<para>Number of positive samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Also known as support (the number of occurrences of each class in y_true).</para>
+<para><programlisting filename=".python"><codeline><highlight class="normal">P<sp/>=<sp/>TP<sp/>+<sp/>FN</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>TP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true positives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of false negative </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of the number of positive samples for each class. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="249" column="7"/>
+      </memberdef>
+      <memberdef kind="variable" id="common__stats_8h_1a6d25d6fe9563b39026d93dcd006a3f50" prot="public" static="no" mutable="no">
+        <type>struct @61</type>
+        <definition>struct @61 get_N</definition>
+        <argsstring></argsstring>
+        <name>get_N</name>
+        <briefdescription>
+<para>Number of negative samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".python"><codeline><highlight class="normal">N<sp/>=<sp/>TN<sp/>+<sp/>FP</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>TN</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of true negatives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>FP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>array of false positives </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nclass</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size of classes array (aka number of classes)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The array of the number of negative samples for each class </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/scorer/include/common_stats.h" line="273" column="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__common_stats_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__common_stats_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cassert&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>inf<sp/>=<sp/>std<sp/>::<sp/>numeric_limits<sp/>&lt;<sp/>float<sp/>&gt;<sp/>::<sp/>infinity();</highlight></codeline>
+<codeline lineno="16"></codeline>
+<codeline lineno="27"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>Classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*<sp/>lbl_true,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*<sp/>lbl_pred,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>n_true,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>n_pred)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>assert<sp/>(n_pred<sp/>==<sp/>n_true);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>set<sp/>&lt;<sp/>int<sp/>&gt;<sp/>u1<sp/>(lbl_true,<sp/>lbl_true<sp/>+<sp/>n_true);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>set<sp/>&lt;<sp/>int<sp/>&gt;<sp/>u2<sp/>(lbl_pred,<sp/>lbl_pred<sp/>+<sp/>n_pred);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>vector<sp/>&lt;<sp/>float<sp/>&gt;<sp/>classes<sp/>(u1.size()<sp/>+<sp/>u2.size());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std<sp/>::<sp/>set_union(u1.begin(),<sp/>u1.end(),<sp/>u2.begin(),<sp/>u2.end(),<sp/>classes.begin());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>classes.resize(it<sp/>-<sp/>classes.begin());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>classes;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a409d6fd2909cec85afd9d3865a80e619" kindref="member">get_classes</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>Confusion<sp/>Matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*<sp/>lbl_true,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*<sp/>lbl_pred,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>n_lbl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>classes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>confusion_matrix<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass<sp/>*<sp/>Nclass]);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>fill_n(confusion_matrix.get(),<sp/>Nclass<sp/>*<sp/>Nclass,<sp/>0.f);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>classes,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/><sp/><sp/>=<sp/>classes<sp/>+<sp/>Nclass;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i1<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i2<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_lbl;<sp/>++i)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i1<sp/>=<sp/>std<sp/>::<sp/>distance(start,<sp/>std<sp/>::<sp/>find(start,<sp/>end,<sp/>lbl_true[i]));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i2<sp/>=<sp/>std<sp/>::<sp/>distance(start,<sp/>std<sp/>::<sp/>find(start,<sp/>end,<sp/>lbl_pred[i]));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++<sp/>confusion_matrix[i1<sp/>*<sp/>Nclass<sp/>+<sp/>i2];</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>confusion_matrix;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a796471a709f49ba952ace53b2ce765a1" kindref="member">get_confusion_matrix</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>TP(True<sp/>positive/hit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>confusion_matrix,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>TP<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>TP[i]<sp/>=<sp/>confusion_matrix[i<sp/>*<sp/>Nclass<sp/>+<sp/>i];</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TP;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a5be4361ad9156b9a7caec60dbe96e29f" kindref="member">get_TP</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>FN(False<sp/>negative/miss/type<sp/>2<sp/>error)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>confusion_matrix,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>FN<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>N<sp/>=<sp/>i<sp/>*<sp/>Nclass;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>FN[i]<sp/>=<sp/>std<sp/>::<sp/>accumulate(confusion_matrix<sp/>+<sp/>N,<sp/>confusion_matrix<sp/>+<sp/>N<sp/>+<sp/>i,<sp/>0.f)<sp/>+</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std<sp/>::<sp/>accumulate(confusion_matrix<sp/>+<sp/>N<sp/>+<sp/>i<sp/>+<sp/>1,<sp/>confusion_matrix<sp/>+<sp/>N<sp/>+<sp/>Nclass,<sp/>0.f);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FN;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a7a598f9bf1f70cdef117eac14501cd80" kindref="member">get_FN</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>FP(False<sp/>positive/type<sp/>1<sp/>error/false<sp/>alarm)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>confusion_matrix,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>FP<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>fill_n(FP.get(),<sp/>Nclass,<sp/>0.f);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>Nclass;<sp/>++j)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FP[j]<sp/>+=<sp/>(i<sp/>!=<sp/>j)<sp/>?<sp/>confusion_matrix[i<sp/>*<sp/>Nclass<sp/>+<sp/>j]<sp/>:<sp/>0.f;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>FP;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a9533d3fc71fc3d5d92b3db686c245723" kindref="member">get_FP</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>TN(True<sp/>negative/correct<sp/>rejection)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>confusion_matrix,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>TN<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(Nclass)</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>1:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std<sp/>::<sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WARNING!<sp/>Nclass<sp/>must<sp/>be<sp/>greater<sp/>than<sp/>1&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std<sp/>::<sp/>endl;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>2:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[0]<sp/>=<sp/>confusion_matrix[3];</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[1]<sp/>=<sp/>confusion_matrix[0];</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>3:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[0]<sp/>=<sp/>confusion_matrix[4]<sp/>+<sp/>confusion_matrix[5]<sp/>+<sp/>confusion_matrix[7]<sp/>+<sp/>confusion_matrix[8];</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[1]<sp/>=<sp/>confusion_matrix[0]<sp/>+<sp/>confusion_matrix[2]<sp/>+<sp/>confusion_matrix[6]<sp/>+<sp/>confusion_matrix[8];</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[2]<sp/>=<sp/>confusion_matrix[0]<sp/>+<sp/>confusion_matrix[1]<sp/>+<sp/>confusion_matrix[3]<sp/>+<sp/>confusion_matrix[4];</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std<sp/>::<sp/>fill_n(TN.get(),<sp/>Nclass,<sp/>0.f);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>Nclass;<sp/>++j)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>j)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TN[j]<sp/>+=<sp/>std<sp/>::<sp/>accumulate(confusion_matrix<sp/>+<sp/>i<sp/>*<sp/>Nclass,<sp/>confusion_matrix<sp/>+<sp/>i<sp/>*<sp/>Nclass<sp/>+<sp/>Nclass,<sp/>0.f)<sp/>-<sp/>confusion_matrix[i<sp/>*<sp/>Nclass<sp/>+<sp/>j];</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std<sp/>::<sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WARNING!<sp/>Nclass<sp/>greater<sp/>than<sp/>3<sp/>is<sp/>not<sp/>supported<sp/>yet!&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std<sp/>::<sp/>endl;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TN;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a9d8ad610e1392015e250c698adce102d" kindref="member">get_TN</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>POP(Population)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>TP,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>TN,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>FP,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>FN,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>POP<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>POP[i]<sp/>=<sp/>TP[i]<sp/>+<sp/>TN[i]<sp/>+<sp/>FP[i]<sp/>+<sp/>FN[i];</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>POP;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a997a5ef0ccfa4337dd01756767956450" kindref="member">get_POP</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>P(Condition<sp/>positive<sp/>or<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>TP,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>FN,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>P<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>transform(TP,<sp/>TP<sp/>+<sp/>Nclass,<sp/>FN,<sp/>P.get(),<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>tp,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>fn){return<sp/>tp<sp/>+<sp/>fn;});</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>P;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a3305fa9cbb0227a0beaa373fda59b09a" kindref="member">get_P</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="keyword">struct<sp/></highlight><highlight class="comment">//<sp/>N(Condition<sp/>negative)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>operator()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>TN,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<sp/>FP,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nclass)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/>N<sp/>(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">[Nclass]);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>Nclass;<sp/>++i)<sp/>N[i]<sp/>=<sp/>TN[i]<sp/>+<sp/>FP[i];</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std<sp/>::<sp/>transform(TN,<sp/>TN<sp/>+<sp/>Nclass,<sp/>FP,<sp/>N.get(),<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>tn,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>fp){return<sp/>tn<sp/>+<sp/>fp;});</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>N;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}<sp/><ref refid="common__stats_8h_1a6d25d6fe9563b39026d93dcd006a3f50" kindref="member">get_N</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__common_stats_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/nico/Code/scorer/include/common_stats.h"/>
+  </compounddef>
+</doxygen>
