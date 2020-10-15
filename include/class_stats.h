@@ -298,7 +298,7 @@ struct // ACC(Accuracy)
 } get_ACC;
 
 /**
-* @brief Fβ-score
+* @brief Fbeta-score
 *
 * @details In statistical analysis of classification, the F1 score
 * (also F-score or F-measure) is a measure of a test's accuracy.
@@ -307,10 +307,10 @@ struct // ACC(Accuracy)
 * The F1 score is the harmonic average of the precision and recall,
 * where F1 score reaches its best value at 1 (perfect precision and recall)
 * and worst at 0.
-* In this case the score is evaluated with β=1.
+* In this case the score is evaluated with beta=1.
 *
 * ```python
-* Fβ = (1 + β**2) * (PPV * TPR) / (β**2 * PPV) + TPR = (1 + β**2) * TP / ((1 + β**2) * TP + FP + β**2 * FN)
+* Fbeta = (1 + beta**2) * (PPV * TPR) / (beta**2 * PPV) + TPR = (1 + beta**2) * TP / ((1 + beta**2) * TP + FP + beta**2 * FN)
 * ```
 *
 * @param TP array of true positives
@@ -332,7 +332,7 @@ struct // F1(F1 score - harmonic mean of precision and sensitivity)
 } get_F1_SCORE;
 
 /**
-* @brief Fβ-score
+* @brief Fbeta-score
 *
 * @details In statistical analysis of classification, the F1 score
 * (also F-score or F-measure) is a measure of a test's accuracy.
@@ -341,10 +341,10 @@ struct // F1(F1 score - harmonic mean of precision and sensitivity)
 * The F1 score is the harmonic average of the precision and recall,
 * where F1 score reaches its best value at 1 (perfect precision and recall)
 * and worst at 0.
-* In this case the score is evaluated with β=0.5.
+* In this case the score is evaluated with beta=0.5.
 *
 * ```python
-* Fβ = (1 + β**2) * (PPV * TPR) / (β**2 * PPV) + TPR = (1 + β**2) * TP / ((1 + β**2) * TP + FP + β**2 * FN)
+* Fbeta = (1 + beta**2) * (PPV * TPR) / (beta**2 * PPV) + TPR = (1 + beta**2) * TP / ((1 + beta**2) * TP + FP + beta**2 * FN)
 * ```
 *
 * @param TP array of true positives
@@ -366,7 +366,7 @@ struct // F0.5(F0.5 score)
 } get_F05_SCORE;
 
 /**
-* @brief Fβ-score
+* @brief Fbeta-score
 *
 * @details In statistical analysis of classification, the F1 score
 * (also F-score or F-measure) is a measure of a test's accuracy.
@@ -375,10 +375,10 @@ struct // F0.5(F0.5 score)
 * The F1 score is the harmonic average of the precision and recall,
 * where F1 score reaches its best value at 1 (perfect precision and recall)
 * and worst at 0.
-* In this case the score is evaluated with β=2.
+* In this case the score is evaluated with beta=2.
 *
 * ```python
-* Fβ = (1 + β**2) * (PPV * TPR) / (β**2 * PPV) + TPR = (1 + β**2) * TP / ((1 + β**2) * TP + FP + β**2 * FN)
+* Fbeta = (1 + beta**2) * (PPV * TPR) / (beta**2 * PPV) + TPR = (1 + beta**2) * TP / ((1 + beta**2) * TP + FP + beta**2 * FN)
 * ```
 *
 * @param TP array of true positives

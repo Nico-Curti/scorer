@@ -508,7 +508,7 @@ struct // Chi-Squared
 * the phi coefficient.
 *
 * ```python
-* ϕ**2 = χ**2 / POP
+* phi**2 = chi**2 / POP
 * ```
 *
 * @param chi_square Chi-Squared score.
@@ -533,7 +533,7 @@ struct // Phi-Squared
 * It is based on Pearson's chi-squared statistic and was published by Harald Cramér in 1946.
 *
 * ```python
-* V = sqrt((ϕ**2) / (abs(C) - 1)
+* V = sqrt((phi**2) / (abs(C) - 1)
 * ```
 *
 * @param phi_square Phi-Squared score.
@@ -1253,7 +1253,7 @@ struct // CSI
 * coefficient of skewness).
 *
 * ```python
-* C = sqrt(χ**2 / (χ**2 + POP))
+* C = sqrt(chi**2 / (chi**2 + POP))
 * ```
 *
 * @param chi_square Chi-squared score.
