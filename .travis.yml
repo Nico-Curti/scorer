@@ -327,7 +327,7 @@ before_install:
   - python3 get-pip.py pip==19.1
   - python3 -m pip install --user codecov
   - sudo python3 -m pip install -r requirements.txt
-  - python3 -m pip install networkx
+  - sudo python3 -m pip install networkx
 
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 --version                                                                                   ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --upgrade pip --user                                                         ;fi

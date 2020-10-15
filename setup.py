@@ -242,7 +242,7 @@ setup(
   packages                      = find_packages(include=['scorer', 'scorer.*'], exclude=('test', 'example')),
   include_package_data          = True,
   data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE']),
-                                   ('utils', ['./utils/dependency_graph.py', './utils/make_script.py', './utils/view_stast.py'])
+                                   ('utils', ['./utils/dependency_graph.py', './utils/make_script.py', './utils/view_stats.py'])
                                   ],
   platforms                     = 'any',
   classifiers                   = [
