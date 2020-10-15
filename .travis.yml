@@ -8,6 +8,13 @@ matrix:
     - os: linux
       compiler: gcc
       name: ubuntu 14.04 - native gcc
+      addons:
+        apt:
+          update: true
+          packages:
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL=""
 
@@ -21,6 +28,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.8
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
 
@@ -34,6 +44,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
 
@@ -47,6 +60,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
@@ -60,6 +76,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
@@ -73,6 +92,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
@@ -86,6 +108,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
@@ -107,6 +132,9 @@ matrix:
             - libclang-3.6-dev
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
         - LINKER_FLAGS="-stdlib=libstdc++ -lc++abi"
@@ -127,6 +155,9 @@ matrix:
             - libclang-3.8-dev
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -148,6 +179,9 @@ matrix:
             - libclang-3.9-dev
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -169,6 +203,9 @@ matrix:
             - llvm-4.0-dev
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
 
       env:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
@@ -188,6 +225,9 @@ matrix:
             - clang-5.0
             - libstdc++-7-dev
             - libclang-5.0-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
 
       env:
         - MATRIX_EVAL="sudo apt install libjsoncpp0 && CC=clang-5.0 && CXX=clang++-5.0"
@@ -208,6 +248,9 @@ matrix:
             - clang-6.0
             - libstdc++-7-dev
             - libclang-6.0-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
 
       env:
         - MATRIX_EVAL="sudo apt install libjsoncpp0 && CC=clang-6.0 && CXX=clang++-6.0"
@@ -228,6 +271,9 @@ matrix:
             - clang-7
             - libstdc++-7-dev
             - libclang-7-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
 
       env:
         - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
@@ -239,6 +285,13 @@ matrix:
       osx_image: xcode10.1
       compiler: gcc
       name: macOS - g++-7
+      addons:
+        apt:
+          update: true
+          packages:
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="brew update && brew reinstall gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
@@ -247,6 +300,13 @@ matrix:
       osx_image: xcode10.1
       compiler: gcc
       name: macOS - g++-8
+      addons:
+        apt:
+          update: true
+          packages:
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="brew update && brew reinstall gcc@8 gcc && CC=gcc-8 && CXX=g++-8"
 
@@ -257,11 +317,15 @@ matrix:
       name: macOS - native clang (llvm backend)
       addons:
         apt:
+          update: true
           sources:
             - llvm-toolchain-trusty-7
           packages:
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL=""
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -273,11 +337,15 @@ matrix:
       dist: xenial
       addons:
         apt:
+          update: true
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-7
           packages:
             - clang-7.0
+            - python3.5
+            - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="brew update && brew install llvm && CC=clang-7.0 && CXX=clang++-7.0"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -293,7 +361,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
+            - python3.5
             - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - WITH_PYTHON=ON
@@ -311,6 +381,7 @@ matrix:
             - g++-8
             - python3.5
             - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - WITH_PYTHON=ON
@@ -324,8 +395,6 @@ matrix:
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - python3 --version
-  - sudo apt-get install python3-pip
-  - sudo apt-get install python3-setuptools
   - python3 -m pip install --user codecov
   - sudo python3 -m pip install networkx==2.4
   - sudo python3 -m pip install cython
