@@ -2,11 +2,11 @@
 |:------------:|:-----------:|:-----------------:|:-----------:|:----------------:|:------------:|
 | [**N. Curti**](https://github.com/Nico-Curti) | **Scorer** | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
 
-![Scorer++ CI](https://github.com/Nico-Curti/scorer/workflows/Scorer++%20CI/badge.svg)
+[![Scorer++ CI](https://github.com/Nico-Curti/scorer/workflows/Scorer++%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer++%20CI%22)
 
-![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)
+[![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer%20CI%22)
 
-[![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22rFBP+Docs+CI%22)
+[![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer+Docs+CI%22)
 
 [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
