@@ -145,6 +145,7 @@ if (BUILD_DOCS)
 endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/Scorer.pc.in ${CMAKE_SOURCE_DIR}/Scorer.pc @ONLY)
+configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
 message(STATUS "Pkg-config generated")
 
 find_package (Python REQUIRED)
