@@ -220,6 +220,7 @@ matrix:
           update: true
           sources:
             - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
           packages:
             - clang-5.0
             - libstdc++-7-dev
@@ -241,6 +242,7 @@ matrix:
           update: true
           sources:
             - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - clang-6.0
