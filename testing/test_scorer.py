@@ -79,6 +79,9 @@ class TestScorer:
     np.testing.assert_allclose(scorer.score['FN(False negative/miss/type 2 error)'], np.zeros(shape=(len(set(y_true)), )))
     np.testing.assert_allclose(scorer.score['ACC(Accuracy)'], np.ones(shape=(len(set(y_true)), )))
 
+
+    np.testing.assert_allclose(scorer.score['Overall ACC'], scorer.score['accuracy_score'])
+
     with pytest.raises(KeyError):
       print(scorer['dummy'])
 
@@ -147,3 +150,9 @@ class TestScorer:
     np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.FP)
     np.testing.assert_allclose(scorer['TOP(Test outcome positive)'], scorer.TOP)
     np.testing.assert_allclose(scorer['FDR(False discovery rate)'], scorer.FDR)
+
+    np.testing.assert_allclose(scorer['Overall ACC'], scorer.accuracy_score)
+    np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.class_false_positive)
+
+    with pytest.raises(AttributeError):
+      scorer.dummy

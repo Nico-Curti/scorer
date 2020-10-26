@@ -152,7 +152,7 @@ The output is the same in both the executions and it should be something like th
 	Overall RACC                                                                     0.354
 	Kappa                                                                            0.355
 	Scott PI                                                                         0.344
-	Get AC1                                                                          0.389
+	Gwet AC1                                                                         0.389
 	Bennett S                                                                        0.375
 	Kappa Standard Error                                                             0.220
 	Kappa Unbiased                                                                   0.344

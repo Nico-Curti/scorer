@@ -29,7 +29,7 @@ The full list of prerequisites of Python version is the following:
 
 .. warning::
 
-	For both the Python and C++ installation of the library is required Python with the support of _`networkx` package.
+	For both the Python and C++ installation of the library is required Python with the support of `networkx`_ package.
 	Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
 
 .. |gcc version| image:: https://img.shields.io/badge/gcc-4.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg

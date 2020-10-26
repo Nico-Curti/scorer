@@ -186,6 +186,13 @@ class Scorer (dict):
     '''
     return len(self['classes']) if 'classes' in self else 0
 
+  @property
+  def _get_available_metrics (self):
+    '''
+    Get the dictionary of available metrics in a more manageable format.
+    '''
+    return self._obj.get_available_metrics
+
   def __getattr__ (self, stat):
     '''
     Access to score stats as attribute
@@ -225,7 +232,11 @@ class Scorer (dict):
       If the attribute is not found an AttributeError is raised.
     '''
 
-    if stat in self:
+    if stat in self._get_available_metrics:
+      stat = self._get_available_metrics[stat]
+      return self[stat]
+
+    elif stat in self:
       return self[stat]
 
     else:
@@ -260,7 +271,7 @@ class Scorer (dict):
     >>> scorer = Scorer()
     >>> scorer.evaluate(y_true, y_pred)
     >>>
-    >>> print(scorer['ACC(Accuracy)'])
+    >>> print(scorer['accuracy_score'])
 
     Notes
     -----
@@ -276,6 +287,11 @@ class Scorer (dict):
     try:
 
       return super(Scorer, self).__getitem__(stat)
+
+    except KeyError:
+
+      stat = self._get_available_metrics[stat]
+      return self[stat]
 
     except KeyError:
       class_name = self.__class__.__name__
