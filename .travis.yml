@@ -411,6 +411,7 @@ before_install:
   # testing libraries
 
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest==3.0.7                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user sklearn                                                               ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest-cov                                                            ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user codecov                                                               ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user hypothesis==4.13.0                                                    ;fi
