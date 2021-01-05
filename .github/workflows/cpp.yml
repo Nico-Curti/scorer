@@ -48,10 +48,10 @@ jobs:
           - {os: ubuntu-20.04, cc: clang, cxx: clang++, cpp-version: 10,generator: Ninja}
 
 
-          - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: Ninja}
-          - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: MinGW Makefiles}
-          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: Ninja}
-          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: MinGW Makefiles}
+#          - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: Ninja}
+#          - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: MinGW Makefiles}
+#          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: Ninja}
+#          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: MinGW Makefiles}
 #          - {os: windows-latest, cc: clang-cl, cxx: clang-cl, cpp-version: latest, generator: Ninja}
 #          - {os: windows-latest, cc: gcc, cxx: g++, cpp-version: latest, generator: Ninja}
 
@@ -136,7 +136,7 @@ jobs:
         cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
         useVcpkgToolchainFile: true
         buildDirectory: '${{ runner.workspace }}/buildDirectory'
-        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=OFF -DBUILD_TEST==ON -DPYWRAP=OFF -DOMP=OFF"
+        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=OFF -DPYWRAP=OFF -DOMP=OFF"
         cmakeBuildType: 'Release'
         buildWithCMakeArgs: '--config Release --target install'
 
@@ -148,6 +148,6 @@ jobs:
         cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
         useVcpkgToolchainFile: false
         buildDirectory: '${{ runner.workspace }}/buildDirectory'
-        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=OFF -DBUILD_TEST==ON -DPYWRAP=OFF -DOMP=OFF"
+        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=OFF -DPYWRAP=OFF -DOMP=OFF"
         cmakeBuildType: 'Release'
         buildWithCMakeArgs: '--config Release --target install'
