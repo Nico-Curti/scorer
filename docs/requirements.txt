@@ -1,5 +1,6 @@
 numpy>=1.16.0
 cython>=0.29
+networkx
 
 breathe<4.13.0
 sphinx==1.8
