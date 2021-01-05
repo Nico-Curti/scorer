@@ -35,9 +35,9 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #endif
 
 
-	this->Nclass = static_cast < int >(classes.size());
+	this->Nclass = static_cast < int >(this->classes.size());
 
-	if ( this->Nclass == 1 )
+	if ( this->Nclass <= 1 )
 	{
 #ifdef _OPENMP
 #pragma omp single

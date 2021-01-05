@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import os
 import re
+import sys
+import pathlib
 import platform
+import subprocess
 
 try:
   from setuptools import setup
@@ -23,6 +28,71 @@ from distutils import sysconfig
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
 from distutils.command.sdist import sdist as _sdist
+
+class CMakeExtension (Extension):
+
+  # Reference: https://stackoverflow.com/a/48015772
+
+  def __init__(self, name):
+    # don't invoke the original build_ext for this special extension
+    super().__init__(name, sources=[])
+
+
+class cmake_build_ext (build_ext):
+
+  # Reference: https://stackoverflow.com/a/48015772
+
+  def run (self):
+
+    for ext in self.extensions:
+      self.build_cmake(ext)
+
+    super().run()
+
+  def build_cmake (self, ext):
+
+    cwd = pathlib.Path().absolute()
+
+    # these dirs will be created in build_py, so if you don't have
+    # any python sources to bundle, the dirs will be missing
+    build_temp = pathlib.Path(self.build_temp)
+    build_temp.mkdir(parents=True, exist_ok=True)
+    extdir = pathlib.Path(self.get_ext_fullpath(ext.name))
+    extdir.mkdir(parents=True, exist_ok=True)
+
+    # example of cmake args
+    config = 'Debug' if self.debug else 'Release'
+    cmake_args = [
+        '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + str(extdir.parent.absolute()),
+        '-DCMAKE_BUILD_TYPE=' + config,
+        '-DPYWRAP=ON',
+        '-DBUILD_DOCS=OFF',
+        '-DOMP={}'.format('ON' if ENABLE_OMP else 'OFF')
+    ]
+
+    # example of build args
+    build_args = [
+        '--target', 'install',
+        '--config', config,
+        '--', '-j4',
+    ]
+
+    os.chdir(str(build_temp))
+    self.spawn(['cmake', str(cwd)] + cmake_args)
+    if not self.dry_run:
+      self.spawn(['cmake', '--build', '.'] + build_args)
+    # Troubleshooting: if fail on line above then delete all possible
+    # temporary CMake files including "CMakeCache.txt" in top level dir.
+    os.chdir(str(cwd))
+
+
+
+class sdist (_sdist):
+
+  def run (self):
+
+    self.run_command('build_ext')
+    _sdist.run(self)
 
 
 def get_requires (requirements_filename):
@@ -70,59 +140,6 @@ def read_description (readme_filename):
 
   except IOError:
     return ''
-
-
-def get_ext_filename_without_platform_suffix (filename):
-    name, ext = os.path.splitext(filename)
-    ext_suffix = sysconfig.get_config_var('EXT_SUFFIX')
-
-    if ext_suffix == ext:
-      return filename
-
-    ext_suffix = ext_suffix.replace(ext, '')
-    idx = name.find(ext_suffix)
-
-    if idx == -1:
-      return filename
-    else:
-      return name[:idx] + ext
-
-
-class scorer_build_ext (build_ext):
-  '''
-  Custom build type
-  '''
-
-  def get_ext_filename (self, ext_name):
-
-    if platform.system() == 'Windows':
-    # The default EXT_SUFFIX of windows include the PEP 3149 tags of compiled modules
-    # In this case I rewrite a custom version of the original distutils.command.build_ext.get_ext_filename function
-      ext_path = ext_name.split('.')
-      ext_suffix = '.pyd'
-      filename = os.path.join(*ext_path) + ext_suffix
-    else:
-      filename = super().get_ext_filename(ext_name)
-
-    return get_ext_filename_without_platform_suffix(filename)
-
-  def build_extensions (self):
-
-    customize_compiler(self.compiler)
-
-    try:
-      self.compiler.compiler_so.remove('-Wstrict-prototypes')
-
-    except (AttributeError, ValueError):
-      pass
-
-    build_ext.build_extensions(self)
-
-
-class sdist(_sdist):
-  def run(self):
-    self.run_command("build_ext")
-    _sdist.run(self)
 
 def read_version (CMakeLists):
   '''
@@ -192,12 +209,17 @@ AUTHOR = "Nico Curti, Daniele Dall'Olio"
 REQUIRES_PYTHON = '>=2.7'
 VERSION = None
 KEYWORDS = 'machine-learning score-calculator confusion-matrix statistics parallel'
-ENABLE_OMP = False
 
 CPP_COMPILER = platform.python_compiler()
 README_FILENAME = os.path.join(here, 'README.md')
 REQUIREMENTS_FILENAME = os.path.join(here, 'requirements.txt')
 VERSION_FILENAME = os.path.join(here, 'scorer', '__version__.py')
+
+ENABLE_OMP = False
+
+if '--omp' in sys.argv:
+  ENABLE_OMP = True
+  sys.argv.remove('--omp')
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
@@ -221,61 +243,7 @@ else:
 # parse version variables and add them to command line as definitions
 Version = about['__version__'].split('.')
 
-if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
-  cpp_compiler_args = ['-std=c++1z', '-g0']
-
-  compile_args = [ '-Wno-unused-function', # disable unused-function warnings
-                   '-Wno-narrowing', # disable narrowing conversion warnings
-                    # enable common warnings flags
-                   '-Wall',
-                   '-Wextra',
-                   '-Wno-unused-result',
-                   '-Wno-unknown-pragmas',
-                   '-Wfatal-errors',
-                   '-Wpedantic',
-                   '-march=native',
-                   '-Ofast'
-                 ]
-
-  try:
-
-    compiler, compiler_version = CPP_COMPILER.split()
-
-  except ValueError:
-
-    compiler, compiler_version = (CPP_COMPILER, '0')
-
-  if ENABLE_OMP and compiler == 'GCC':
-    linker_args = ['-fopenmp']
-
-  else:
-    linker_args = []
-
-  if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
-    cpp_compiler_args += ['-stdlib=libc++']
-
-elif 'MSC' in CPP_COMPILER:
-  cpp_compiler_args = ['/std:c++latest', '/Ox', '/Wall', '/W3']
-  compile_args = []
-
-  if ENABLE_OMP:
-    linker_args = ['/openmp']
-  else:
-    linker_args = []
-
-else:
-  raise ValueError('Unknown c++ compiler arg')
-
-define_args = [ '-DMAJOR={}'.format(Version[0]),
-                '-DMINOR={}'.format(Version[1]),
-                '-DREVISION={}'.format(Version[2]),
-                #'-D__pythonic__'
-              ]
-
-
-whole_compiler_args = sum([cpp_compiler_args, compile_args, define_args], [])
-
-cmdclass = {'build_ext': scorer_build_ext,
+cmdclass = {'build_ext': cmake_build_ext,
             'sdist': sdist}
 
 
@@ -304,33 +272,24 @@ setup(
                                   ],
   platforms                     = 'any',
   classifiers                   = [
-                                    # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-                                    'Programming Language :: Python',
-                                    'Programming Language :: Python :: 3',
-                                    'Programming Language :: Python :: 3.6',
-                                    'Programming Language :: Python :: Implementation :: CPython',
-                                    'Programming Language :: Python :: Implementation :: PyPy'
+                                    #'License :: OSI Approved :: GPL License',
+                                   'Natural Language :: English',
+                                   'Operating System :: MacOS :: MacOS X',
+                                   'Operating System :: POSIX',
+                                   'Operating System :: POSIX :: Linux',
+                                   'Operating System :: Microsoft :: Windows',
+                                   'Programming Language :: Python',
+                                   'Programming Language :: Python :: 3',
+                                   'Programming Language :: Python :: 3.5',
+                                   'Programming Language :: Python :: 3.6',
+                                   'Programming Language :: Python :: 3.7',
+                                   'Programming Language :: Python :: 3.8',
+                                   'Programming Language :: Python :: Implementation :: CPython',
+                                   'Programming Language :: Python :: Implementation :: PyPy'
                                   ],
-  license                       = 'GNU Lesser General Public License v2 or later (LGPLv2+)',
+  license                       = 'MIT',
   cmdclass                      = cmdclass,
   ext_modules                   = [
-                                    Extension(name='.'.join(['scorer', 'lib', 'scorer']),
-                                              sources=[
-                                                       './scorer/source/scorer.pyx',
-                                                       './src/scorer.cpp'
-                                              ],
-                                              include_dirs=[
-                                                  './include',
-                                                  './scorer/lib',
-                                              ],
-                                              library_dirs=[
-                                                             './lib',
-                                                             os.path.join('usr', 'lib'),
-                                                             os.path.join('usr', 'local', 'lib'),
-                                              ], # path to .a or .so file(s)
-                                              extra_compile_args=whole_compiler_args,
-                                              extra_link_args=linker_args,
-                                              language='c++',
-                                              ),
-                                            ],
+                                    CMakeExtension(name=NAME)
+  ],
 )

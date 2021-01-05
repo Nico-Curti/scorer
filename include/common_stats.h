@@ -12,6 +12,7 @@
 
 /// @cond DEF
 constexpr float inf = std :: numeric_limits < float > :: infinity();
+constexpr float epsil = std :: numeric_limits < float > :: min();
 /// @endcond
 
 /**

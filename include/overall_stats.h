@@ -37,7 +37,7 @@ struct // Overall ACC
 {
   auto operator() (const float * TP, const float * POP, const int & Nclass)
   {
-    return std :: accumulate(TP, TP + Nclass, 0.f) / POP[0];
+    return std :: accumulate(TP, TP + Nclass, 0.f) / (POP[0] + epsil);
   }
 } get_overall_accuracy;
 
@@ -105,7 +105,7 @@ struct // Kappa
 {
   auto operator() (const float & overall_random_accuracy, const float & overall_accuracy)
   {
-    return (overall_accuracy - overall_random_accuracy) / (1.f - overall_random_accuracy);
+    return (overall_accuracy - overall_random_accuracy) / (1.f - overall_random_accuracy + epsil);
   }
 } get_overall_kappa;
 
@@ -131,7 +131,7 @@ struct // PC_PI
   {
     float res = 0.f;
     for (int i = 0; i < Nclass; ++i)
-      res += ( (P[i] + TOP[i]) * (P[i] + TOP[i]) ) / ( 4.f * POP[i] * POP[i] );
+      res += ( (P[i] + TOP[i]) * (P[i] + TOP[i]) ) / ( 4.f * POP[i] * POP[i] + epsil );
     return res;
   }
 } get_PC_PI;
@@ -160,10 +160,10 @@ struct // PC_AC1
     float AC1 = 0.f;
     for (int i = 0; i < Nclass; ++i)
     {
-      const float pi = (P[i] + TOP[i]) / (2.f * POP[i]);
+      const float pi = (P[i] + TOP[i]) / (2.f * POP[i] + epsil);
       AC1 += pi * (1.f - pi);
     }
-    return AC1 / (Nclass - 1);
+    return AC1 / (Nclass - 1 + epsil);
   }
 } get_PC_AC1;
 
@@ -213,7 +213,7 @@ struct // Scott PI
 {
   auto operator() (const float & PC_PI, const float & overall_accuracy)
   {
-    return (overall_accuracy - PC_PI) / (1.f - PC_PI);
+    return (overall_accuracy - PC_PI) / (1.f - PC_PI + epsil);
   }
 } get_PI;
 
@@ -240,7 +240,7 @@ struct // Get AC1
 {
   auto operator() (const float & PC_AC1, const float & overall_accuracy)
   {
-    return (overall_accuracy - PC_AC1) / (1.f - PC_AC1);
+    return (overall_accuracy - PC_AC1) / (1.f - PC_AC1 + epsil);
   }
 } get_AC1;
 
@@ -266,7 +266,7 @@ struct // Bennett S
 {
   auto operator() (const float & PC_S, const float & overall_accuracy)
   {
-    return (overall_accuracy - PC_S) / (1.f - PC_S);
+    return (overall_accuracy - PC_S) / (1.f - PC_S + epsil);
   }
 } get_S;
 
@@ -289,7 +289,7 @@ struct // Kappa Standard Error
 {
   auto operator() (const float & overall_accuracy, const float & overall_random_accuracy, const float * POP)
   {
-    return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy) ) / (POP[0] * (1.f - overall_random_accuracy)*(1.f - overall_random_accuracy)) );
+    return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy) ) / (POP[0] * (1.f - overall_random_accuracy) * (1.f - overall_random_accuracy) + epsil) );
   }
 } get_kappa_SE;
 
@@ -313,7 +313,7 @@ struct // Kappa Unbiased
 {
   auto operator() (const float & overall_random_accuracy_unbiased, const float & overall_accuracy)
   {
-    return (overall_accuracy - overall_random_accuracy_unbiased) / (1.f - overall_random_accuracy_unbiased);
+    return (overall_accuracy - overall_random_accuracy_unbiased) / (1.f - overall_random_accuracy_unbiased + epsil);
   }
 } get_kappa_unbiased;
 
@@ -405,7 +405,7 @@ struct // Standard Error
 {
   auto operator() (const float & overall_accuracy, const float * POP)
   {
-    return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy)) / POP[0]);
+    return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy)) / (POP[0] + epsil));
   }
 } get_overall_accuracy_se;
 
@@ -491,8 +491,8 @@ struct // Chi-Squared
     for (int i = 0; i < Nclass; ++i)
       for (int j = 0; j < Nclass; ++j)
       {
-        expected = (TOP[j] * P[i]) / POP[i];
-        res += (confusion_matrix[i * Nclass + j] - expected) * (confusion_matrix[i * Nclass + j] - expected) / expected;
+        expected = (TOP[j] * P[i]) / (POP[i] + epsil);
+        res += (confusion_matrix[i * Nclass + j] - expected) * (confusion_matrix[i * Nclass + j] - expected) / (expected + epsil);
       }
     return res;
   }
@@ -520,7 +520,7 @@ struct // Phi-Squared
 {
   auto operator() (const float & chi_square, const float * POP)
   {
-    return chi_square / POP[0];
+    return chi_square / (POP[0] + epsil);
   }
 } get_phi_square;
 
@@ -570,7 +570,7 @@ struct // Response Entropy
 {
   auto operator() (const float * TOP, const float * POP, const int & Nclass)
   {
-    return -std :: inner_product(TOP, TOP + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / pop; return likelihood * std :: log2(likelihood);});
+    return -std :: inner_product(TOP, TOP + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / (pop + epsil); return likelihood * std :: log2(likelihood);});
   }
 } get_response_entropy;
 
@@ -596,7 +596,7 @@ struct // Reference Entropy
 {
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
-    return -std :: inner_product(P, P + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / pop; return likelihood * std :: log2(likelihood);});
+    return -std :: inner_product(P, P + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / (pop + epsil); return likelihood * std :: log2(likelihood);});
   }
 } get_reference_entropy;
 
@@ -626,7 +626,7 @@ struct // Cross Entropy
   {
     float res = 0.f;
     for (int i = 0; i < Nclass; ++i)
-      res += (P[i] / POP[i]) * std :: log2(TOP[i] / POP[i]);
+      res += (P[i] / (POP[i] + epsil)) * std :: log2(TOP[i] / (POP[i] + epsil));
     return -res;
   }
 } get_cross_entropy;
@@ -656,7 +656,7 @@ struct // Joint Entropy
     for (int i = 0; i < Nclass; ++i)
       for (int j = 0; j < Nclass; ++j)
       {
-        p_prime = confusion_matrix[i * Nclass + j] / POP[i];
+        p_prime = confusion_matrix[i * Nclass + j] / (POP[i] + epsil);
         res += (p_prime != 0.f) ? p_prime * std :: log2(p_prime) : 0.f;
       }
     return -res;
@@ -686,10 +686,10 @@ struct // Conditional Entropy
       tmp = 0.f;
       for (int j = 0; j < Nclass; ++j)
       {
-        p_prime = confusion_matrix[i * Nclass + j] / P[i];
+        p_prime = confusion_matrix[i * Nclass + j] / (P[i] + epsil);
         tmp += (p_prime != 0.f) ? p_prime * std :: log2(p_prime) : 0.f;
       }
-      res += tmp * (P[i] / POP[i]);
+      res += tmp * (P[i] / (POP[i] + epsil));
     }
     return -res;
   }
@@ -748,8 +748,8 @@ struct // KL Divergence
     float res = 0.f, reference_likelihood;
     for (int i = 0; i < Nclass; ++i)
     {
-      reference_likelihood = P[i] / POP[i];
-      res += reference_likelihood * std :: log2(reference_likelihood / (TOP[i] / POP[i]));
+      reference_likelihood = P[i] / (POP[i] + epsil);
+      res += reference_likelihood * std :: log2(reference_likelihood / (TOP[i] / (POP[i] + epsil)));
     }
     return res;
   }
@@ -781,7 +781,7 @@ struct // Lambda B
       res += *std :: max_element(confusion_matrix + i * Nclass, confusion_matrix + i * Nclass + Nclass);
     }
 
-    return (res - maxresponse) / (POP[0] - maxresponse);
+    return (res - maxresponse) / (POP[0] - maxresponse + epsil);
   }
 } get_lambda_B;
 
@@ -815,7 +815,7 @@ struct // Lambda A
 
       res += m;
     }
-    return (res - maxreference) / (POP[0] - maxreference);
+    return (res - maxreference) / (POP[0] - maxreference + epsil);
   }
 } get_lambda_A;
 
@@ -882,7 +882,7 @@ struct // Hamming loss
 {
   auto operator() (const float * TP, const float * POP, const int & Nclass)
   {
-    return 1.f / POP[0] * (POP[0] - std :: accumulate(TP, TP + Nclass, 0.f));
+    return 1.f / (POP[0] + epsil) * (POP[0] - std :: accumulate(TP, TP + Nclass, 0.f));
   }
 } get_hamming_loss;
 
@@ -929,7 +929,7 @@ struct // NIR
 {
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
-    return *std :: max_element(P, P + Nclass) / POP[0];
+    return *std :: max_element(P, P + Nclass) / (POP[0] + epsil);
   }
 } get_NIR;
 
@@ -986,7 +986,7 @@ struct // P-value
         ++ iter;
       }
 
-      const int ncr = numer / denom;
+      const int ncr = numer / (denom + epsil);
 
       p_value += ncr * std :: pow(NIR, i) * std :: pow(1 - NIR, POP[0] - i);
     }
@@ -1018,7 +1018,7 @@ struct // Overall CEN
       const float up = TOP[i] + P[i];
       const float down = 2.f * TOP_sum;
 
-      overall_CEN += (up / down) * CEN[i];
+      overall_CEN += (up / (down + epsil)) * CEN[i];
     }
 
     return overall_CEN;
@@ -1052,7 +1052,7 @@ struct // Overall MCEN
       const float up = TOP[i] + P[i] - TP[i];
       const float down = 2.f * TOP_sum - alpha * TP_sum;
 
-      overall_MCEN += (up / down) * MCEN[i];
+      overall_MCEN += (up / (down + epsil)) * MCEN[i];
     }
 
     return overall_MCEN;
@@ -1085,7 +1085,7 @@ struct // Overall MCC
       cov_x_y += confusion_matrix[i * Nclass + i] * s - P[i] * TOP[i];
     }
 
-    return cov_x_y / std :: sqrt(cov_y_y * cov_x_x);
+    return cov_x_y / (std :: sqrt(cov_y_y * cov_x_x) + epsil);
   }
 
 } get_overall_MCC;
@@ -1139,7 +1139,7 @@ struct // CBA
   {
     float CBA = 0.f;
     for (int i = 0; i < Nclass; ++i)
-      CBA += confusion_matrix[i * Nclass + i] / std :: max(TOP[i], P[i]);
+      CBA += confusion_matrix[i * Nclass + i] / (std :: max(TOP[i], P[i]) + epsil);
     return CBA / Nclass;
   }
 
@@ -1193,7 +1193,7 @@ struct // AUNP
   {
     float AUNP = 0.f;
     for (int i = 0; i < Nclass; ++i)
-      AUNP += P[i] / POP[i] * AUC[i];
+      AUNP += P[i] / (POP[i] * AUC[i] + epsil);
     return AUNP;
   }
 
@@ -1216,7 +1216,7 @@ struct // RCI
 {
   auto operator() (const float & mutual_information, const float & reference_entropy)
   {
-    return mutual_information / reference_entropy;
+    return mutual_information / (reference_entropy + epsil);
   }
 } get_RCI;
 
@@ -1265,7 +1265,7 @@ struct // Pearson C
 {
   auto operator() (const float & chi_square, const float * POP)
   {
-    return std :: sqrt (chi_square / (POP[0] + chi_square));
+    return std :: sqrt (chi_square / (POP[0] + chi_square + epsil));
   }
 
 } get_overall_pearson_C;
@@ -1292,7 +1292,7 @@ struct // TPR Micro, PPV Micro, F1 Micro
   {
     const float TP_sum = std :: accumulate(TP, TP + Nclass, 0.f);
     const float FN_sum = std :: accumulate(FN, FN + Nclass, 0.f);
-    return TP_sum / (TP_sum + FN_sum);
+    return TP_sum / (TP_sum + FN_sum + epsil);
   }
 } get_TPR_PPV_F1_micro;
 

@@ -1,12 +1,6 @@
 | **Authors**  | **Project** |  **Build Status** | **License** | **Code Quality** | **Coverage** |
 |:------------:|:-----------:|:-----------------:|:-----------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) | **Scorer** | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
-
-[![Scorer++ CI](https://github.com/Nico-Curti/scorer/workflows/Scorer++%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer++%20CI%22)
-
-[![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer%20CI%22)
-
-[![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer+Docs+CI%22)
+| [**N. Curti**](https://github.com/Nico-Curti) | **Scorer** | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) <br/> **C++:** [![Scorer++ CI](https://github.com/Nico-Curti/scorer/workflows/Scorer++%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer++%20CI%22) <br/> **Python:** [![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer%20CI%22) <br/> **Docs:** [![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer+Docs+CI%22) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
 
 [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
@@ -30,9 +24,10 @@ Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/p
 3. [Usage](#usage)
 4. [License](#license)
 5. [Contribution](#contribution)
-6. [Authors](#authors)
-7. [Acknowledgments](#acknowledgments)
-8. [Citation](#citation)
+6. [FAQ](#faq)
+7. [Authors](#authors)
+8. [Acknowledgments](#acknowledgments)
+9. [Citation](#citation)
 
 ## Getting Started
 
@@ -315,6 +310,35 @@ Any contribution is more than welcome :heart:. Just fill an [issue](https://gith
 
 See [here](https://github.com/Nico-Curti/scorer/blob/master/.github/CONTRIBUTING.md) for further informations about how to contribute with this project.
 
+## FAQ
+
+* **How can I properly set the C++ compiler for the Pyron installation?**
+
+If you are working on a Ubuntu machine pay attention to properly set the environment variables related to the `C++` compiler.
+First of all take care to put the compiler executable into your environmental path:
+
+```bash
+ls -ltA /usr/bin | grep g++
+```
+
+Then you can simply use the command to properly set the right aliases/variables
+
+```bash
+export CXX=/usr/bin/g++
+export CC=/usr/bin/gcc
+```
+
+but I suggest you to put those lines into your `.bashrc` file (one for all):
+
+```bash
+echo "export CC=/usr/bin/gcc" >> ~/.bashrc
+echo "export CXX=/usr/bin/g++" >> ~/.bashrc
+```
+
+I suggest you to not use the default `Python` compiler (aka `x86_64-linux-gnu-g++`) since it can suffer of many issues during the compilation if it is not manually customized.
+
+**Note:** If you are working under Windows OS a complete guide on how to properly configure your MSVC compiler can be found [here](https://github.com/physycom/sysconfig).
+
 ## Authors
 
 * <img src="https://avatars0.githubusercontent.com/u/24650975?s=400&v=4" width="25px"> **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
@@ -330,7 +354,7 @@ Thanks goes to all contributors of this project.
 
 If you have found `Scorer` helpful in your research, please consider citing the project
 
-```tex
+```BibTeX
 @misc{Scorer,
   author = {Nico Curti \& Daniele Dall'Olio},
   title = {Scorer},

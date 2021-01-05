@@ -175,5 +175,4 @@ bld/
 *.pc
 
 # documentation
-docs/source/doxydoc/*.xsd
-docs/source/doxydoc/*.xslt
+docs/source/doxydoc/

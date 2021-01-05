@@ -74,7 +74,7 @@ struct // TPR(Sensitivity / recall / hit rate / true positive rate)
   auto operator() (const float * TP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > TPR (new float[Nclass]);
-    std :: transform(TP, TP + Nclass, FN, TPR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2);});
+    std :: transform(TP, TP + Nclass, FN, TPR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return TPR;
   }
 } get_TPR;
@@ -102,7 +102,7 @@ struct // TNR(Specificity or true negative rate)
   auto operator() (const float * TN, const float * FP, const int & Nclass)
   {
     std :: unique_ptr < float[] > TNR (new float[Nclass]);
-    std :: transform(TN, TN + Nclass, FP, TNR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2);});
+    std :: transform(TN, TN + Nclass, FP, TNR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return TNR;
   }
 } get_TNR;
@@ -128,7 +128,7 @@ struct // PPV(Precision or positive predictive value)
   auto operator() (const float * TP, const float * FP, const int & Nclass)
   {
     std :: unique_ptr < float[] > PPV (new float[Nclass]);
-    std :: transform(TP, TP + Nclass, FP, PPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2);});
+    std :: transform(TP, TP + Nclass, FP, PPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return PPV;
   }
 } get_PPV;
@@ -154,7 +154,7 @@ struct // NPV(Negative predictive value)
   auto operator() (const float * TN, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > NPV (new float[Nclass]);
-    std :: transform(TN, TN + Nclass, FN, NPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2);});
+    std :: transform(TN, TN + Nclass, FN, NPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return NPV;
   }
 } get_NPV;
@@ -292,7 +292,7 @@ struct // ACC(Accuracy)
   {
     std :: unique_ptr < float[] > ACC (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      ACC[i] = ( TP[i] + TN[i] ) / (TP[i] + TN[i] + FN[i] + FP[i]);
+      ACC[i] = ( TP[i] + TN[i] ) / (TP[i] + TN[i] + FN[i] + FP[i] + epsil);
     return ACC;
   }
 } get_ACC;
@@ -326,7 +326,7 @@ struct // F1(F1 score - harmonic mean of precision and sensitivity)
   {
     std :: unique_ptr < float[] > F1_SCORE (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      F1_SCORE[i] = (2.f * TP[i]) / (2.f * TP[i] + FP[i] + FN[i]);
+      F1_SCORE[i] = (2.f * TP[i]) / (2.f * TP[i] + FP[i] + FN[i] + epsil);
     return F1_SCORE;
   }
 } get_F1_SCORE;
@@ -360,7 +360,7 @@ struct // F0.5(F0.5 score)
   {
     std :: unique_ptr < float[] > F05_SCORE (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      F05_SCORE[i] = (1.25f * TP[i]) / (1.25f * TP[i] + FP[i] + .25f * FN[i]);
+      F05_SCORE[i] = (1.25f * TP[i]) / (1.25f * TP[i] + FP[i] + .25f * FN[i] + epsil);
     return F05_SCORE;
   }
 } get_F05_SCORE;
@@ -394,7 +394,7 @@ struct // F2(F2 score)
   {
     std :: unique_ptr < float[] > F2_SCORE (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      F2_SCORE[i] = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i]);
+      F2_SCORE[i] = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i] + epsil);
     return F2_SCORE;
   }
 } get_F2_SCORE;
@@ -430,7 +430,7 @@ struct // MCC(Matthews correlation coefficient)
   {
     std :: unique_ptr < float[] > MCC (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      MCC[i] = (TP[i] * TN[i] - FP[i] * FN[i]) / (std :: sqrt( (TP[i] + FP[i]) * (TP[i] + FN[i]) * (TN[i] + FP[i]) * (TN[i] + FN[i]) ));
+      MCC[i] = (TP[i] * TN[i] - FP[i] * FN[i]) / (std :: sqrt( (TP[i] + FP[i]) * (TP[i] + FN[i]) * (TN[i] + FP[i]) * (TN[i] + FN[i]) ) + epsil);
     return MCC;
   }
 } get_MCC;
@@ -544,7 +544,7 @@ struct // PLR(Positive likelihood ratio)
   auto operator() (const float * TPR, const float * FPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > PLR (new float[Nclass]);
-    std :: transform(TPR, TPR + Nclass, FPR, PLR.get(), [](const float & tp, const float & tn){return tp / tn;});
+    std :: transform(TPR, TPR + Nclass, FPR, PLR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return PLR;
   }
 } get_PLR;
@@ -573,7 +573,7 @@ struct // NLR(Negative likelihood ratio)
   auto operator() (const float * FNR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > NLR (new float[Nclass]);
-    std :: transform(FNR, FNR + Nclass, TNR, NLR.get(), [](const float & tp, const float & tn){return tp / tn;});
+    std :: transform(FNR, FNR + Nclass, TNR, NLR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return NLR;
   }
 } get_NLR;
@@ -601,7 +601,7 @@ struct // DOR(Diagnostic odds ratio)
   auto operator() (const float * PLR, const float * NLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > DOR (new float[Nclass]);
-    std :: transform(PLR, PLR + Nclass, NLR, DOR.get(), [](const float & tp, const float & tn){return tp / tn;});
+    std :: transform(PLR, PLR + Nclass, NLR, DOR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return DOR;
   }
 } get_DOR;
@@ -628,7 +628,7 @@ struct // PRE(Prevalence)
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > PRE (new float[Nclass]);
-    std :: transform(P, P + Nclass, POP, PRE.get(), [](const float & p, const float & pop){return p / pop;});
+    std :: transform(P, P + Nclass, POP, PRE.get(), [](const float & p, const float & pop){return p / (pop + epsil);});
     return PRE;
   }
 } get_PRE;
@@ -682,7 +682,7 @@ struct // RACC(Random accuracy)
   {
     std :: unique_ptr < float[] > RACC (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      RACC[i] = (TOP[i] * P[i]) / (POP[i] * POP[i]);
+      RACC[i] = (TOP[i] * P[i]) / (POP[i] * POP[i] + epsil);
     return RACC;
   }
 } get_RACC;
@@ -734,7 +734,7 @@ struct // RACCU(Random accuracy unbiased)
   {
     std :: unique_ptr < float[] > RACCU (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      RACCU[i] = ( (TOP[i] + P[i]) * (TOP[i] + P[i]) ) / (POP[i] * POP[i] * 4.f);
+      RACCU[i] = ( (TOP[i] + P[i]) * (TOP[i] + P[i]) ) / (POP[i] * POP[i] * 4.f + epsil);
     return RACCU;
   }
 } get_RACCU;
@@ -764,7 +764,7 @@ struct // J(Jaccard index)
   {
     std :: unique_ptr < float[] > jaccard_index (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      jaccard_index[i] = TP[i] / (TOP[i] + P[i] - TP[i]);
+      jaccard_index[i] = TP[i] / (TOP[i] + P[i] - TP[i] + epsil);
     return jaccard_index;
   }
 } get_jaccard_index;
@@ -793,7 +793,7 @@ struct // IS(Information score)
   {
     std :: unique_ptr < float[] > IS (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      IS[i] = -std :: log2((TP[i] + FN[i]) / POP[i]) + (std :: log2(TP[i] / (TP[i] + FP[i])));
+      IS[i] = -std :: log2((TP[i] + FN[i]) / (POP[i] + epsil)) + (std :: log2(TP[i] / (TP[i] + FP[i] + epsil)));
     return IS;
   }
 } get_IS;
@@ -836,8 +836,8 @@ struct // CEN(Confusion entropy)
           for (int k = 0; k < Nclass; ++k)
             CEN_misclassification_calc += confusion_matrix[i * Nclass + k] + confusion_matrix[ k * Nclass + i];
 
-          const float P_j_k = confusion_matrix[i * Nclass + j] / CEN_misclassification_calc;
-          const float P_k_j = confusion_matrix[j * Nclass + i] / CEN_misclassification_calc;
+          const float P_j_k = confusion_matrix[i * Nclass + j] / (CEN_misclassification_calc + epsil);
+          const float P_k_j = confusion_matrix[j * Nclass + i] / (CEN_misclassification_calc + epsil);
 
           CEN[i] += P_j_k != 0.f ? P_j_k * (std :: log(P_j_k) / std :: log(2 * (Nclass - 1))) : 0.f;
           CEN[i] += P_k_j != 0.f ? P_k_j * (std :: log(P_k_j) / std :: log(2 * (Nclass - 1))) : 0.f;
@@ -882,8 +882,8 @@ struct // MCEN(Modified confusion entropy)
 
           CEN_misclassification_calc -= confusion_matrix[i * Nclass + i];
 
-          const float P_j_k = confusion_matrix[i * Nclass + j] / CEN_misclassification_calc;
-          const float P_k_j = confusion_matrix[j * Nclass + i] / CEN_misclassification_calc;
+          const float P_j_k = confusion_matrix[i * Nclass + j] / (CEN_misclassification_calc + epsil);
+          const float P_k_j = confusion_matrix[j * Nclass + i] / (CEN_misclassification_calc + epsil);
 
           MCEN[i] += P_j_k != 0.f ? P_j_k * (std :: log(P_j_k) / std :: log(2 * (Nclass - 1))) : 0.f;
           MCEN[i] += P_k_j != 0.f ? P_k_j * (std :: log(P_k_j) / std :: log(2 * (Nclass - 1))) : 0.f;
@@ -1193,7 +1193,7 @@ struct // LS(Lift score)
   auto operator() (const float * PPV, const float * PRE, const int & Nclass)
   {
     std :: unique_ptr < float[] > LS (new float[Nclass]);
-    std :: transform(PPV, PPV + Nclass, PRE, LS.get(), [](const float & ppv, const float & pre){return ppv / pre;});
+    std :: transform(PPV, PPV + Nclass, PRE, LS.get(), [](const float & ppv, const float & pre){return ppv / (pre + epsil);});
     return LS;
   }
 
@@ -1252,7 +1252,7 @@ struct // OP(Optimized precision)
   {
     std :: unique_ptr < float[] > OP (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
-      OP[i] = ACC[i] - std :: fabs(TNR[i] - TPR[i]) / (TPR[i] + TNR[i]);
+      OP[i] = ACC[i] - std :: fabs(TNR[i] - TPR[i]) / (TPR[i] + TNR[i] + epsil);
 
     return OP;
   }
@@ -1338,7 +1338,7 @@ struct // Q(Yule Q - coefficient of colligation)
     std :: unique_ptr < float[] > Q (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
     {
-      const float OR = (TP[i] * TN[i]) / (FP[i] * FN[i]);
+      const float OR = (TP[i] * TN[i]) / (FP[i] * FN[i] + epsil);
       Q[i] = (OR - 1.f) / (OR + 1.f);
     }
     return Q;
@@ -1375,7 +1375,7 @@ struct // AGM(Adjusted geometric mean)
     {
       if (POP[i] != 0.f)
       {
-        AGM[i] = TPR[i] == 0.f ? 0.f : (GM[i] + TNR[i] * N[i] / POP[i]) / (1.f + N[i] / POP[i]);
+        AGM[i] = TPR[i] == 0.f ? 0.f : (GM[i] + TNR[i] * N[i] / (POP[i] + epsil)) / (1.f + N[i] / (POP[i] + epsil));
       }
       else
         AGM[i] = -1.f;
@@ -1446,8 +1446,8 @@ struct // AGF(Adjusted F-score)
     std :: unique_ptr < float[] > AGF (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
     {
-      const float F2 = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i]);
-      const float F05_inv = (1.25f * TN[i]) / (1.25f * TN[i] + FN[i] + .25f * FP[i]);
+      const float F2 = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i] + epsil);
+      const float F05_inv = (1.25f * TN[i]) / (1.25f * TN[i] + FN[i] + .25f * FP[i] + epsil);
       AGF[i] = std :: sqrt(F2 * F05_inv);
     }
 
@@ -1482,7 +1482,7 @@ struct // OC(Overlap coefficient)
     std :: unique_ptr < float[] > OC (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
     {
-      OC[i] = TP[i] / std :: min(TOP[i], P[i]);
+      OC[i] = TP[i] / (std :: min(TOP[i], P[i]) + epsil);
     }
 
     return OC;
@@ -1517,7 +1517,7 @@ struct // OOC(Otsuka-Ochiai coefficient)
     std :: unique_ptr < float[] > OOC (new float[Nclass]);
     for (int i = 0; i < Nclass; ++i)
     {
-      OOC[i] = TP[i] / std :: sqrt(TOP[i] * P[i]);
+      OOC[i] = TP[i] / (std :: sqrt(TOP[i] * P[i]) + epsil);
     }
 
     return OOC;
@@ -1577,7 +1577,7 @@ struct // BCD(Bray-Curtis dissimilarity)
   auto operator() (const float * TOP, const float * P, const float * AM, const int & Nclass)
   {
     std :: unique_ptr < float[] > BCD (new float[Nclass]);
-    const float s = std :: accumulate(TOP, TOP + Nclass, 0.f) + std :: accumulate(P, P + Nclass, 0.f);
+    const float s = std :: accumulate(TOP, TOP + Nclass, 0.f) + std :: accumulate(P, P + Nclass, 0.f) + epsil;
     std :: transform(AM, AM + Nclass, BCD.get(), [&](const float & am){return std :: fabs(am) / s;});
     return BCD;
   }

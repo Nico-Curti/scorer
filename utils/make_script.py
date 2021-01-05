@@ -176,7 +176,7 @@ def parallel_func(output, params):
                     ))
 
 def check_dimension():
-  return '\n'.join(('\tif ( this->Nclass == 1 )',
+  return '\n'.join(('\tif ( this->Nclass <= 1 )',
                     '\t{',
                     '#ifdef _OPENMP',
                     '#pragma omp single',
@@ -217,7 +217,7 @@ def cpp_file (workflow):
                        ))
     if level == 0:
       members = '\n'.join((members,
-                           '\tthis->Nclass = static_cast < int >(classes.size());\n',
+                           '\tthis->Nclass = static_cast < int >(this->classes.size());\n',
                            check_dimension()
                            ))
 
