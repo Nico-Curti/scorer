@@ -312,7 +312,7 @@ See [here](https://github.com/Nico-Curti/scorer/blob/master/.github/CONTRIBUTING
 
 ## FAQ
 
-* **How can I properly set the C++ compiler for the Pyron installation?**
+* **How can I properly set the C++ compiler for the Python installation?**
 
 If you are working on a Ubuntu machine pay attention to properly set the environment variables related to the `C++` compiler.
 First of all take care to put the compiler executable into your environmental path:
