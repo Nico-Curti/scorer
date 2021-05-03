@@ -67,7 +67,7 @@ class cmake_build_ext (build_ext):
         '-DCMAKE_BUILD_TYPE:STRING=' + config,
         '-DPYWRAP:BOOL=ON',
         '-DBUILD_DOCS:BOOL={}'.format('ON' if os.environ.get('READTHEDOCS', None) == 'True' else 'OFF'),
-        '-DOMP:BOOl={}'.format('ON' if ENABLE_OMP else 'OFF')
+        '-DOMP:BOOL={}'.format('ON' if ENABLE_OMP else 'OFF')
     ]
 
     # example of build args
