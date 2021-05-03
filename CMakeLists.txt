@@ -153,6 +153,10 @@ add_custom_target(make_scorer_obj ALL
                   COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_script.py
                   COMMENT "Generate scorer object using dependency graph"
                   )
+add_custom_target(make_scorer_cython ALL
+                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_cython.py
+                  COMMENT "Generate scorer cython wrap using dependency graph"
+                  )
 
 #################################################################
 #                          SUMMARY                              #

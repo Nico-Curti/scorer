@@ -1,4 +1,4 @@
 # Authors #
 
 ----------
-- Nico Curti - eDIMESLab, Department of Physics and Astronomy, University of Bologna ([nico.curti2@unibo.it](mailto:nico.curti2@unibo.it))
+- Nico Curti - eDIMESLab, Department of Experimental, Diagnostic and Specialty Medicine of Bologna University ([nico.curti2@unibo.it](mailto:nico.curti2@unibo.it))

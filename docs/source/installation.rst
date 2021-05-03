@@ -16,13 +16,14 @@ The full list of prerequisites of Python version is the following:
 
 - numpy>=1.16.0
 - cython>=0.29
+- networkx>=2.2
+- scikit-learn>=0.24.0
 
 .. note::
 
 	If you are interested on the visualization of the dependency graph and some other utilities to manage the evaluated metrics you can find all the scripts in the utils_ folder.
 	In this case you need to install also the following Python packages:
 
-	- networkx>=2.2
 	- pandas>=0.23.3
 	- matplotlib>=2.2.2
 	- mpld3>=0.3

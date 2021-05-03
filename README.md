@@ -1,8 +1,11 @@
-| **Authors**  | **Project** |  **Build Status** | **License** | **Code Quality** | **Coverage** |
-|:------------:|:-----------:|:-----------------:|:-----------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) | **Scorer** | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer) <br/>  **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer) <br/> **C++:** [![Scorer++ CI](https://github.com/Nico-Curti/scorer/workflows/Scorer++%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer++%20CI%22) <br/> **Python:** [![Scorer CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer%20CI%22) <br/> **Docs:** [![Docs CI](https://github.com/Nico-Curti/scorer/workflows/Scorer%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/scorer/actions?query=workflow%3A%22Scorer+Docs+CI%22) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
+| **Authors**  | **Project** |  **Documentation** | **Build Status** | **License** | **Code Quality** | **Coverage** |
+|:------------:|:-----------:|:------------------:|:----------------:|:-----------:|:----------------:|:------------:|
+| [**N. Curti**](https://github.com/Nico-Curti) <br/> [**D. Dall'Olio**](https://github.com/DanieleDallOlio) | **Scorer** | **Docs CI:** [![Docs CI](https://github.com/Nico-Curti/scorer/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest) | **Linux:** [![Linux scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml) <br/> **Windows:** [![Windows scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml)  <br/> **MacOS:** [![MacOS scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml) <br/> **Python:** [![Python scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
 
-[![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest)
+**Travis:** [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer)
+**Appveyor:** [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer)
+**Downloads:** [![Download counter](http://pepy.tech/badge/scorer)](http://pepy.tech/count/scorer)
+
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
 
@@ -12,22 +15,35 @@
 # Machine Learning Scores
 
 <a href="https://github.com/Nico-Curti/scorer/blob/master/img/scorer.pdf">
-<div class="image">
-<img src="img/dependency_graph.gif" width="1010" height="392">
-</div>
+  <div class="image">
+    <img src="https://github.com/Nico-Curti/scorer/blob/master/img/dependency_graph.gif" width="1010" height="392">
+  </div>
 </a>
 
-Optimization and extension of the [**PyCM**](https://github.com/sepandhaghighi/pycm) library with c++ support and network dependencies.
+We propose a `C++` version of the [**PyCM**](https://github.com/sepandhaghighi/pycm) Python package.
+Our implementation optimizes and extends the original library including multi-threading support and an easy-to-use interface to the main algorithm.
+To further improve the usage of our code, we propose also a `Python` wrap of the library with a full compatibility with the [`scikit-learn`](https://github.com/scikit-learn/scikit-learn) package.
 
-1. [Getting Started](#getting-started)
-2. [Prerequisites](#prerequisites)
-3. [Usage](#usage)
-4. [License](#license)
-5. [Contribution](#contribution)
-6. [FAQ](#faq)
-7. [Authors](#authors)
-8. [Acknowledgments](#acknowledgments)
-9. [Citation](#citation)
+* [Overview](#overview)
+* [Getting Started](#getting-started)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Testing](#testing)
+* [Table of contents](#table-of-contents)
+* [Contribution](#contribution)
+* [References](#references)
+* [FAQ](#faq)
+* [Authors](#authors)
+* [License](#license)
+* [Acknowledgments](#acknowledgments)
+* [Citation](#citation)
+
+## Overview
+
+**TODO**
+
+A full list of informations about the score functions and their meaning can be found in the amazing [documentation](https://www.pycm.ir/doc/) of the original PyCM project.
 
 ## Getting Started
 
@@ -40,7 +56,7 @@ The builds scripts ([build.sh](https://github.com/Nico-Curti/scorer/blob/master/
 ```bash
 git clone https://github.com/Nico-Curti/scorer.git
 cd scorer
-./build.sh
+./build.sh Release
 ```
 
 For a manual installation of the Python version you can also run the [setup](https://github.com/Nico-Curti/scorer/blob/master/setup.py) script as
@@ -88,13 +104,16 @@ The full list of prerequisites of Python version is listed in [requirements](htt
 **Note**: if you are interested on the visualization of the dependency graph and some other utilities to manage the evaluated metrics you can find all the scripts in the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder.
 In this case you need to install also the following Python packages:
 
-- networkx>=2.2
 - pandas>=0.23.3
 - matplotlib>=2.2.2
 - mpld3>=0.3
 
 > :warning: For both the Python and C++ installation of the library is required Python with the support of [`networkx`](https://networkx.github.io/) package.
 > Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
+
+## Installation
+
+A complete list of instructions "for beginners" is also provided for both [c++](https://scorer.readthedocs.io/en/latest/CMake.html) and [python](https://scorer.readthedocs.io/en/latest/Python.html) versions.
 
 ## Usage
 
@@ -138,8 +157,10 @@ The same code can be rewritten in Python (also with different labels dtype) as
 #import numpy as np
 from scorer import Scorer
 
-y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a'] # np.array([2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2], dtype=np.int32)
-y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a'] # np.array([0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2], dtype=np.int32)
+y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+# y_true = np.array([2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2], dtype=np.int32)
+y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+# y_pred = np.array([0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2], dtype=np.int32)
 
 scorer = Scorer()
 scorer.evaluate(y_true, y_pred)
@@ -148,7 +169,7 @@ print(scorer)
 
 The output is the same in both the executions and it should be something like this
 
-```bash
+```
 $ python ./scorer/example/main.py
 Classes: 0, 1, 2
 Confusion Matrix:
@@ -300,15 +321,44 @@ python -m pip install --user "git+https://github.com/javadba/mpld3@display_fix"
 
 A full list of informations about the score functions and their meaning can be found in the amazing [documentation](https://www.pycm.ir/doc/) of the original PyCM project.
 
-## License
+## Testing
 
-The `Scorer` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE)
+The Python version of the package is tested using [`pytest`](https://docs.pytest.org/en/latest/).
+To install the package in development mode you need to add also this requirement:
+
+* pytest == 3.0.7
+* hypothesis == 4.13.0
+
+The full list of python test scripts can be found [here](https://github.com/Nico-Curti/scorer/blob/master/testing).
+
+## Table of contents
+
+Description of the folders related to the `C++` version.
+
+| **Directory**  |  **Description** |
+|:--------------:|:-----------------|
+| [example](https://github.com/Nico-Curti/scorer/blob/master/example) | List of example usages for the C++ version of the code.                      |
+| [include](https://github.com/Nico-Curti/scorer/blob/master/include) | Definition of the C++ function and objects used in the `scorer` library      |
+| [src](https://github.com/Nico-Curti/scorer/blob/master/src)         | Implementation of the C++ functions and objects used in the `scorer` library |
+
+Description of the folders related to the `Python` version (base directory `scorer`).
+
+| **Directory**  |  **Description** |
+|:--------------:|:-----------------|
+| [example](https://github.com/Nico-Curti/scorer/blob/master/scorer/example) | `Python` version of the `C++` examples. |
+| [lib](https://github.com/Nico-Curti/scorer/blob/master/scorer/lib)         | List of `Cython` definition files       |
+| [source](https://github.com/Nico-Curti/scorer/blob/master/scorer/source)   | List of `Cython` implementation objects |
+| [scorer](https://github.com/Nico-Curti/scorer/blob/master/scorer/scorer)   | List of `Python` wraps                  |
 
 ## Contribution
 
 Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/scorer/blob/master/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/scorer/blob/master/.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
 
 See [here](https://github.com/Nico-Curti/scorer/blob/master/.github/CONTRIBUTING.md) for further informations about how to contribute with this project.
+
+## References
+
+<blockquote>1- Haghighi, S., Jasemi, M., Hessabi, S. and Zolanvari, A. (2018). PyCM: Multiclass confusion matrix library in Python. Journal of Open Source Software, 3(25), p.729. </blockquote>
 
 ## FAQ
 
@@ -345,6 +395,10 @@ I suggest you to not use the default `Python` compiler (aka `x86_64-linux-gnu-g+
 * <img src="https://avatars3.githubusercontent.com/u/23407684?s=400&v=4" width="25px"> **Daniele Dall'Olio** [git](https://github.com/DanieleDallOlio), [unibo](https://www.unibo.it/sitoweb/daniele.dallolio)
 
 See also the list of [contributors](https://github.com/Nico-Curti/Scorer/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/graphs/contributors/) who participated to this project.
+
+## License
+
+The `Scorer` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE)
 
 ## Acknowledgments
 

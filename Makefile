@@ -101,10 +101,14 @@ all: help
 
 libscorer: $(OBJS) $(ALIB)                                 ##@library Create shared Scorer library.
 
-example: $(DEP_DIR) $(OBJ_DIR) $(OUT_DIR) $(OBJS)          ##@examples Compile test example.
+example: generate $(DEP_DIR) $(OBJ_DIR) $(OUT_DIR) $(OBJS) ##@examples Compile test example.
 	@printf "%-80s " "Compiling scorer example ..."
 	@$(CXX) $(EXAMPLE)/example.cpp -o $(OUT_DIR)/example $(CFLAGS) $(LDFLAGS)
 	@printf "[done]\n"
+
+generate: ##@utils Generate scorer object and wraps using dependency graph
+	python ./utils/make_script.py
+	python ./utils/make_cython.py
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(DEP_DIR)/%.d # compile all cpp in SRC_DIR for OBJ
 		@printf "%-80s " "generating obj for $<"

@@ -1,4 +1,4 @@
-name: Scorer CI
+name: Python scorer CI
 
 on:
   push:

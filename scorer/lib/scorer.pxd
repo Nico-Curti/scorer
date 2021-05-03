@@ -13,7 +13,6 @@ cdef extern from "scorer.h":
     # Attributes
 
     vector[float] classes
-
     unique_ptr[float] confusion_matrix
     unique_ptr[float] TP
     unique_ptr[float] FN
@@ -39,6 +38,7 @@ cdef extern from "scorer.h":
     unique_ptr[float] MCC
     unique_ptr[float] BM
     unique_ptr[float] MK
+    unique_ptr[float] ICSI
     unique_ptr[float] PLR
     unique_ptr[float] NLR
     unique_ptr[float] DOR
@@ -74,15 +74,10 @@ cdef extern from "scorer.h":
     unique_ptr[float] OOC
     unique_ptr[float] AUPR
     unique_ptr[float] BCD
-    unique_ptr[float] ICSI
-
     float overall_accuracy
     float overall_random_accuracy_unbiased
     float overall_random_accuracy
     float overall_kappa
-    float PC_PI
-    float PC_AC1
-    float PC_S
     float PI
     float AC1
     float S
@@ -96,7 +91,7 @@ cdef extern from "scorer.h":
     float overall_accuracy_ci_down
     float chi_square
     float phi_square
-    float cramers_V_calc
+    float cramer_V
     float response_entropy
     float reference_entropy
     float cross_entropy
@@ -120,10 +115,9 @@ cdef extern from "scorer.h":
     float AUNU
     float AUNP
     float RCI
+    float CSI
     float overall_pearson_C
     float TPR_PPV_F1_micro
-    float CSI;
-    float cramer_V
     float MCC_analysis
     float kappa_analysis_cicchetti
     float kappa_analysis_koch
@@ -152,3 +146,4 @@ cdef class _scorer:
 
   cdef public:
     int Nclass
+  
