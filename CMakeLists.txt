@@ -148,13 +148,13 @@ configure_file(${CMAKE_SOURCE_DIR}/Scorer.pc.in ${CMAKE_SOURCE_DIR}/Scorer.pc @O
 configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
 message(STATUS "Pkg-config generated")
 
-find_package (Python REQUIRED COMPONENTS Interpreter)
+find_package (PythonInterp REQUIRED)
 add_custom_target(make_scorer_obj ALL
-                  COMMAND Python::Interpreter ${CMAKE_SOURCE_DIR}/utils/make_script.py
+                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_script.py
                   COMMENT "Generate scorer object using dependency graph"
                   )
 add_custom_target(make_scorer_cython ALL
-                  COMMAND Python::Interpreter ${CMAKE_SOURCE_DIR}/utils/make_cython.py
+                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_cython.py
                   COMMENT "Generate scorer cython wrap using dependency graph"
                   )
 add_dependencies(make_scorer_cython make_scorer_obj)
