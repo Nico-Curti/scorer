@@ -166,8 +166,8 @@ class Scorer (dict):
 
     with warnings.catch_warnings():
       warnings.simplefilter("ignore")
-      self['Confusion Matrix'] = np.reshape(self['Confusion Matrix'], newshape=(len(self['classes']), len(self['classes'])))
-      self['classes'] = true_names
+      self['Confusion Matrix'] = np.reshape(self['Confusion Matrix'], newshape=(len(self['Classes']), len(self['Classes'])))
+      self['Classes'] = true_names
 
     return self
 
@@ -184,7 +184,7 @@ class Scorer (dict):
     Return the number of classes identified.
     If the scores are not yet evaluated the return value is 0.
     '''
-    return len(self['classes']) if 'classes' in self else 0
+    return len(self['Classes']) if 'Classes' in self else 0
 
   @property
   def _get_available_metrics (self):
@@ -337,18 +337,18 @@ class Scorer (dict):
     '''
     fmt = ''
 
-    fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self['classes']]))
+    fmt += 'Classes: {}\n'.format(', '.join(['{}'.format(c) for c in self['Classes']]))
     fmt += 'Confusion Matrix:\n'
     fmt += '\n'.join([''.join(['{:4}'.format(item) for item in row])
                       for row in self['Confusion Matrix']])
 
     fmt += '\n\nClass Statistics:\n\n'
 
-    numeric_fmt = ' '.join(['{:>20.3f}' for _ in range(len(self['classes']))])
-    array_fmt   = ' '.join(['{:>20}'    for _ in range(len(self['classes']))])
+    numeric_fmt = ' '.join(['{:>20.3f}' for _ in range(len(self['Classes']))])
+    array_fmt   = ' '.join(['{:>20}'    for _ in range(len(self['Classes']))])
 
     for k, v in self.items():
-      if isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
+      if isinstance(v, list) and k not in ['Classes', 'Confusion Matrix']:
         try:
           fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : numeric_fmt.format(*v)})
 
@@ -359,7 +359,7 @@ class Scorer (dict):
     fmt += '\nOverall Statistics:\n\n'
 
     for k, v in self.items():
-      if not isinstance(v, list) and k not in ['classes', 'Confusion Matrix']:
+      if not isinstance(v, list) and k not in ['Classes', 'Confusion Matrix']:
         try:
           fmt += '{name:<80} {value:.3f}\n'.format(**{'name' : k, 'value' : v})
         except (ValueError, TypeError):

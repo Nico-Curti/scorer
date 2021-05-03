@@ -164,6 +164,15 @@ if __name__ == '__main__':
       pyx_row = '              \'{1}\': [int((deref(self.thisptr).{0}.get())[i]) for i in range(self.Nclass * self.Nclass)],'.format(variable, long_name_description)
       pxd_row = '    unique_ptr[float] {0}'.format(variable)
 
+    # Special multiple cases
+
+    elif variable == 'TPR_PPV_F1_micro':
+      pyx_row = '\n'.join(['              \'TPR Micro\' : deref(self.thisptr).TPR_PPV_F1_micro,',
+                           '              \'PPV Micro\' : deref(self.thisptr).TPR_PPV_F1_micro,',
+                           '              \'F1 Micro\' : deref(self.thisptr).TPR_PPV_F1_micro,',
+                           ])
+      pxd_row = '    float TPR_PPV_F1_micro'
+
     # Special Tuple cases
 
     elif variable == 'kappa_CI_up':
