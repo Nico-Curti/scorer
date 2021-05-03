@@ -41,8 +41,6 @@ To further improve the usage of our code, we propose also a `Python` wrap of the
 
 ## Overview
 
-**TODO**
-
 A full list of informations about the score functions and their meaning can be found in the amazing [documentation](https://www.pycm.ir/doc/) of the original PyCM project.
 
 ## Getting Started

@@ -6,7 +6,9 @@
 Welcome to scorer's documentation!
 ==================================================================
 
-Optimization and extension of the PyCM_ library with c++ support and network dependencies.
+We propose a `C++` version of the PyCM_ Python package.
+Our implementation optimizes and extends the original library including multi-threading support and an easy-to-use interface to the main algorithm.
+To further improve the usage of our code, we propose also a `Python` wrap of the library with a full compatibility with the `scikit-learn` package.
 
 .. image:: ../../img/dependency_graph.gif
 
