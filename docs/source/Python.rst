@@ -45,6 +45,6 @@ or for installing in development mode:
 	We suggest to temporary downgrade the `setuptools` version to `49.3.0` to workaround this `setuptools` issue.
 
 
-.. |Python version| image:: https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg
+.. |Python version| image:: https://img.shields.io/badge/python-2.7|3.3|3.4|3.5|3.6|3.7|3.8|3.9-blue.svg
 .. _`setup.py`: https://github.com/Nico-Curti/blob/master/setup.py
 .. _issue: https://github.com/Nico-Curti/rFBP/issues/5

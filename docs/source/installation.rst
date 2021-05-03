@@ -33,8 +33,8 @@ The full list of prerequisites of Python version is the following:
 	For both the Python and C++ installation of the library is required Python with the support of `networkx`_ package.
 	Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
 
-.. |gcc version| image:: https://img.shields.io/badge/gcc-4.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg
-.. |clang version| image:: https://img.shields.io/badge/clang-3.*%20|4.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg
+.. |gcc version| image:: https://img.shields.io/badge/gcc-4.9.*|5.*|6.*|7.*|8.*|9.*|10.*-yellow.svg
+.. |clang version| image:: https://img.shields.io/badge/clang-3.*|4.*|5.*|6.*|7.*|8.*|9.*|10.*-red.svg
 .. |msvc version| image:: https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64|%20vs2019%20x86%20|%20vs2019%20x64-blue.svg
 .. _CMake: https://github.com/Nico-Curti/scorer/blob/master/CMakeLists.txt
 .. _Makefile: https://github.com/Nico-Curti/scorer/blob/master/Makefile

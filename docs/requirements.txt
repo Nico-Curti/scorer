@@ -2,6 +2,7 @@ numpy>=1.16.0
 cython>=0.29
 networkx>=2.2
 scikit-learn
+pillow>=6.2.0
 
 breathe<4.13.0
 sphinx==1.8

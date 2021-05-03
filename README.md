@@ -87,15 +87,15 @@ If you are working without *root* privileges we suggest to use the [`Shut`](http
 To build the c++ version of the code at least c++14 is required.
 C++ supported compilers:
 
-![gcc version](https://img.shields.io/badge/gcc-4.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg)
+![gcc version](https://img.shields.io/badge/gcc-4.9.*|5.*|6.*|7.*|8.*|9.*|10.*-yellow.svg)
 
-![clang version](https://img.shields.io/badge/clang-3.*%20|4.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg)
+![clang version](https://img.shields.io/badge/clang-3.*|4.*|5.*|6.*|7.*|8.*|9.*|10.*-red.svg)
 
 ![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64|%20vs2019%20x86%20|%20vs2019%20x64-blue.svg)
 
 Python version supported :
 
-![Python version](https://img.shields.io/badge/python-2.7%20|%203.3%20|%203.4%20|%203.5%20|%203.6%20|%203.7-blue.svg)
+![Python version](https://img.shields.io/badge/python-2.7|3.3|3.4|3.5|3.6|3.7|3.8|3.9-blue.svg)
 
 The OMP version of the code is automatically available if OMP is installed and in this way all the metric computations are performed in parallel according to the generated dependency graph.
 
