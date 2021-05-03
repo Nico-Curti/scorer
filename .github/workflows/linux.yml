@@ -16,6 +16,8 @@ jobs:
     strategy:
       matrix:
         cfg:
+          - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.8, generator: Ninja}
+          - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.9, generator: Ninja}
           - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 5.0, generator: Ninja}
           - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 6.0, generator: Ninja}
           - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 7.0, generator: Ninja}
@@ -24,6 +26,8 @@ jobs:
           - {os: ubuntu-18.04, cc: gcc, cxx: g++, cpp-version: 8.0, generator: Ninja}
           - {os: ubuntu-18.04, cc: gcc, cxx: g++, cpp-version: 9.0, generator: Ninja}
 
+          - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.8, generator: Ninja}
+          - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.9, generator: Ninja}
           - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 5.0, generator: Ninja}
           - {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 6.0, generator: Ninja}
           - {os: ubuntu-20.04, cc: gcc, cxx: g++, cpp-version: 7.0, generator: Ninja}
