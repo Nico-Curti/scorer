@@ -7,6 +7,8 @@ from __future__ import print_function
 import numpy as np
 import warnings
 
+from scorer.lib.scorer import _scorer
+
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -46,8 +48,6 @@ class Scorer (dict):
     '''
     Default constructor
     '''
-
-    from scorer.lib.scorer import _scorer
 
     self._obj = _scorer()
     super(Scorer, self).__init__({})

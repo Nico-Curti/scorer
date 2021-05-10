@@ -78,7 +78,7 @@ The output is the same in both the executions and it should be something like th
 .. code-block:: bash
 
 	$ python ./scorer/example/main.py
-	Classes: 0, 1, 2
+	Classes: a, b, c
 	Confusion Matrix:
 	 3.0 0.0 0.0
 	 0.0 1.0 2.0

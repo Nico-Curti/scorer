@@ -1,6 +1,6 @@
 | **Authors**  | **Project** |  **Documentation** | **Build Status** | **License** | **Code Quality** | **Coverage** |
 |:------------:|:-----------:|:------------------:|:----------------:|:-----------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) <br/> [**D. Dall'Olio**](https://github.com/DanieleDallOlio) | **Scorer** | **Docs CI:** [![Scorer Docs CI](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest) | **Linux:** [![Linux scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml) <br/> **Windows:** [![Windows scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml)  <br/> **MacOS:** [![MacOS scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml) <br/> **Python:** [![Python scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
+| [**N. Curti**](https://github.com/Nico-Curti) <br/> [**D. Dall'Olio**](https://github.com/DanieleDallOlio) | **Scorer** <br/> [![Python3](https://img.shields.io/badge/code-Python%203-blue)](https://www.python.org/) <br/> [![Cython](https://img.shields.io/badge/code-Cython-yellow)](https://cython.org/) <br/> [![C++](https://img.shields.io/badge/code-C++-orange)](https://isocpp.org/) | **Docs CI:** [![Scorer Docs CI](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest) | **Linux:** [![Linux scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml) <br/> **Windows:** [![Windows scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml)  <br/> **MacOS:** [![MacOS scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml) <br/> **Python:** [![Python scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/569341573b4e438196ea012f906fd0d0)](https://www.codacy.com/manual/Nico-Curti/scorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
 
 **Travis/Appveyor:** [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer)
 [![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer)
@@ -8,6 +8,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
 [![Download counter](http://pepy.tech/badge/scorer)](http://pepy.tech/count/scorer)
+[![Latest Release](https://badge.fury.io/py/scorer.svg)](https://pypi.org/project/scorer/)
 
 [![GitHub stars](https://img.shields.io/github/stars/Nico-Curti/scorer.svg?label=Stars&style=social)](https://github.com/Nico-Curti/scorer/stargazers)
 [![GitHub watchers](https://img.shields.io/github/watchers/Nico-Curti/scorer.svg?label=Watch&style=social)](https://github.com/Nico-Curti/scorer/watchers)
@@ -113,6 +114,12 @@ In this case you need to install also the following Python packages:
 
 A complete list of instructions "for beginners" is also provided for both [c++](https://scorer.readthedocs.io/en/latest/CMake.html) and [python](https://scorer.readthedocs.io/en/latest/Python.html) versions.
 
+If you are using the `CMake` (recommended) installer you obtain also the possibility to export the library.
+After the installation you can use this library into other `CMake` projects using a simple `find_package` function.
+The exported `CMake` library (`Scorer::scorer`) is installed in the `share/scorer` directory of the current project and the relative header files are available in the `Scorer_INCLUDE_DIR` variable.
+
+The `CMake` installer provides also a `Scorer.pc`, useful if you want link to the `scorer` using `pkg-config`.
+
 ## Usage
 
 You can use the libraries either inside your c++ project with a simple include of the [scorer.h](https://github.com/Nico-Curti/scorer/blob/master/include/scorer.h) header file or inside your Python application, where the scorer class is wrapped to give a simple dictionary in return.
@@ -169,7 +176,7 @@ The output is the same in both the executions and it should be something like th
 
 ```
 $ python ./scorer/example/main.py
-Classes: 0, 1, 2
+Classes: a, b, c
 Confusion Matrix:
  3.0 0.0 0.0
  0.0 1.0 2.0
@@ -386,6 +393,21 @@ echo "export CXX=/usr/bin/g++" >> ~/.bashrc
 I suggest you to not use the default `Python` compiler (aka `x86_64-linux-gnu-g++`) since it can suffer of many issues during the compilation if it is not manually customized.
 
 **Note:** If you are working under Windows OS a complete guide on how to properly configure your MSVC compiler can be found [here](https://github.com/physycom/sysconfig).
+
+* **I installed the `scorer` Python package following the instructions but I have an `ImportError` when I try to import the package as in the examples**
+
+This error is due a missing environment variable (which is not automatically set by the installation script).
+All the `C++` libraries are searched into the OS directory tree starting from the information/paths hinted by the `LD_LIBRARY_PATH` environment variable.
+When you install the `scorer` library the produced `.so`, `.dll`, `.dylib` files are saved into the `lib` directory created into the project root directory.
+After the installation you must add this directory into the searching path.
+You can add this information editing the configuration file of your `Unix`-like system, i.e
+
+```bash
+echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/scorer/project/directory/lib/" >> ~/.bashrc
+echo "export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/path/to/scorer/project/directory/lib/" >> ~/.bashrc
+```
+
+or adding the `LD_LIBRARY_PATH` to your set of environment variables (especially for `Windows` users).
 
 ## Authors
 
