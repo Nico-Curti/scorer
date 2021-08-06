@@ -12,16 +12,16 @@
 #
 import sys
 
-sys.path.insert(0, '/home/nico/Desktop/Code/scorer')
+sys.path.insert(0, '@CMAKE_SOURCE_DIR@')
 
 # -- Project information -----------------------------------------------------
 
-project = 'Scorer - Machine Learning Scorer'
+project = '@CMAKE_PROJECT_NAME@ - @CMAKE_PROJECT_DESCRIPTION@'
 copyright = "2020, Nico Curti, Daniele Dall'Olio"
 author = "Nico Curti, Daniele Dall'Olio"
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.2'
+release = '@CMAKE_PROJECT_VERSION@'
 
 master_doc = 'index'
 
@@ -59,8 +59,8 @@ html_static_path = []
 
 
 breathe_projects = {
-  'class_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'common_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'overall_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'scorer' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
+  'class_stats' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@',
+  'common_stats' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@',
+  'overall_stats' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@',
+  'scorer' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@',
   }

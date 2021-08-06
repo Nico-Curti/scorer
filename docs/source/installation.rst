@@ -36,7 +36,7 @@ The full list of prerequisites of Python version is the following:
 .. warning::
 
   The `Python` installation can be performed with or without the `C++` installation.
-  The `Python` installation is always executed using [`setup.py`](https://github.com/Nico-Curti/scorer/blob/master/setup.py) script.
+  The `Python` installation is always executed using setup_ script.
   Thus, if you have already build the C++ library with the CMake script you have to run the setup.py script to obtain the Python package!
 
 FAQ
@@ -92,6 +92,7 @@ or adding the `LD_LIBRARY_PATH` to your set of environment variables (especially
 .. _utils: https://github.com/Nico-Curti/scorer/tree/master/utils
 .. _`networkx`: https://networkx.github.io/
 .. _here: https://github.com/physycom/sysconfig
+.. _setup: https://github.com/Nico-Curti/scorer/blob/master/setup.py
 
 .. toctree::
    :maxdepth: 2

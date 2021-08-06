@@ -18,3 +18,17 @@ add_dependencies(pyscorer make_scorer_obj make_scorer_cython)
 # Installation of targets
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pyscorer.cpp      DESTINATION ${PYC_SRC_DIR} RENAME scorer.cpp)
 install(TARGETS pyscorer                                    DESTINATION ${PYC_INC_DIR})
+
+# setup installation
+
+set(SETUP_PY_IN "${CMAKE_SOURCE_DIR}/setup.py.in")
+set(SETUP_PY    "${CMAKE_SOURCE_DIR}/setup_.py")
+
+configure_file(${SETUP_PY_IN} ${SETUP_PY} @ONLY)
+configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
+
+add_custom_target(setup_scorer ALL
+                  DEPENDS pyscorer
+                  COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} develop --user
+                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                  COMMENT "Setup Python installation")

@@ -35,10 +35,12 @@
 */
 struct // Overall ACC
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * POP, const int & Nclass)
   {
     return std :: accumulate(TP, TP + Nclass, 0.f) / (POP[0] + epsil);
   }
+  /// @endcond
 } get_overall_accuracy;
 
 /**
@@ -56,10 +58,12 @@ struct // Overall ACC
 */
 struct // Overall RACCU
 {
+  /// @cond DEF
   auto operator() (const float * RACCU, const int & Nclass)
   {
     return std :: accumulate(RACCU, RACCU + Nclass, 0.f);
   }
+  /// @endcond
 } get_overall_random_accuracy_unbiased;
 
 /**
@@ -77,10 +81,12 @@ struct // Overall RACCU
 */
 struct // Overall RACC
 {
+  /// @cond DEF
   auto operator() (const float * RACC, const int & Nclass)
   {
     return std :: accumulate(RACC, RACC + Nclass, 0.f);
   }
+  /// @endcond
 } get_overall_random_accuracy;
 
 /**
@@ -103,10 +109,12 @@ struct // Overall RACC
 */
 struct // Kappa
 {
+  /// @cond DEF
   auto operator() (const float & overall_random_accuracy, const float & overall_accuracy)
   {
     return (overall_accuracy - overall_random_accuracy) / (1.f - overall_random_accuracy + epsil);
   }
+  /// @endcond
 } get_overall_kappa;
 
 /**
@@ -127,6 +135,7 @@ struct // Kappa
 */
 struct // PC_PI
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * TOP, const float * POP, const int & Nclass)
   {
     float res = 0.f;
@@ -134,6 +143,7 @@ struct // PC_PI
       res += ( (P[i] + TOP[i]) * (P[i] + TOP[i]) ) / ( 4.f * POP[i] * POP[i] + epsil );
     return res;
   }
+  /// @endcond
 } get_PC_PI;
 
 /**
@@ -155,6 +165,7 @@ struct // PC_PI
 */
 struct // PC_AC1
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * TOP, const float * POP, const int & Nclass)
   {
     float AC1 = 0.f;
@@ -165,6 +176,7 @@ struct // PC_AC1
     }
     return AC1 / (Nclass - 1 + epsil);
   }
+  /// @endcond
 } get_PC_AC1;
 
 /**
@@ -180,10 +192,12 @@ struct // PC_AC1
 struct // PC_S
 {
   // we need "classes" because the auto-generated code must put this function AFTER the Nclass evalution
+  /// @cond DEF
   auto operator() (__unused const float * classes, const int & Nclass)
   {
     return 1.f / static_cast < float >(Nclass);
   }
+  /// @endcond
 } get_PC_S;
 
 /**
@@ -211,10 +225,12 @@ struct // PC_S
 */
 struct // Scott PI
 {
+  /// @cond DEF
   auto operator() (const float & PC_PI, const float & overall_accuracy)
   {
     return (overall_accuracy - PC_PI) / (1.f - PC_PI + epsil);
   }
+  /// @endcond
 } get_PI;
 
 /**
@@ -238,10 +254,12 @@ struct // Scott PI
 */
 struct // Get AC1
 {
+  /// @cond DEF
   auto operator() (const float & PC_AC1, const float & overall_accuracy)
   {
     return (overall_accuracy - PC_AC1) / (1.f - PC_AC1 + epsil);
   }
+  /// @endcond
 } get_AC1;
 
 /**
@@ -264,10 +282,12 @@ struct // Get AC1
 */
 struct // Bennett S
 {
+  /// @cond DEF
   auto operator() (const float & PC_S, const float & overall_accuracy)
   {
     return (overall_accuracy - PC_S) / (1.f - PC_S + epsil);
   }
+  /// @endcond
 } get_S;
 
 /**
@@ -287,10 +307,12 @@ struct // Bennett S
 */
 struct // Kappa Standard Error
 {
+  /// @cond DEF
   auto operator() (const float & overall_accuracy, const float & overall_random_accuracy, const float * POP)
   {
     return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy) ) / (POP[0] * (1.f - overall_random_accuracy) * (1.f - overall_random_accuracy) + epsil) );
   }
+  /// @endcond
 } get_kappa_SE;
 
 /**
@@ -311,10 +333,12 @@ struct // Kappa Standard Error
 */
 struct // Kappa Unbiased
 {
+  /// @cond DEF
   auto operator() (const float & overall_random_accuracy_unbiased, const float & overall_accuracy)
   {
     return (overall_accuracy - overall_random_accuracy_unbiased) / (1.f - overall_random_accuracy_unbiased + epsil);
   }
+  /// @endcond
 } get_kappa_unbiased;
 
 /**
@@ -333,10 +357,12 @@ struct // Kappa Unbiased
 */
 struct // Kappa No Prevalence
 {
+  /// @cond DEF
   auto operator() (const float & overall_accuracy)
   {
     return 2.f * overall_accuracy - 1.f;
   }
+  /// @endcond
 } get_kappa_no_prevalence;
 
 /**
@@ -356,10 +382,12 @@ struct // Kappa No Prevalence
 */
 struct // Kappa 95% CI up
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa, const float & kappa_SE)
   {
     return overall_kappa + 1.96 * kappa_SE;
   }
+  /// @endcond
 } get_kappa_CI_up;
 
 /**
@@ -379,10 +407,12 @@ struct // Kappa 95% CI up
 */
 struct // Kappa 95% CI down
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa, const float & kappa_SE)
   {
     return overall_kappa - 1.96 * kappa_SE;
   }
+  /// @endcond
 } get_kappa_CI_down;
 
 /**
@@ -403,10 +433,12 @@ struct // Kappa 95% CI down
 */
 struct // Standard Error
 {
+  /// @cond DEF
   auto operator() (const float & overall_accuracy, const float * POP)
   {
     return std :: sqrt( (overall_accuracy * (1.f - overall_accuracy)) / (POP[0] + epsil));
   }
+  /// @endcond
 } get_overall_accuracy_se;
 
 /**
@@ -432,10 +464,12 @@ struct // Standard Error
 */
 struct // 95% CI up
 {
+  /// @cond DEF
   auto operator() (const float & overall_accuracy, const float & overall_accuracy_se)
   {
     return overall_accuracy + 1.96f * overall_accuracy_se;
   }
+  /// @endcond
 } get_overall_accuracy_ci_up;
 
 /**
@@ -461,10 +495,12 @@ struct // 95% CI up
 */
 struct // 95% CI down
 {
+  /// @cond DEF
   auto operator() (const float & overall_accuracy, const float & overall_accuracy_se)
   {
     return overall_accuracy - 1.96f * overall_accuracy_se;
   }
+  /// @endcond
 } get_overall_accuracy_ci_down;
 
 /**
@@ -484,6 +520,7 @@ struct // 95% CI down
 */
 struct // Chi-Squared
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * TOP, const float * P, const float * POP, const int & Nclass)
   {
     float res = 0.f,
@@ -496,6 +533,7 @@ struct // Chi-Squared
       }
     return res;
   }
+  /// @endcond
 } get_chi_square;
 
 /**
@@ -518,10 +556,12 @@ struct // Chi-Squared
 */
 struct // Phi-Squared
 {
+  /// @cond DEF
   auto operator() (const float & chi_square, const float * POP)
   {
     return chi_square / (POP[0] + epsil);
   }
+  /// @endcond
 } get_phi_square;
 
 /**
@@ -543,10 +583,12 @@ struct // Phi-Squared
 */
 struct // Cramer V
 {
+  /// @cond DEF
   auto operator() (const float & phi_square, const int & Nclass)
   {
     return std::sqrt(phi_square / static_cast<float>(Nclass - 1));
   }
+  /// @endcond
 } get_cramer_V;
 
 /**
@@ -568,10 +610,12 @@ struct // Cramer V
 */
 struct // Response Entropy
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * POP, const int & Nclass)
   {
     return -std :: inner_product(TOP, TOP + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / (pop + epsil); return likelihood * std :: log2(likelihood);});
   }
+  /// @endcond
 } get_response_entropy;
 
 /**
@@ -594,10 +638,12 @@ struct // Response Entropy
 */
 struct // Reference Entropy
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
     return -std :: inner_product(P, P + Nclass, POP, 0.f, std :: plus < float >(), [](const float & item, const float & pop){float likelihood = item / (pop + epsil); return likelihood * std :: log2(likelihood);});
   }
+  /// @endcond
 } get_reference_entropy;
 
 /**
@@ -622,6 +668,7 @@ struct // Reference Entropy
 */
 struct // Cross Entropy
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const float * POP, const int & Nclass)
   {
     float res = 0.f;
@@ -629,6 +676,7 @@ struct // Cross Entropy
       res += (P[i] / (POP[i] + epsil)) * std :: log2(TOP[i] / (POP[i] + epsil));
     return -res;
   }
+  /// @endcond
 } get_cross_entropy;
 
 /**
@@ -650,6 +698,7 @@ struct // Cross Entropy
 */
 struct // Joint Entropy
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * POP, const int & Nclass)
   {
     float res = 0.f, p_prime;
@@ -661,6 +710,7 @@ struct // Joint Entropy
       }
     return -res;
   }
+  /// @endcond
 } get_join_entropy;
 
 /**
@@ -678,6 +728,7 @@ struct // Joint Entropy
 */
 struct // Conditional Entropy
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * P, const float * POP, const int & Nclass)
   {
     float res = 0.f, p_prime, tmp;
@@ -693,6 +744,7 @@ struct // Conditional Entropy
     }
     return -res;
   }
+  /// @endcond
 } get_conditional_entropy;
 
 /**
@@ -715,10 +767,12 @@ struct // Conditional Entropy
 */
 struct // Mutual Information
 {
+  /// @cond DEF
   auto operator() (const float & response_entropy, const float & conditional_entropy)
   {
     return response_entropy - conditional_entropy;
   }
+  /// @endcond
 } get_mutual_information;
 
 /**
@@ -743,6 +797,7 @@ struct // Mutual Information
 */
 struct // KL Divergence
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * TOP, const float * POP, const int & Nclass)
   {
     float res = 0.f, reference_likelihood;
@@ -753,6 +808,7 @@ struct // KL Divergence
     }
     return res;
   }
+  /// @endcond
 } get_kl_divergence;
 
 /**
@@ -770,6 +826,7 @@ struct // KL Divergence
 */
 struct // Lambda B
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * TOP, const float * POP, const int & Nclass)
   {
     float maxresponse = -inf;
@@ -783,6 +840,7 @@ struct // Lambda B
 
     return (res - maxresponse) / (POP[0] - maxresponse + epsil);
   }
+  /// @endcond
 } get_lambda_B;
 
 /**
@@ -800,6 +858,7 @@ struct // Lambda B
 */
 struct // Lambda A
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * P, const float * POP, const int & Nclass)
   {
     float maxreference = -inf;
@@ -817,6 +876,7 @@ struct // Lambda A
     }
     return (res - maxreference) / (POP[0] - maxreference + epsil);
   }
+  /// @endcond
 } get_lambda_A;
 
 /**
@@ -836,10 +896,12 @@ struct // Lambda A
 struct // Chi-Squared DF
 {
   // we need "classes" because the auto-generated code must put this function AFTER the Nclass evalutions
+  /// @cond DEF
   auto operator() (__unused const float * classes, const int & Nclass)
   {
     return static_cast< float >((Nclass - 1) * (Nclass - 1));
   }
+  /// @endcond
 } get_DF;
 
 /**
@@ -857,10 +919,12 @@ struct // Chi-Squared DF
 */
 struct // Overall J
 {
+  /// @cond DEF
   auto operator() (const float * jaccard_index, const int & Nclass)
   {
     return std :: accumulate(jaccard_index, jaccard_index + Nclass, 0.f);
   }
+  /// @endcond
 } get_overall_jaccard_index;
 
 /**
@@ -880,10 +944,12 @@ struct // Overall J
 */
 struct // Hamming loss
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * POP, const int & Nclass)
   {
     return 1.f / (POP[0] + epsil) * (POP[0] - std :: accumulate(TP, TP + Nclass, 0.f));
   }
+  /// @endcond
 } get_hamming_loss;
 
 /**
@@ -904,10 +970,12 @@ struct // Hamming loss
 */
 struct // Zero-one Loss
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * POP, const int & Nclass)
   {
     return POP[0] - std :: accumulate(TP, TP + Nclass, 0.f);
   }
+  /// @endcond
 } get_zero_one_loss;
 
 /**
@@ -927,10 +995,12 @@ struct // Zero-one Loss
 */
 struct // NIR
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
     return *std :: max_element(P, P + Nclass) / (POP[0] + epsil);
   }
+  /// @endcond
 } get_NIR;
 
 /**
@@ -959,6 +1029,7 @@ struct // NIR
 */
 struct // P-value
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * POP, const int & Nclass, const float & NIR)
   {
     float p_value = 0.f;
@@ -993,6 +1064,7 @@ struct // P-value
 
     return 1.f - p_value;
   }
+  /// @endcond
 } get_p_value;
 
 /**
@@ -1007,6 +1079,7 @@ struct // P-value
 */
 struct // Overall CEN
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const float * CEN, const int & Nclass)
   {
     float overall_CEN = 0.f;
@@ -1023,6 +1096,7 @@ struct // Overall CEN
 
     return overall_CEN;
   }
+  /// @endcond
 } get_overall_CEN;
 
 /**
@@ -1038,6 +1112,7 @@ struct // Overall CEN
 */
 struct // Overall MCEN
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TOP, const float * P, const float * MCEN, const int & Nclass)
   {
     float overall_MCEN = 0.f;
@@ -1057,6 +1132,7 @@ struct // Overall MCEN
 
     return overall_MCEN;
   }
+  /// @endcond
 } get_overall_MCEN;
 
 /**
@@ -1071,6 +1147,7 @@ struct // Overall MCEN
 */
 struct // Overall MCC
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * TOP, const float * P, const int & Nclass)
   {
     const float s = std :: accumulate(TOP, TOP + Nclass, 0.f);
@@ -1087,7 +1164,7 @@ struct // Overall MCC
 
     return cov_x_y / (std :: sqrt(cov_y_y * cov_x_x) + epsil);
   }
-
+  /// @endcond
 } get_overall_MCC;
 
 /**
@@ -1105,11 +1182,12 @@ struct // Overall MCC
 */
 struct // RR
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const int & Nclass)
   {
     return std :: accumulate(TOP, TOP + Nclass, 0.f) / Nclass;
   }
-
+  /// @endcond
 } get_RR;
 
 /**
@@ -1135,6 +1213,7 @@ struct // RR
 */
 struct // CBA
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const float * TOP, const float * P, const int & Nclass)
   {
     float CBA = 0.f;
@@ -1142,7 +1221,7 @@ struct // CBA
       CBA += confusion_matrix[i * Nclass + i] / (std :: max(TOP[i], P[i]) + epsil);
     return CBA / Nclass;
   }
-
+  /// @endcond
 } get_CBA;
 
 /**
@@ -1163,11 +1242,12 @@ struct // CBA
 */
 struct // AUNU
 {
+  /// @cond DEF
   auto operator() (const float * AUC, const int & Nclass)
   {
     return std :: accumulate(AUC, AUC + Nclass, 0.f) / Nclass;
   }
-
+  /// @endcond
 } get_AUNU;
 
 /**
@@ -1189,6 +1269,7 @@ struct // AUNU
 */
 struct // AUNP
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * POP, const float * AUC, const int & Nclass)
   {
     float AUNP = 0.f;
@@ -1196,7 +1277,7 @@ struct // AUNP
       AUNP += P[i] / (POP[i] * AUC[i] + epsil);
     return AUNP;
   }
-
+  /// @endcond
 } get_AUNP;
 
 /**
@@ -1214,10 +1295,12 @@ struct // AUNP
 */
 struct // RCI
 {
+  /// @cond DEF
   auto operator() (const float & mutual_information, const float & reference_entropy)
   {
     return mutual_information / (reference_entropy + epsil);
   }
+  /// @endcond
 } get_RCI;
 
 /**
@@ -1237,10 +1320,12 @@ struct // RCI
 */
 struct // CSI
 {
+  /// @cond DEF
   auto operator() (const float * ICSI, const int & Nclass)
   {
     return std :: accumulate(ICSI, ICSI + Nclass, 0.f) / Nclass;
   }
+  /// @endcond
 } get_CSI;
 
 /**
@@ -1263,11 +1348,12 @@ struct // CSI
 */
 struct // Pearson C
 {
+  /// @cond DEF
   auto operator() (const float & chi_square, const float * POP)
   {
     return std :: sqrt (chi_square / (POP[0] + chi_square + epsil));
   }
-
+  /// @endcond
 } get_overall_pearson_C;
 
 
@@ -1288,12 +1374,14 @@ struct // Pearson C
 */
 struct // TPR Micro, PPV Micro, F1 Micro
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FN, const int & Nclass)
   {
     const float TP_sum = std :: accumulate(TP, TP + Nclass, 0.f);
     const float FN_sum = std :: accumulate(FN, FN + Nclass, 0.f);
     return TP_sum / (TP_sum + FN_sum + epsil);
   }
+  /// @endcond
 } get_TPR_PPV_F1_micro;
 
 /**
@@ -1315,11 +1403,12 @@ struct // TPR Micro, PPV Micro, F1 Micro
 */
 struct // SOA6(Matthews)
 {
+  /// @cond DEF
   auto operator() (const float & overall_MCC)
   {
     return std :: isnan(overall_MCC) || std :: isinf(overall_MCC) ? -1.f : overall_MCC < .3f ? 0.f : overall_MCC >= .3f && overall_MCC < .5f ? 1.f : overall_MCC >= .5f && overall_MCC < .7f ? 2.f : overall_MCC >= .7f && overall_MCC < .9f ? 3.f : 4.f;
   }
-
+  /// @endcond
 } get_MCC_analysis;
 
 /**
@@ -1337,11 +1426,12 @@ struct // SOA6(Matthews)
 */
 struct // SOA4(Cicchetti)
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa)
   {
     return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .4f ? 0.f : overall_kappa >= .4f && overall_kappa < .59f ? 1.f : overall_kappa >= .59f && overall_kappa < .74f ? 2.f : overall_kappa >= .74f && overall_kappa < 1.f ? 3.f : 0.f;
   }
-
+  /// @endcond
 } get_kappa_analysis_cicchetti;
 
 /**
@@ -1361,11 +1451,12 @@ struct // SOA4(Cicchetti)
 */
 struct // SOA1(Landis & Koch)
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa)
   {
     return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .0f ? 0.f : overall_kappa >= .0f && overall_kappa < .2f ? 1.f : overall_kappa >= .2f && overall_kappa < .4f ? 2.f : overall_kappa >= .4f && overall_kappa < 6.f ? 3.f : overall_kappa >= .6f && overall_kappa < .8f ? 4.f : overall_kappa >= .8f && overall_kappa <= 1.f ? 5.f : 0.f;
   }
-
+  /// @endcond
 } get_kappa_analysis_koch;
 
 /**
@@ -1382,11 +1473,12 @@ struct // SOA1(Landis & Koch)
 */
 struct // SOA2(Fleiss)
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa)
   {
     return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .4f ? 0.f : overall_kappa >= .4f && overall_kappa < .75f ? 1.f : overall_kappa >= .75f ? 2.f : 0.f;
   }
-
+  /// @endcond
 } get_kappa_analysis_fleiss;
 
 /**
@@ -1405,11 +1497,12 @@ struct // SOA2(Fleiss)
 */
 struct // SOA3(Altman)
 {
+  /// @cond DEF
   auto operator() (const float & overall_kappa)
   {
     return std :: isnan(overall_kappa) || std :: isinf(overall_kappa) ? -1.f : overall_kappa < .2f ? 0.f : overall_kappa >= .2f && overall_kappa < .4f ? 1.f : overall_kappa >= .4f && overall_kappa < .6f ? 2.f : overall_kappa >= .6f && overall_kappa < .8f ? 3.f : overall_kappa >= .8f && overall_kappa <= 1.f ? 4.f : 0.f;
   }
-
+  /// @endcond
 } get_kappa_analysis_altman;
 
 /**
@@ -1429,11 +1522,12 @@ struct // SOA3(Altman)
 */
 struct // SOA5(Cramer)
 {
+  /// @cond DEF
   auto operator() (const float & cramer_V)
   {
     return cramer_V < .1f ? 0.f : cramer_V >= .1f && cramer_V < .2f ? 1.f : cramer_V >= .2f && cramer_V < .4f ? 2.f : cramer_V >= .4f && cramer_V < .6f ? 3.f : cramer_V >= .6f && cramer_V < .8f ? 4.f : 5.f;
   }
-
+  /// @endcond
 } get_V_analysis;
 
 /**
@@ -1451,10 +1545,12 @@ struct // SOA5(Cramer)
 */
 struct // TPR Macro
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const int & Nclass)
   {
     return std :: accumulate(TPR, TPR + Nclass, 0.f) / Nclass;
   }
+  /// @endcond
 } get_TPR_macro;
 
 /**
@@ -1472,10 +1568,12 @@ struct // TPR Macro
 */
 struct // PPV Macro
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const int & Nclass)
   {
     return std :: accumulate(PPV, PPV + Nclass, 0.f) / Nclass;
   }
+  /// @endcond
 } get_PPV_macro;
 
 /**
@@ -1493,10 +1591,12 @@ struct // PPV Macro
 */
 struct // ACC Macro
 {
+  /// @cond DEF
   auto operator() (const float * ACC, const int & Nclass)
   {
     return std :: accumulate(ACC, ACC + Nclass, 0.f) / Nclass;
   }
+  /// @endcond
 } get_ACC_macro;
 
 /**
@@ -1514,10 +1614,12 @@ struct // ACC Macro
 */
 struct // F1 Macro
 {
+  /// @cond DEF
   auto operator() (const float * F1_SCORE, const int & Nclass)
   {
     return std :: accumulate(F1_SCORE, F1_SCORE + Nclass, 0.f) / Nclass;
   }
+  /// @endcond
 } get_F1_macro;
 
 

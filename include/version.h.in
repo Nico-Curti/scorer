@@ -1,0 +1,8 @@
+#ifndef __scorer_version_h__
+#define __scorer_version_h__
+
+#define __scorer_major_version__ @SCORER_MAJOR@
+#define __scorer_minor_version__ @SCORER_MINOR@
+#define __scorer_revision_version__ @SCORER_REVISION@
+
+#endif // __scorer_version_h__

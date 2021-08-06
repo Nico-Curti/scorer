@@ -20,9 +20,9 @@ You can use the `scorer` algorithm into pure-Python modules or inside your C++ a
 C++ example
 -----------
 
-You can use the libraries either inside your c++ project with a simple include of the `scorer.h`_ header file or inside your Python application, where the scorer class is wrapped to give a simple dictionary in return.
+You can use the libraries for both c++ projects, just including the `scorer.h`_ header file, and Python applications, where the scorer class is wrapped as dictionary-like object.
 
-If you use the c++ version **PAY ATTENTION** to the parallel environment (open the parallel region before the run of scores computation as shown in the following example code).
+If you use the c++ version **PAY ATTENTION** to the parallel environment (you have to open the parallel region before the run of scores computation as shown in the following example code).
 
 .. code-block:: c++
 

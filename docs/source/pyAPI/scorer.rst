@@ -1,7 +1,7 @@
 scorer
 -------
 
-.. automodule:: scorer.scorer
+.. automodule:: scorer.scorer.scorer
    :members:
    :undoc-members:
    :show-inheritance:

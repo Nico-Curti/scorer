@@ -159,7 +159,19 @@ Desktop.ini
 *.ipdb
 *.db
 
-# Build results
+# Directories
+[Bb]in
+[Oo]bj
+.[Dd]ep
+[Bb]uild*
+[Dd]ata
+[Ss]hare
+[Ll]ib
+[Ii]nclude/version.h
+setup_.py
+*.egg-info
+__pycache__
+
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -172,7 +184,31 @@ bld/
 [Ss]corer/__version__.py
 [Uu]tils/dependency_graph.html
 [Ss]hare/
+
+
+# Utilities
 *.pc
 
+# coverage
+.coverage
+.coverage.*
+coverage.*
+html*
+
+# test
+.hypothesis
+.pytest_cache
+
+*.dat
+*.pyd
+
 # documentation
+docs/Doxyfile
+docs/build/
+docs/source/conf.py
 docs/source/doxydoc/
+docs/source/html/
+
+# snakemakes
+.snakemake
+logs

@@ -122,9 +122,9 @@ The `CMake` installer provides also a `Scorer.pc`, useful if you want link to th
 
 ## Usage
 
-You can use the libraries either inside your c++ project with a simple include of the [scorer.h](https://github.com/Nico-Curti/scorer/blob/master/include/scorer.h) header file or inside your Python application, where the scorer class is wrapped to give a simple dictionary in return.
+You can use the libraries for both c++ projects, just including the [scorer.h](https://github.com/Nico-Curti/scorer/blob/master/include/scorer.h) header file, and Python applications, where the scorer class is wrapped as dictionary-like object.
 
-If you use the c++ version *PAY ATTENTION* to the parallel environment (open the parallel region before the run of scores computation as shown in the following example code).
+If you use the c++ version *PAY ATTENTION* to the parallel environment (you have to open the parallel region before the run of scores computation as shown in the following example code).
 
 ```c++
 #include <array>
@@ -156,7 +156,7 @@ int main ()
 }
 ```
 
-The same code can be rewritten in Python (also with different labels dtype) as
+The same code can be rewritten in Python (also with different labels dtypes) as
 
 ```python
 #import numpy as np
@@ -303,7 +303,7 @@ PPV Macro                                                                       
 CSI                                                                              0.178
 ```
 
-If you are working with non-integer labels the Scorer object provides a usefull `_label2numbers` (`encode` in C++) function.
+If you are working with non-integer labels, the Scorer object provides a usefull `_label2numbers` (`encode` in C++) function.
 Its usage is mandatory in `C++` since the function signature requires **only** integer (int32) values, while the `Python` version automatically encode/decode the labels according to requirements.
 
 In the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder some utility scripts are reported.
@@ -311,19 +311,6 @@ The `make_script.py` allows to write the complete parallel version of the scorer
 In this way if you add a new operator to the library you can just run this code to update the scorer class parallelization strategies (computed in `dependency_graphs.py` script).
 
 With `view_stats.py` you can see the complete graph of computed statistics with an HTML support for a more pleasant vision (e.g. [graph](https://github.com/Nico-Curti/scorer/blob/master/img/dependency_graph.gif))
-
-**NOTE**: using `view_stats.py` you can find the error
-
-```python
-Object of type ndarray is not JSON serializable
-```
-
-I suggest to use the following command to overcome this `mpld3` issue:
-
-```bash
-python -m pip install --user "git+https://github.com/javadba/mpld3@display_fix"
-```
-
 A full list of informations about the score functions and their meaning can be found in the amazing [documentation](https://www.pycm.ir/doc/) of the original PyCM project.
 
 ## Testing
@@ -408,6 +395,20 @@ echo "export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/path/to/scorer/project/direct
 ```
 
 or adding the `LD_LIBRARY_PATH` to your set of environment variables (especially for `Windows` users).
+
+* **I run the `view_stats.py` script but I get an Error**
+
+Probably the error you get is something like
+
+```python
+Object of type ndarray is not JSON serializable
+```
+
+In this case, we suggest to use the following command to overcome this `mpld3` issue:
+
+```bash
+python -m pip install --user "git+https://github.com/javadba/mpld3@display_fix"
+```
 
 ## Authors
 

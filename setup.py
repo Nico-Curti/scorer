@@ -272,7 +272,7 @@ setup(
                                   ],
   platforms                     = 'any',
   classifiers                   = [
-                                    #'License :: OSI Approved :: GPL License',
+                                   #'License :: OSI Approved :: GPL License',
                                    'Natural Language :: English',
                                    'Operating System :: MacOS :: MacOS X',
                                    'Operating System :: POSIX',

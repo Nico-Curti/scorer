@@ -4,6 +4,9 @@
 from __future__ import division
 from __future__ import print_function
 
+import sys
+from io import StringIO
+
 import numpy as np
 from scorer import Scorer
 
@@ -29,9 +32,10 @@ class TestScorer:
     y_pred = y_pred.tolist()
 
     scorer = Scorer()
-    scorer.evaluate(y_true, y_pred)
-    print(scorer)
-    repr(scorer)
+    _ = scorer.evaluate(y_true, y_pred)
+
+    assert isinstance(_, type(scorer))
+    assert repr(scorer) == '<Scorer (classes: 2)>'
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
@@ -41,9 +45,29 @@ class TestScorer:
     y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
 
     scorer = Scorer()
-    scorer.evaluate(y_true, y_pred)
+    _ = scorer.evaluate(y_true, y_pred)
+
+    assert isinstance(_, type(scorer))
+    assert repr(scorer) == '<Scorer (classes: 2)>'
+
+  @given(size = st.integers(min_value=5, max_value=50))
+  @settings(max_examples=10, deadline=None)
+  def test_print (self, size):
+
+    y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+    y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
+
+    scorer = Scorer()
+    _ = scorer.evaluate(y_true, y_pred)
+
+    stdout = StringIO()
+    sys.stdout = stdout
     print(scorer)
-    repr(scorer)
+    sys.stdout = sys.__stdout__
+
+    printed = stdout.getvalue().splitlines()
+
+    assert printed[0] == 'Classes: 0.0, 1.0'
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
@@ -78,9 +102,6 @@ class TestScorer:
     np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], np.zeros(shape=(len(set(y_true)), )))
     np.testing.assert_allclose(scorer.score['FN(False negative/miss/type 2 error)'], np.zeros(shape=(len(set(y_true)), )))
     np.testing.assert_allclose(scorer.score['ACC(Accuracy)'], np.ones(shape=(len(set(y_true)), )))
-
-
-    np.testing.assert_allclose(scorer.score['Overall ACC'], scorer.score['accuracy_score'])
 
     with pytest.raises(KeyError):
       print(scorer['dummy'])
@@ -156,3 +177,21 @@ class TestScorer:
 
     with pytest.raises(AttributeError):
       scorer.dummy
+
+  def test_lut_alias (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
+
+    np.testing.assert_allclose(scorer['ACC(Accuracy)'], scorer['class_accuracy'])
+    np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer['class_false_positive'])
+    np.testing.assert_allclose(scorer['TOP(Test outcome positive)'], scorer['class_test_outcome_positive'])
+    np.testing.assert_allclose(scorer['FDR(False discovery rate)'], scorer['class_false_discovery_rate'])
+
+    np.testing.assert_allclose(scorer['Overall ACC'], scorer['accuracy_score'])
+
+    with pytest.raises(KeyError):
+      scorer['dummy']

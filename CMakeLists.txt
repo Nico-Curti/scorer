@@ -9,6 +9,7 @@ set (SCORER_VERSION ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION})
 project (Scorer LANGUAGES CXX VERSION ${SCORER_VERSION} DESCRIPTION "Machine Learning Scorer")
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/Nico-Curti/scorer")
 
 add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SCORER_REVISION})
 
@@ -103,11 +104,7 @@ if (OMP)
     endif()
   endif()
 else()
-  message(STATUS "OpenMP disabled")
-endif()
-
-if (MSVC)
-  add_definitions (-D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
+  message(STATUS "OpenMP - disabled")
 endif()
 
 #################################################################
@@ -134,15 +131,13 @@ file (GLOB EXE    "${EXAMPLE}/*.cpp")
 include_directories(${INC_DIR})
 include_directories(${PYC_DIR})
 
-set(Scorer_INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR})
+configure_file(${INC_DIR}/version.h.in ${INC_DIR}/version.h @ONLY)
+
+set (Scorer_INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR})
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 if (PYWRAP)
   include( UseCython )
-endif ()
-
-if (BUILD_DOCS)
-  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
 endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/Scorer.pc.in ${CMAKE_SOURCE_DIR}/Scorer.pc @ONLY)
@@ -159,6 +154,9 @@ add_custom_target(make_scorer_cython ALL
                   COMMENT "Generate scorer cython wrap using dependency graph"
                   )
 add_dependencies(make_scorer_cython make_scorer_obj)
+
+# allow the export of LD_LIBRARY_PATH env variable
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 #################################################################
 #                          SUMMARY                              #
@@ -217,6 +215,11 @@ add_executable( example ${TST_DIR}/example.cpp )
 add_dependencies(example_test example)
 target_link_libraries(example ${linked_libs} ${scorerlib})
 
+# This must be the latest subdirectory included!!
+if (BUILD_DOCS)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
+endif ()
+
 #################################################################
 #                          INSTALLERS                           #
 #################################################################
@@ -249,7 +252,7 @@ configure_file(ScorerConfig.cmake.in "${PROJECT_BINARY_DIR}/ScorerConfig.cmake" 
 set(CONF_INCLUDE_DIRS "\${Scorer_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 configure_file(ScorerConfig.cmake.in "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/ScorerConfig.cmake" @ONLY)
 
-# Create the OpenslideConfigVersion.cmake
+# Create the ScorerConfigVersion.cmake
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file("${PROJECT_BINARY_DIR}/ScorerConfigVersion.cmake"
   COMPATIBILITY SameMajorVersion

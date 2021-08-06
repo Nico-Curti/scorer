@@ -19,12 +19,15 @@
 */
 struct // TOP(Test outcome positive)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const int & Nclass)
   {
     std :: unique_ptr < float[] > TOP (new float[Nclass]);
     std :: transform(TP, TP + Nclass, FP, TOP.get(), [](const float & tp, const float & fp){return tp + fp;});
     return TOP;
   }
+  /// @endcond
+
 } get_TOP;
 
 /**
@@ -43,12 +46,14 @@ struct // TOP(Test outcome positive)
 */
 struct // TON(Test outcome negative)
 {
+  /// @cond DEF
   auto operator() (const float * TN, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > TON (new float[Nclass]);
     std :: transform(TN, TN + Nclass, FN, TON.get(), [](const float & tn, const float & fn){return tn + fn;});
     return TON;
   }
+  /// @endcond
 } get_TON;
 
 /**
@@ -71,12 +76,14 @@ struct // TON(Test outcome negative)
 */
 struct // TPR(Sensitivity / recall / hit rate / true positive rate)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > TPR (new float[Nclass]);
     std :: transform(TP, TP + Nclass, FN, TPR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return TPR;
   }
+  /// @endcond
 } get_TPR;
 
 /**
@@ -99,12 +106,14 @@ struct // TPR(Sensitivity / recall / hit rate / true positive rate)
 */
 struct // TNR(Specificity or true negative rate)
 {
+  /// @cond DEF
   auto operator() (const float * TN, const float * FP, const int & Nclass)
   {
     std :: unique_ptr < float[] > TNR (new float[Nclass]);
     std :: transform(TN, TN + Nclass, FP, TNR.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return TNR;
   }
+  /// @endcond
 } get_TNR;
 
 /**
@@ -125,12 +134,14 @@ struct // TNR(Specificity or true negative rate)
 */
 struct // PPV(Precision or positive predictive value)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const int & Nclass)
   {
     std :: unique_ptr < float[] > PPV (new float[Nclass]);
     std :: transform(TP, TP + Nclass, FP, PPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return PPV;
   }
+  /// @endcond
 } get_PPV;
 
 /**
@@ -151,12 +162,14 @@ struct // PPV(Precision or positive predictive value)
 */
 struct // NPV(Negative predictive value)
 {
+  /// @cond DEF
   auto operator() (const float * TN, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > NPV (new float[Nclass]);
     std :: transform(TN, TN + Nclass, FN, NPV.get(), [](const float & i1, const float & i2){return i1 / (i1 + i2 + epsil);});
     return NPV;
   }
+  /// @endcond
 } get_NPV;
 
 /**
@@ -177,12 +190,14 @@ struct // NPV(Negative predictive value)
 */
 struct // FNR(Miss rate or false negative rate)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > FNR (new float[Nclass]);
     std :: transform(TPR, TPR + Nclass, FNR.get(), [](const float & item){return 1.f - item;});
     return FNR;
   }
+  /// @endcond
 } get_FNR;
 
 /**
@@ -205,12 +220,14 @@ struct // FNR(Miss rate or false negative rate)
 */
 struct // FPR(Fall-out or false positive rate)
 {
+  /// @cond DEF
   auto operator() (const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > FPR (new float[Nclass]);
     std :: transform(TNR, TNR + Nclass, FPR.get(), [](const float & item){return 1.f - item;});
     return FPR;
   }
+  /// @endcond
 } get_FPR;
 
 /**
@@ -233,12 +250,14 @@ struct // FPR(Fall-out or false positive rate)
 */
 struct // FDR(False discovery rate)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const int & Nclass)
   {
     std :: unique_ptr < float[] > FDR (new float[Nclass]);
     std :: transform(PPV, PPV + Nclass, FDR.get(), [](const float & item){return 1.f - item;});
     return FDR;
   }
+  /// @endcond
 } get_FDR;
 
 /**
@@ -260,12 +279,14 @@ struct // FDR(False discovery rate)
 */
 struct // FOR(False omission rate)
 {
+  /// @cond DEF
   auto operator() (const float * NPV, const int & Nclass)
   {
     std :: unique_ptr < float[] > FOR (new float[Nclass]);
     std :: transform(NPV, NPV + Nclass, FOR.get(), [](const float & item){return 1.f - item;});
     return FOR;
   }
+  /// @endcond
 } get_FOR;
 
 /**
@@ -288,6 +309,7 @@ struct // FOR(False omission rate)
 */
 struct // ACC(Accuracy)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const float * TN, const int & Nclass)
   {
     std :: unique_ptr < float[] > ACC (new float[Nclass]);
@@ -295,6 +317,7 @@ struct // ACC(Accuracy)
       ACC[i] = ( TP[i] + TN[i] ) / (TP[i] + TN[i] + FN[i] + FP[i] + epsil);
     return ACC;
   }
+  /// @endcond
 } get_ACC;
 
 /**
@@ -322,6 +345,7 @@ struct // ACC(Accuracy)
 */
 struct // F1(F1 score - harmonic mean of precision and sensitivity)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > F1_SCORE (new float[Nclass]);
@@ -329,6 +353,7 @@ struct // F1(F1 score - harmonic mean of precision and sensitivity)
       F1_SCORE[i] = (2.f * TP[i]) / (2.f * TP[i] + FP[i] + FN[i] + epsil);
     return F1_SCORE;
   }
+  /// @endcond
 } get_F1_SCORE;
 
 /**
@@ -356,6 +381,7 @@ struct // F1(F1 score - harmonic mean of precision and sensitivity)
 */
 struct // F0.5(F0.5 score)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > F05_SCORE (new float[Nclass]);
@@ -363,6 +389,7 @@ struct // F0.5(F0.5 score)
       F05_SCORE[i] = (1.25f * TP[i]) / (1.25f * TP[i] + FP[i] + .25f * FN[i] + epsil);
     return F05_SCORE;
   }
+  /// @endcond
 } get_F05_SCORE;
 
 /**
@@ -390,6 +417,7 @@ struct // F0.5(F0.5 score)
 */
 struct // F2(F2 score)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > F2_SCORE (new float[Nclass]);
@@ -397,6 +425,7 @@ struct // F2(F2 score)
       F2_SCORE[i] = (5.f * TP[i]) / (5.f * TP[i] + FP[i] + 4.f * FN[i] + epsil);
     return F2_SCORE;
   }
+  /// @endcond
 } get_F2_SCORE;
 
 /**
@@ -426,6 +455,7 @@ struct // F2(F2 score)
 */
 struct // MCC(Matthews correlation coefficient)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TN, const float * FP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > MCC (new float[Nclass]);
@@ -433,6 +463,7 @@ struct // MCC(Matthews correlation coefficient)
       MCC[i] = (TP[i] * TN[i] - FP[i] * FN[i]) / (std :: sqrt( (TP[i] + FP[i]) * (TP[i] + FN[i]) * (TN[i] + FP[i]) * (TN[i] + FN[i]) ) + epsil);
     return MCC;
   }
+  /// @endcond
 } get_MCC;
 
 /**
@@ -455,12 +486,14 @@ struct // MCC(Matthews correlation coefficient)
 */
 struct // BM(Informedness or bookmaker informedness)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > BM (new float[Nclass]);
     std :: transform(TPR, TPR + Nclass, TNR, BM.get(), [](const float & tp, const float & tn){return tp + tn - 1.f;});
     return BM;
   }
+  /// @endcond
 } get_BM;
 
 /**
@@ -482,12 +515,14 @@ struct // BM(Informedness or bookmaker informedness)
 */
 struct // MK(Markedness)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const float * NPV, const int & Nclass)
   {
     std :: unique_ptr < float[] > MK (new float[Nclass]);
     std :: transform(PPV, PPV + Nclass, NPV, MK.get(), [](const float & tp, const float & tn){return tp + tn - 1.f;});
     return MK;
   }
+  /// @endcond
 } get_MK;
 
 /**
@@ -512,12 +547,14 @@ struct // MK(Markedness)
 */
 struct // ICSI(Individual classification success index)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > ICSI (new float[Nclass]);
     std :: transform(PPV, PPV + Nclass, TPR, ICSI.get(), [](const float & tp, const float & tn){return tp + tn - 1.f;});
     return ICSI;
   }
+  /// @endcond
 } get_ICSI;
 
 /**
@@ -541,12 +578,14 @@ struct // ICSI(Individual classification success index)
 */
 struct // PLR(Positive likelihood ratio)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const float * FPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > PLR (new float[Nclass]);
     std :: transform(TPR, TPR + Nclass, FPR, PLR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return PLR;
   }
+  /// @endcond
 } get_PLR;
 
 /**
@@ -570,12 +609,14 @@ struct // PLR(Positive likelihood ratio)
 */
 struct // NLR(Negative likelihood ratio)
 {
+  /// @cond DEF
   auto operator() (const float * FNR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > NLR (new float[Nclass]);
     std :: transform(FNR, FNR + Nclass, TNR, NLR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return NLR;
   }
+  /// @endcond
 } get_NLR;
 
 /**
@@ -598,12 +639,14 @@ struct // NLR(Negative likelihood ratio)
 */
 struct // DOR(Diagnostic odds ratio)
 {
+  /// @cond DEF
   auto operator() (const float * PLR, const float * NLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > DOR (new float[Nclass]);
     std :: transform(PLR, PLR + Nclass, NLR, DOR.get(), [](const float & tp, const float & tn){return tp / (tn + epsil);});
     return DOR;
   }
+  /// @endcond
 } get_DOR;
 
 /**
@@ -625,12 +668,14 @@ struct // DOR(Diagnostic odds ratio)
 */
 struct // PRE(Prevalence)
 {
+  /// @cond DEF
   auto operator() (const float * P, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > PRE (new float[Nclass]);
     std :: transform(P, P + Nclass, POP, PRE.get(), [](const float & p, const float & pop){return p / (pop + epsil);});
     return PRE;
   }
+  /// @endcond
 } get_PRE;
 
 /**
@@ -651,12 +696,14 @@ struct // PRE(Prevalence)
 */
 struct // G(G-measure geometric mean of precision and sensitivity)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > G (new float[Nclass]);
     std :: transform(PPV, PPV + Nclass, TPR, G.get(), [](const float & i1, const float & i2){return std :: sqrt(i1 * i2);});
     return G;
   }
+  /// @endcond
 } get_G;
 
 /**
@@ -678,6 +725,7 @@ struct // G(G-measure geometric mean of precision and sensitivity)
 */
 struct // RACC(Random accuracy)
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > RACC (new float[Nclass]);
@@ -685,6 +733,7 @@ struct // RACC(Random accuracy)
       RACC[i] = (TOP[i] * P[i]) / (POP[i] * POP[i] + epsil);
     return RACC;
   }
+  /// @endcond
 } get_RACC;
 
 /**
@@ -703,12 +752,14 @@ struct // RACC(Random accuracy)
 */
 struct // ERR(Error rate)
 {
+  /// @cond DEF
   auto operator() (const float * ACC, const int & Nclass)
   {
     std :: unique_ptr < float[] > ERR_ACC (new float[Nclass]);
     std :: transform(ACC, ACC + Nclass, ERR_ACC.get(), [](const float & acc){return 1.f - acc;});
     return ERR_ACC;
   }
+  /// @endcond
 } get_ERR_ACC;
 
 /**
@@ -730,6 +781,7 @@ struct // ERR(Error rate)
 */
 struct // RACCU(Random accuracy unbiased)
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > RACCU (new float[Nclass]);
@@ -737,6 +789,7 @@ struct // RACCU(Random accuracy unbiased)
       RACCU[i] = ( (TOP[i] + P[i]) * (TOP[i] + P[i]) ) / (POP[i] * POP[i] * 4.f + epsil);
     return RACCU;
   }
+  /// @endcond
 } get_RACCU;
 
 /**
@@ -760,6 +813,7 @@ struct // RACCU(Random accuracy unbiased)
 */
 struct // J(Jaccard index)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TOP, const float * P, const int & Nclass)
   {
     std :: unique_ptr < float[] > jaccard_index (new float[Nclass]);
@@ -767,6 +821,7 @@ struct // J(Jaccard index)
       jaccard_index[i] = TP[i] / (TOP[i] + P[i] - TP[i] + epsil);
     return jaccard_index;
   }
+  /// @endcond
 } get_jaccard_index;
 
 /**
@@ -789,6 +844,7 @@ struct // J(Jaccard index)
 */
 struct // IS(Information score)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > IS (new float[Nclass]);
@@ -796,6 +852,7 @@ struct // IS(Information score)
       IS[i] = -std :: log2((TP[i] + FN[i]) / (POP[i] + epsil)) + (std :: log2(TP[i] / (TP[i] + FP[i] + epsil)));
     return IS;
   }
+  /// @endcond
 } get_IS;
 
 /**
@@ -819,6 +876,7 @@ struct // IS(Information score)
 */
 struct // CEN(Confusion entropy)
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
     std :: unique_ptr < float[] > CEN (new float[Nclass]);
@@ -849,6 +907,7 @@ struct // CEN(Confusion entropy)
 
     return CEN;
   }
+  /// @endcond
 } get_CEN;
 
 /**
@@ -863,6 +922,7 @@ struct // CEN(Confusion entropy)
 */
 struct // MCEN(Modified confusion entropy)
 {
+  /// @cond DEF
   auto operator() (const float * confusion_matrix, const int & Nclass)
   {
     std :: unique_ptr < float[] > MCEN (new float[Nclass]);
@@ -894,6 +954,7 @@ struct // MCEN(Modified confusion entropy)
     }
     return MCEN;
   }
+  /// @endcond
 } get_MCEN;
 
 /**
@@ -918,13 +979,14 @@ struct // MCEN(Modified confusion entropy)
 */
 struct // AUC(Area Under the ROC curve)
 {
+  /// @cond DEF
   auto operator() (const float * TNR, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > AUC (new float[Nclass]);
     std :: transform(TNR, TNR + Nclass, TPR, AUC.get(), [](const float & tnr, const float & tpr){return (tnr + tpr) * .5f;});
     return AUC;
   }
-
+  /// @endcond
 } get_AUC;
 
 /**
@@ -945,13 +1007,14 @@ struct // AUC(Area Under the ROC curve)
 */
 struct // dInd(Distance index)
 {
+  /// @cond DEF
   auto operator() (const float * TNR, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > dIND (new float[Nclass]);
     std :: transform(TNR, TNR + Nclass, TPR, dIND.get(), [](const float & tnr, const float & tpr){return std :: sqrt( (1.f - tnr) * (1.f - tnr) + (1.f - tpr) * (1.f - tpr) );});
     return dIND;
   }
-
+  /// @endcond
 } get_dIND;
 
 /**
@@ -971,13 +1034,14 @@ struct // dInd(Distance index)
 */
 struct // sInd(Similarity index)
 {
+  /// @cond DEF
   auto operator() (const float * dIND, const int & Nclass)
   {
     std :: unique_ptr < float[] > sIND (new float[Nclass]);
     std :: transform(dIND, dIND + Nclass, sIND.get(), [](const float & dind){return 1.f - (dind / std :: sqrt(2));});
     return sIND;
   }
-
+  /// @endcond
 } get_sIND;
 
 /**
@@ -999,13 +1063,14 @@ struct // sInd(Similarity index)
 */
 struct // DP(Discriminant power)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > DP (new float[Nclass]);
     std :: transform(TPR, TPR + Nclass, TNR, DP.get(), [](const float & tpr, const float & tnr){return std :: sqrt(3) / 3.14f * (std :: log10(tpr / (1.f - tpr)) + std :: log10(tnr / (1.f - tnr)));});
     return DP;
   }
-
+  /// @endcond
 } get_DP;
 
 /**
@@ -1031,13 +1096,14 @@ struct // DP(Discriminant power)
 */
 struct // Y(Youden index)
 {
+  /// @cond DEF
   auto operator() (const float * BM, const int & Nclass)
   {
     std :: unique_ptr < float[] > Y (new float[Nclass]);
     std :: copy_n(BM, Nclass, Y.get());
     return Y;
   }
-
+  /// @endcond
 } get_Y;
 
 /**
@@ -1056,13 +1122,14 @@ struct // Y(Youden index)
 */
 struct // PLRI(Positive likelihood ratio interpretation)
 {
+  /// @cond DEF
   auto operator() (const float * PLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > PLRI (new float[Nclass]);
     std :: transform(PLR, PLR + Nclass, PLRI.get(), [](const float & plr){return std :: isnan(plr) || std :: isinf(plr) ? -1.f : plr < 1.f ? 0.f : plr >= 1.f && plr < 5.f ? 1.f : plr >= 5.f && plr < 10.f ? 2.f : 3.f;});
     return PLRI;
   }
-
+  /// @endcond
 } get_PLRI;
 
 /**
@@ -1081,13 +1148,14 @@ struct // PLRI(Positive likelihood ratio interpretation)
 */
 struct // NLRI(Negative likelihood ratio interpretation)
 {
+  /// @cond DEF
   auto operator() (const float * NLR, const int & Nclass)
   {
     std :: unique_ptr < float[] > NLRI (new float[Nclass]);
     std :: transform(NLR, NLR + Nclass, NLRI.get(), [](const float & nlr){return std :: isnan(nlr) || std :: isinf(nlr) ? -1.f : nlr < .1f ? 0.f : nlr >= .1f && nlr < .2f ? 1.f : nlr >= .2f && nlr < .5f ? 2.f : 3.f;});
     return NLRI;
   }
-
+  /// @endcond
 } get_NLRI;
 
 /**
@@ -1106,13 +1174,14 @@ struct // NLRI(Negative likelihood ratio interpretation)
 */
 struct // DPI(Discriminant power interpretation)
 {
+  /// @cond DEF
   auto operator() (const float * DP, const int & Nclass)
   {
     std :: unique_ptr < float[] > DPI (new float[Nclass]);
     std :: transform(DP, DP + Nclass, DPI.get(), [](const float & dp){return std :: isnan(dp) || std :: isinf(dp) ? -1.f : dp < 1.f ? 0.f : dp >= 1.f && dp < 2.f ? 1.f : dp >= 2.f && dp < 3.f ? 2.f : 3.f;});
     return DPI;
   }
-
+  /// @endcond
 } get_DPI;
 
 /**
@@ -1132,13 +1201,14 @@ struct // DPI(Discriminant power interpretation)
 */
 struct // AUCI(AUC value interpretation)
 {
+  /// @cond DEF
   auto operator() (const float * AUC, const int & Nclass)
   {
     std :: unique_ptr < float[] > AUCI (new float[Nclass]);
     std :: transform(AUC, AUC + Nclass, AUCI.get(), [](const float & auc){return std :: isnan(auc) || std :: isinf(auc) ? -1.f : auc < .6f ? 0.f : auc >= .6 && auc < .7f ? 1.f : auc >= .7f && auc < .8f ? 2.f : 3.f;});
     return AUCI;
   }
-
+  /// @endcond
 } get_AUCI;
 
 /**
@@ -1161,13 +1231,14 @@ struct // AUCI(AUC value interpretation)
 */
 struct // GI(Gini index)
 {
+  /// @cond DEF
   auto operator() (const float * AUC, const int & Nclass)
   {
     std :: unique_ptr < float[] > GI (new float[Nclass]);
     std :: transform(AUC, AUC + Nclass, GI.get(), [](const float & auc){return 2.f * auc - 1.f;});
     return GI;
   }
-
+  /// @endcond
 } get_GI;
 
 /**
@@ -1190,13 +1261,14 @@ struct // GI(Gini index)
 */
 struct // LS(Lift score)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const float * PRE, const int & Nclass)
   {
     std :: unique_ptr < float[] > LS (new float[Nclass]);
     std :: transform(PPV, PPV + Nclass, PRE, LS.get(), [](const float & ppv, const float & pre){return ppv / (pre + epsil);});
     return LS;
   }
-
+  /// @endcond
 } get_LS;
 
 /**
@@ -1217,13 +1289,14 @@ struct // LS(Lift score)
 */
 struct // AM(Difference between automatic and manual classification)
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const int & Nclass)
   {
     std :: unique_ptr < float[] > AM (new float[Nclass]);
     std :: transform(TOP, TOP + Nclass, P, AM.get(), [](const float & top, const float & p){return top - p;});
     return AM;
   }
-
+  /// @endcond
 } get_AM;
 
 /**
@@ -1248,6 +1321,7 @@ struct // AM(Difference between automatic and manual classification)
 */
 struct // OP(Optimized precision)
 {
+  /// @cond DEF
   auto operator() (const float * ACC, const float * TPR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > OP (new float[Nclass]);
@@ -1256,7 +1330,7 @@ struct // OP(Optimized precision)
 
     return OP;
   }
-
+  /// @endcond
 } get_OP;
 
 /**
@@ -1277,13 +1351,14 @@ struct // OP(Optimized precision)
 */
 struct // IBA(Index of balanced accuracy)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const float * TNR, const int & Nclass)
   {
     std :: unique_ptr < float[] > IBA (new float[Nclass]);
     std :: transform(TPR, TPR + Nclass, TNR, IBA.get(), [](const float & tpr, const float & tnr){return (1.f + tpr - tnr) * tpr * tnr;});
     return IBA;
   }
-
+  /// @endcond
 } get_IBA;
 
 /**
@@ -1303,13 +1378,14 @@ struct // IBA(Index of balanced accuracy)
 */
 struct // GM(G-mean geometric mean of specificity and sensitivity)
 {
+  /// @cond DEF
   auto operator() (const float * TNR, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > GM (new float[Nclass]);
     std :: transform(TNR, TNR + Nclass, TPR, GM.get(), [](const float & tnr, const float & tpr){return std :: sqrt(tnr * tpr);});
     return GM;
   }
-
+  /// @endcond
 } get_GM;
 
 /**
@@ -1333,6 +1409,7 @@ struct // GM(G-mean geometric mean of specificity and sensitivity)
 */
 struct // Q(Yule Q - coefficient of colligation)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TN, const float * FP, const float * FN, const int & Nclass)
   {
     std :: unique_ptr < float[] > Q (new float[Nclass]);
@@ -1343,7 +1420,7 @@ struct // Q(Yule Q - coefficient of colligation)
     }
     return Q;
   }
-
+  /// @endcond
 } get_Q;
 
 /**
@@ -1367,6 +1444,7 @@ struct // Q(Yule Q - coefficient of colligation)
 */
 struct // AGM(Adjusted geometric mean)
 {
+  /// @cond DEF
   auto operator() (const float * TPR, const float * TNR, const float * GM, const float * N, const float * POP, const int & Nclass)
   {
     std :: unique_ptr < float[] > AGM (new float[Nclass]);
@@ -1383,7 +1461,7 @@ struct // AGM(Adjusted geometric mean)
 
     return AGM;
   }
-
+  /// @endcond
 } get_AGM;
 
 /**
@@ -1406,13 +1484,14 @@ struct // AGM(Adjusted geometric mean)
 */
 struct // MCCI(Matthews correlation coefficient interpretation)
 {
+  /// @cond DEF
   auto operator() (const float * MCC, const int & Nclass)
   {
     std :: unique_ptr < float[] > MCCI (new float[Nclass]);
     std :: transform(MCC, MCC + Nclass, MCCI.get(), [](const float & mcc){return std :: isnan(mcc) || std :: isinf(mcc) ? -1.f : mcc < .3f ? 0.f : mcc >= .3f && mcc < .5f ? 1.f : mcc >= .5f && mcc < .7f ? 2.f : mcc >= .7 && mcc < .9f ? 3.f : 4.f;});
     return MCCI;
   }
-
+  /// @endcond
 } get_MCCI;
 
 /**
@@ -1441,6 +1520,7 @@ struct // MCCI(Matthews correlation coefficient interpretation)
 */
 struct // AGF(Adjusted F-score)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * FP, const float * FN, const float * TN, const int & Nclass)
   {
     std :: unique_ptr < float[] > AGF (new float[Nclass]);
@@ -1453,7 +1533,7 @@ struct // AGF(Adjusted F-score)
 
     return AGF;
   }
-
+  /// @endcond
 } get_AGF;
 
 /**
@@ -1477,6 +1557,7 @@ struct // AGF(Adjusted F-score)
 */
 struct // OC(Overlap coefficient)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TOP, const float * P, const int & Nclass)
   {
     std :: unique_ptr < float[] > OC (new float[Nclass]);
@@ -1487,7 +1568,7 @@ struct // OC(Overlap coefficient)
 
     return OC;
   }
-
+  /// @endcond
 } get_OC;
 
 /**
@@ -1512,6 +1593,7 @@ struct // OC(Overlap coefficient)
 */
 struct // OOC(Otsuka-Ochiai coefficient)
 {
+  /// @cond DEF
   auto operator() (const float * TP, const float * TOP, const float * P, const int & Nclass)
   {
     std :: unique_ptr < float[] > OOC (new float[Nclass]);
@@ -1522,7 +1604,7 @@ struct // OOC(Otsuka-Ochiai coefficient)
 
     return OOC;
   }
-
+  /// @endcond
 } get_OOC;
 
 /**
@@ -1544,6 +1626,7 @@ struct // OOC(Otsuka-Ochiai coefficient)
 */
 struct // AUPR(Area under the PR curve)
 {
+  /// @cond DEF
   auto operator() (const float * PPV, const float * TPR, const int & Nclass)
   {
     std :: unique_ptr < float[] > AUPR (new float[Nclass]);
@@ -1551,7 +1634,7 @@ struct // AUPR(Area under the PR curve)
 
     return AUPR;
   }
-
+  /// @endcond
 } get_AUPR;
 
 /**
@@ -1574,6 +1657,7 @@ struct // AUPR(Area under the PR curve)
 */
 struct // BCD(Bray-Curtis dissimilarity)
 {
+  /// @cond DEF
   auto operator() (const float * TOP, const float * P, const float * AM, const int & Nclass)
   {
     std :: unique_ptr < float[] > BCD (new float[Nclass]);
@@ -1581,7 +1665,7 @@ struct // BCD(Bray-Curtis dissimilarity)
     std :: transform(AM, AM + Nclass, BCD.get(), [&](const float & am){return std :: fabs(am) / s;});
     return BCD;
   }
-
+  /// @endcond
 } get_BCD;
 
 

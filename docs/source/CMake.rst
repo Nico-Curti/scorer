@@ -28,7 +28,7 @@ Example:
 
 **Windows OS:**
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 ./build.ps1 Release
 
@@ -126,7 +126,7 @@ Windows (7+)
 
 2) Open your Powershell with Administrator privileges, type the following command and confirm it:
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 Set-ExecutionPolicy unrestricted
 
@@ -134,7 +134,7 @@ Windows (7+)
 
 4) If you are not sure about having them updated, or even installed, please install `git`, `cmake` and an updated `Powershell`. To do so, open your Powershell with Administrator privileges and type
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 cinst -y git cmake powershell
 
@@ -146,20 +146,20 @@ Windows (7+)
 
 8) Define a work folder, which we will call `WORKSPACE` in this tutorial: this could be a "Code" folder in our home, a "cpp" folder on our desktop, whatever you want. Create it if you don't already have, using your favourite method (mkdir in Powershell, or from the graphical interface in explorer). We will now define an environment variable to tell the system where our folder is. Please note down its full path. Open a Powershell (as a standard user) and type
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 rundll32 sysdm.cpl,EditEnvironmentVariables
 
 9) In the upper part of the window that pops-up, we have to create a new environment variable, with name `WORKSPACE` and value the full path noted down before.
 If it not already in the `PATH` (this is possible only if you did it before), we also need to modify the "Path" variable adding the following string (on Windows 10 you need to add a new line to insert it, on Windows 7/8 it is necessary to append it using a `;` as a separator between other records):
 
-.. code-block:: cmd
+.. code-block:: console
 
                       %PROGRAMFILES%\CMake\bin
 
 10) If `vcpkg` is not installed, please follow the next procedure, otherwise please jump to #12
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 cd $env:WORKSPACE
   PS Code>              git clone https://github.com/Microsoft/vcpkg.git
@@ -168,7 +168,7 @@ If it not already in the `PATH` (this is possible only if you did it before), we
 
 11) Open a Powershell with Administrator privileges and type
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>                 cd $env:WORKSPACE
   PS Code>              cd vcpkg
@@ -176,7 +176,7 @@ If it not already in the `PATH` (this is possible only if you did it before), we
 
 12) Open a Powershell and build `scorer` using the `build.ps1` script
 
-.. code-block:: Powershell
+.. code-block:: powershell
 
   PS \>             cd $env:WORKSPACE
   PS Code>          git clone https://github.com/Nico-Curti/scorer

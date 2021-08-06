@@ -1,9 +1,11 @@
 setup.py
 scorer/__init__.py
 scorer/__version__.py
-scorer/build.py
-scorer/example/test.py
-scorer/include/Scorer.pxd
-scorer/Scorer/__init__.py
-scorer/Scorer/Scorer.py
+scorer/example/main.py
+scorer/include/scorer.pxd
+scorer/scorer/__init__.py
+scorer/scorer/scorer.py
+scorer/scorer/sklearn_api.py
 scorer/source/scorer.pyx
+scorer/lib/__init__.pxd
+scorer/lib/scorer.pxd
