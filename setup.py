@@ -266,9 +266,12 @@ setup(
                                    'setuptools>=18.0',
                                    'cython'],
   packages                      = find_packages(include=['scorer', 'scorer.*'], exclude=('test', 'example')),
+  package_data                  = {'scorer': ['lib/*.pxd', 'source/*.pyx', 'source/*.cpp'],},
   include_package_data          = True,
-  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE']),
-                                   ('utils', ['./utils/dependency_graph.py', './utils/make_script.py', './utils/view_stats.py'])
+  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE', 'setup.py.in', 'Scorer.pc.in', 'ScorerConfig.cmake.in']),
+                                   ('example', ['example/example.cpp']),
+                                   ('cmake', ['cmake/FindCython.cmake', 'cmake/FindSphinx.cmake', 'cmake/UseCython.cmake']),
+                                   ('utils', ['utils/dependency_graph.py', 'utils/make_cython.py', 'utils/make_script.py', 'utils/sklearn_lut.conf', 'utils/view_stats.py'])
                                   ],
   platforms                     = 'any',
   classifiers                   = [

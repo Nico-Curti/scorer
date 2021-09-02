@@ -29,6 +29,6 @@ configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
 
 add_custom_target(setup_scorer ALL
                   DEPENDS pyscorer
-                  COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} develop --user
+                  COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} install --user
                   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                   COMMENT "Setup Python installation")

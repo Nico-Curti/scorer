@@ -1,9 +1,11 @@
 include *.md
+include *.toml
 include LICENSE
 include CMakeLists.txt
 include *.txt
-include *.yml
-include include/*
-include scorer/lib/*.pxd
-include scorer/source/*.pyx
+graft include
+graft scorer
 include utils/*.py
+include utils/*.conf
+graft src
+graft lib
