@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import division
-from __future__ import print_function
-
 import numpy as np
 import warnings
 
@@ -11,20 +8,22 @@ from scorer.lib.scorer import _scorer
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
+__all__ = ['Scorer']
 
 
 class Scorer (dict):
   '''
   Multi-class score computation.
 
-  This class represents an optimized and extended version of the PyCM_ library.
-  The full list of scores are evaluated using C++ functions wrapped into a single
-  score object.
-  The evaluation of the score functions can be performed into a parallel environment
-  using OMP multhithreading.
-  The C++ code is in fact auto-generated using the scripts provided into the utils_
-  directory and the optimal dependency graph is computed to allow the work distribution
-  among the available threads.
+  This class represents an optimized and extended version of
+  the PyCM_ library.
+  The full list of scores are evaluated using C++ functions
+  wrapped into a single score object.
+  The evaluation of the score functions can be performed into a
+  parallel environment using OMP multhithreading.
+  The C++ code is in fact auto-generated using the scripts provided
+  into the utils_ directory and the optimal dependency graph is
+  computed to allow the work distribution among the available threads.
 
   Example
   -------
@@ -38,7 +37,9 @@ class Scorer (dict):
 
   References
   ----------
-  - Haghighi, S., Jasemi, M., Hessabi, S. and Zolanvari, A. (2018). PyCM: Multiclass confusion matrix library in Python. Journal of Open Source Software, 3(25), p.729.
+  - Haghighi, S., Jasemi, M., Hessabi, S. and Zolanvari, A. (2018).
+    PyCM: Multiclass confusion matrix library in Python.
+    Journal of Open Source Software, 3(25), p.729.
 
   .. _PyCM : https://github.com/sepandhaghighi/pycm
   .. _utils : https://github.com/Nico-Curti/scorer/blob/master/utils/
@@ -67,14 +68,17 @@ class Scorer (dict):
     Notes
     -----
     .. note::
-      The array of true labels and predicted ones mush have the same length.
-      If the given arrays have different shapes a ValueError is raised.
+      The array of true labels and predicted ones mush have
+      the same length.
+      If the given arrays have different shapes a ValueError
+      is raised.
     '''
     if len(true) != len(pred):
       class_name = self.__class__.__name__
       raise ValueError('{0}: wrong shapes found. '
         'Found {1} true labels and {2} predicted labels. '
-        'Input arrays must have the same length'.format(class_name, len(true), len(pred)))
+        'Input arrays must have the same length'.format(
+          class_name, len(true), len(pred)))
 
 
   def _label2numbers (self, arr):
@@ -89,12 +93,14 @@ class Scorer (dict):
     Returns
     -------
       numeric_labels : np.ndarray
-        Array of numerical labels obtained by the LabelEncoder transform
+        Array of numerical labels obtained by the
+        LabelEncoder transform
 
     Notes
     -----
       .. note::
-        The C++ function allows only numerical (integer) values as labels in input.
+        The C++ function allows only numerical (integer)
+        values as labels in input.
         For more general support refers to the C++ example.
 
     Examples
@@ -149,7 +155,8 @@ class Scorer (dict):
     -----
     .. note::
       The score evaluation is possible only with integer labels.
-      The input labels are encoded in integers using the C++ version of the label encoder (_label2numbers).
+      The input labels are encoded in integers using the C++
+      version of the label encoder (_label2numbers).
     '''
 
     self._check_params(lbl_true, lbl_pred)
@@ -166,7 +173,9 @@ class Scorer (dict):
 
     with warnings.catch_warnings():
       warnings.simplefilter("ignore")
-      self['Confusion Matrix'] = np.reshape(self['Confusion Matrix'], newshape=(len(self['Classes']), len(self['Classes'])))
+      self['Confusion Matrix'] = np.reshape(self['Confusion Matrix'],
+                                            newshape=(len(self['Classes']),
+                                                      len(self['Classes'])))
       self['Classes'] = true_names
 
     return self
@@ -216,11 +225,13 @@ class Scorer (dict):
     Notes
     -----
     .. note::
-      In many cases the string related to the score is very long and it includes
-      information about the mathematical meaning of that score.
-      To facilitate the usage of the class the search of the attributes is performed
-      using a "regex" search.
-      In this way it is possible to access member values as in the following example
+      In many cases the string related to the score is very
+      long and it includes information about the mathematical
+      meaning of that score.
+      To facilitate the usage of the class the search of the
+      attributes is performed using a "regex" search.
+      In this way it is possible to access member values as in
+      the following example
 
       .. code-block:: python
 
@@ -276,13 +287,16 @@ class Scorer (dict):
     Notes
     -----
     .. note::
-      The search of the score name is performed using the key name of the dictionary.
+      The search of the score name is performed using the key
+      name of the dictionary.
       This function is different from __getattr__.
     '''
 
     if not len(self):
       class_name = self.__class__.__name__
-      raise ValueError('{0}: score not computed yet. Please use the "evaluate" method before'.format(class_name))
+      raise ValueError('{0}: score not computed yet. '
+                       'Please use the "evaluate" method before'.format(
+                        class_name))
 
     try:
 
@@ -295,7 +309,9 @@ class Scorer (dict):
 
     except KeyError:
       class_name = self.__class__.__name__
-      raise KeyError('{0}: statistic not found. Available statistics are {1}'.format(class_name, ','.join(self.keys())))
+      raise KeyError('{0}: statistic not found. '
+                     'Available statistics are {1}'.format(
+                     class_name, ','.join(self.keys())))
 
   def __setitem__ (self, stat, values):
     '''
@@ -320,9 +336,11 @@ class Scorer (dict):
     >>> scorer.evaluate(y_true, y_pred)
     >>>
     >>> scorer['dummy'] = 'dummy'
-      UserWarning: Setting new statistics does not enable the computation of the dependencies
+      UserWarning: Setting new statistics does not enable
+      the computation of the dependencies
     '''
-    warnings.warn(UserWarning('Setting new statistics does not enable the computation of the dependencies'))
+    warnings.warn(UserWarning('Setting new statistics does not enable'
+                              'the computation of the dependencies'))
     super(Scorer, self).__setitem__(stat, values)
 
   def __repr__ (self):
@@ -350,10 +368,12 @@ class Scorer (dict):
     for k, v in self.items():
       if isinstance(v, list) and k not in ['Classes', 'Confusion Matrix']:
         try:
-          fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : numeric_fmt.format(*v)})
+          fmt += '{name:<80} {value}\n'.format(**{'name' : k,
+                                                  'value' : numeric_fmt.format(*v)})
 
         except ValueError:
-          fmt += '{name:<80} {value}\n'.format(**{'name' : k, 'value' : array_fmt.format(*v)})
+          fmt += '{name:<80} {value}\n'.format(**{'name' : k,
+                                                  'value' : array_fmt.format(*v)})
 
 
     fmt += '\nOverall Statistics:\n\n'
@@ -370,9 +390,10 @@ class Scorer (dict):
 
 if __name__ == '__main__':
 
-
-  y_true = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2] # np.array([2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2], dtype=np.int32)
-  y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2] # np.array([0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2], dtype=np.int32)
+  y_true = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
+  # y_true = np.array([2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2], dtype=np.int32)
+  y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
+  # y_pred = np.array([0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2], dtype=np.int32)
 
   scorer = Scorer()
   scorer.evaluate(y_true, y_pred)

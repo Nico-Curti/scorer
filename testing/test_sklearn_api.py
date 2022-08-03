@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import division
-from __future__ import print_function
-
 import numpy as np
 from scorer import Scorer
 from scorer import sklearn_api
@@ -187,4 +184,3 @@ class TestSklearnAPI:
                              cv=5,  # split data randomly into 10 parts: 9 for training, 1 for scoring
                              scoring=my_scorer,  # which scoring metric?
                             )
-

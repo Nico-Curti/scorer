@@ -50,7 +50,7 @@ The dependency graph and the optimal parallelization strategy for the job splitt
 The wrap, via `Cython`, of the `C++` APIs guarantees an efficient computational time also in the `Python` applications.
 The library provides easily extendible APIs and possible integrations with other projects.
 
-This library has already been widely used in other machine learning applications [@10.21105/joss.02663@, @app11125438@].
+This library has already been widely used in other machine learning applications [@10.21105/joss.02663@, @10.3390/app11125438@].
 The aim of this project is to extend and optimize the original work of Sepand et al. [@10.21105/joss.00729@].
 
 # Statement of need

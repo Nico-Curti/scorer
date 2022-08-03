@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import division
-from __future__ import print_function
-
 import sys
 from io import StringIO
 
@@ -23,7 +20,7 @@ class TestScorer:
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
-  def test_list (self, size):
+  def test_with_input_list (self, size):
 
     y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
     y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
@@ -39,7 +36,7 @@ class TestScorer:
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
-  def test_numpy (self, size):
+  def test_with_input_numpy (self, size):
 
     y_true = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
     y_pred = np.random.choice([0., 1.], p=[.5, .5], size=(size, ))
@@ -92,9 +89,6 @@ class TestScorer:
 
     scorer = Scorer()
 
-    with pytest.raises(ValueError):
-      print(scorer['ACC(Accuracy)'])
-
     scorer.evaluate(y_true, y_pred)
 
     assert scorer.num_classes == 2
@@ -103,8 +97,33 @@ class TestScorer:
     np.testing.assert_allclose(scorer.score['FN(False negative/miss/type 2 error)'], np.zeros(shape=(len(set(y_true)), )))
     np.testing.assert_allclose(scorer.score['ACC(Accuracy)'], np.ones(shape=(len(set(y_true)), )))
 
+  def test_getter_error_before_fit (self):
+
+    size = 10
+    y_true = [1]*size
+    y_pred = [1]*size
+    y_true.append(0)
+    y_pred.append(0)
+
+    scorer = Scorer()
+
+    with pytest.raises(ValueError):
+      print(scorer['ACC(Accuracy)'])
+
+  def test_getter_error_wrong_key (self):
+
+    size = 10
+    y_true = [1]*size
+    y_pred = [1]*size
+    y_true.append(0)
+    y_pred.append(0)
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
+
     with pytest.raises(KeyError):
       print(scorer['dummy'])
+
 
   @given(size = st.integers(min_value=5, max_value=50))
   @settings(max_examples=10, deadline=None)
@@ -127,6 +146,10 @@ class TestScorer:
 
     scorer = Scorer()
     scorer.evaluate(y_true, y_pred)
+
+  def test_setter_warning (self):
+
+    scorer = Scorer()
 
     with pytest.warns(UserWarning):
       scorer['Nico'] = 'Nico'
@@ -175,6 +198,14 @@ class TestScorer:
     np.testing.assert_allclose(scorer['Overall ACC'], scorer.accuracy_score)
     np.testing.assert_allclose(scorer['FP(False positive/type 1 error/false alarm)'], scorer.class_false_positive)
 
+  def test_getter_alias_error (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
+
     with pytest.raises(AttributeError):
       scorer.dummy
 
@@ -192,6 +223,14 @@ class TestScorer:
     np.testing.assert_allclose(scorer['FDR(False discovery rate)'], scorer['class_false_discovery_rate'])
 
     np.testing.assert_allclose(scorer['Overall ACC'], scorer['accuracy_score'])
+
+  def test_lut_alias_error (self):
+
+    y_true = ['a', 'b', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'b', 'c', 'a']
+    y_pred = ['b', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'b', 'a', 'a']
+
+    scorer = Scorer()
+    scorer.evaluate(y_true, y_pred)
 
     with pytest.raises(KeyError):
       scorer['dummy']

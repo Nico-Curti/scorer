@@ -8,7 +8,10 @@ __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
 def header ():
-  return '\n'.join(('#ifndef __scorer_h__',
+  return '\n'.join(('/* This file was automatically generated */',
+                    '/* Any change will be lost in the next build */',
+                    '',
+                    '#ifndef __scorer_h__',
                     '#define __scorer_h__',
                     '', ''))
 
@@ -37,7 +40,7 @@ def header_file (dependency):
 
   variables = '\n'.join((variables, '',
                          '\tstd :: vector < float > classes; ///< array of classes', '',
-                         '\tint Nclass; ///< number of classes', ''))
+                         '\tint32_t Nclass; ///< number of classes', ''))
 
 
 
@@ -92,7 +95,7 @@ def header_file (dependency):
 \t*\n\
 \t*/\n'
 
-  members = '\n'.join(('', '{}\tvoid compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);'.format(description_compute_score),
+  members = '\n'.join(('', '{}\tvoid compute_score (const int32_t * lbl_true, const int32_t * lbl_pred, const int32_t & n_true, const int32_t & n_pred);'.format(description_compute_score),
                        '',
                        '', '{}\ttemplate < typename Os >'.format(description_print_class_stats), '\tvoid print_class_stats (Os & os);',
                        '',
@@ -102,7 +105,7 @@ def header_file (dependency):
                        '',
                        '', '{}\tvoid dump (const std :: string & filename);'.format(description_dump),
                        '',
-                       '', '{}\ttemplate < typename dtype >'.format(description_encoder), '\tint * encoder (dtype * arr, const int & size);',
+                       '', '{}\ttemplate < typename dtype >'.format(description_encoder), '\tint32_t * encoder (dtype * arr, const int32_t & size);',
                        ''))
 
   tail = '\n'.join(('', '};', '', '', '#endif // __scorer_h__', '', ''))
@@ -195,7 +198,7 @@ def cpp_file (workflow):
   members = '\n'.join(('scorer :: scorer ()',
                        '{',
                        '}', '', '',
-                       'void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)',
+                       'void scorer :: compute_score (const int32_t * lbl_true, const int32_t * lbl_pred, const int32_t & n_true, const int32_t & n_pred)',
                        '{',
                        '#ifdef __pythonic__',
                        '#ifdef _OPENMP',
@@ -217,7 +220,7 @@ def cpp_file (workflow):
                        ))
     if level == 0:
       members = '\n'.join((members,
-                           '\tthis->Nclass = static_cast < int >(this->classes.size());\n',
+                           '\tthis->Nclass = static_cast < int32_t >(this->classes.size());\n',
                            check_dimension()
                            ))
 
@@ -230,7 +233,11 @@ def cpp_file (workflow):
                        '', '',
                        '}', '', '', ''))
 
-  return ''.join((libs,
+  return ''.join(('/* This file was automatically generated */',
+                  '\n',
+                  '/* Any change will be lost in the next build */',
+                  '\n\n',
+                  libs,
                   '\n\n\n',
                   members))
 
@@ -239,12 +246,17 @@ def hpp_file (dependency):
   deps = dependency.copy()
   deps.pop('confusion_matrix')
 
-  header = '\n'.join(['#ifndef __scorer_hpp__', '#define __scorer_hpp__', '', ''])
+  header = '\n'.join(['/* This file was automatically generated */',
+                      '/* Any change will be lost in the next build */',
+                      '',
+                      '#ifndef __scorer_hpp__',
+                      '#define __scorer_hpp__',
+                      '', ''])
 
   libs = include_lib(['scorer.h'])
 
   regex_dump_array = '\n'.join(('\tos << std :: left << std :: setw(40) << "{tag}";',
-                                '\tfor (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << {name}[i] << " ";',
+                                '\tfor (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << {name}[i] << " ";',
                                 '\tos << std :: endl;',
                                 ''
                                 ))
@@ -292,9 +304,9 @@ def hpp_file (dependency):
                        '}', '',
                        ''
                        'template < typename dtype >',
-                       'int * scorer :: encoder (dtype * arr, const int & size)',
+                       'int32_t * scorer :: encoder (dtype * arr, const int32_t & size)',
                        '{', '',
-                       '\tint * encode = new int [size];',
+                       '\tint32_t * encode = new int32_t [size];',
                        '',
                        '\tstd :: unordered_set < dtype > lbl (arr, arr + size, size * sizeof(dtype));',
                        '',

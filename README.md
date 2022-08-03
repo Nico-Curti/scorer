@@ -1,9 +1,6 @@
 | **Authors**  | **Project** |  **Documentation** | **Build Status** | **License** | **Code Quality** | **Coverage** |
 |:------------:|:-----------:|:------------------:|:----------------:|:-----------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) <br/> [**D. Dall'Olio**](https://github.com/DanieleDallOlio) | **Scorer** <br/> [![Python3](https://img.shields.io/badge/code-Python%203-blue)](https://www.python.org/) <br/> [![Cython](https://img.shields.io/badge/code-Cython-yellow)](https://cython.org/) <br/> [![C++](https://img.shields.io/badge/code-C++-orange)](https://isocpp.org/) | **Docs CI:** [![Scorer Docs CI](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest) | **Linux:** [![Linux scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml) <br/> **Windows:** [![Windows scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml)  <br/> **MacOS:** [![MacOS scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml) <br/> **Python:** [![Python scorer CI](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | **Codacy** : [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c58e86d6e6b4451c98e70c6841388ccd)](https://www.codacy.com/gh/Nico-Curti/scorer/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
-
-**Travis/Appveyor:** [![travis](https://travis-ci.com/Nico-Curti/scorer.svg?branch=master)](https://travis-ci.com/Nico-Curti/scorer)
-[![appveyor](https://ci.appveyor.com/api/projects/status/4whrmb6qsp3nefgp?svg=true)](https://ci.appveyor.com/project/Nico-Curti/scorer)
+| [**N. Curti**](https://github.com/Nico-Curti) <br/> [**D. Dall'Olio**](https://github.com/DanieleDallOlio) | **Scorer** <br/> [![Python3](https://img.shields.io/badge/code-Python%203-blue)](https://www.python.org/) <br/> [![Cython](https://img.shields.io/badge/code-Cython-yellow)](https://cython.org/) <br/> [![C++](https://img.shields.io/badge/code-C++-orange)](https://isocpp.org/) | [![Doxygen Sphinx](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/scorer/badge/?version=latest)](https://scorer.readthedocs.io/en/latest/?badge=latest) | [![Linux](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/linux.yml) <br/> [![Windows](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/windows.yml)  <br/> [![MacOS](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/macos.yml) <br/> [![Python](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/scorer/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/Scorer/blob/master/LICENSE.md) | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c58e86d6e6b4451c98e70c6841388ccd)](https://www.codacy.com/gh/Nico-Curti/scorer/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/scorer&amp;utm_campaign=Badge_Grade) <br/> [![CODEBEAT](https://codebeat.co/badges/7222a662-b62c-4481-9d40-136cd9ba17b6)](https://codebeat.co/projects/github-com-nico-curti-scorer-master) | [![codecov](https://codecov.io/gh/Nico-Curti/scorer/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/scorer) |
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/scorer.svg?style=plastic)](https://github.com/Nico-Curti/scorer/issues)
@@ -42,11 +39,17 @@ To further improve the usage of our code, we propose also a `Python` wrap of the
 
 ## Overview
 
+The `Scorer` project implements a `scikit-learn` compatible set of machine-learning metric functions using a factor graph parallel environment.
+The user interface of the library is generated fully automatically using a strict language formatting of the backend.
+The dependency graph and the optimal parallelization strategy for the job splitting is automatically found in the pre-processing step, which leads to the creation of the library in both `C++` and `Python` language.
+The wrap, via `Cython`, of the `C++` APIs guarantees an efficient computational time also in the `Python` applications.
+The library provides easily extendible APIs and possible integrations with other projects.
+
 A full list of informations about the score functions and their meaning can be found in the amazing [documentation](https://www.pycm.ir/doc/) of the original PyCM project.
 
 ## Getting Started
 
-To build the project you can use the [Makefile](https://github.com/Nico-Curti/scorer/blob/master/Makefile) or the [CMake](https://github.com/Nico-Curti/scorer/blob/master/CMakeLists.txt) (recommended).
+To build the project you can use the [Makefile](https://github.com/Nico-Curti/scorer/blob/master/Makefile) or the [CMake](https://github.com/Nico-Curti/scorer/blob/master/CMakeLists.txt) (**recommended**).
 
 In the first case you can see the whole set of available rules just typing `make` or `make example` to build the [example](https://github.com/Nico-Curti/scorer/blob/master/example/example.cpp) script in c++ or `make pythonic` to build the Cython version of the code.
 
@@ -55,31 +58,30 @@ The builds scripts ([build.sh](https://github.com/Nico-Curti/scorer/blob/master/
 ```bash
 git clone https://github.com/Nico-Curti/scorer.git
 cd scorer
-./build.sh Release
 ```
 
-For a manual installation of the Python version you can also run the [setup](https://github.com/Nico-Curti/scorer/blob/master/setup.py) script as
+|              |  **Linux**    |  **MacOS**    |  **Windows**  |
+|:------------:|:--------------|:--------------|:--------------|
+| **Script**   | `./build.sh`  | `./build.sh`  | `./build.ps1` |
 
-```bash
-python -m pip install -r requirements.txt
-python setup.py build_ext --inplace
-```
+For a manual installation of the Python version you can also run the [setup](https://github.com/Nico-Curti/scorer/blob/master/setup.py) as:
 
-or for developers
-
-```bash
-python -m pip install -r requirements.txt
-python setup.py develop --user
+```mermaid
+graph LR;
+    A(Install<br>Requirements) -->|python -m pip install -r requirements.txt| B(Install<br>scorer)
+    B -->|python setup.py install| C(Package<br>Install)
+    B -->|python setup.py develop --user| D(Development<br>Mode)
 ```
 
 If you are working without *root* privileges we suggest to use the [`Shut`](https://github.com/Nico-Curti/shut) scripts to easily install all the required dependencies.
 
-> :warning: The setup file requires the `Cython` package, thus make sure to pre-install them!
-> We are working on some workarounds to solve this issue.
+| :warning: WARNING |
+|:------------------|
+| The installation of the `Python` modules requires the `CMake` support and all the listed above libraries.<br>If you are working under *Window OS* we require the usage of `VCPKG` for the installation of the libraries and a precise configuration of the environment variables.<br>In particular you need to set the variables `VCPKG_ROOT=/path/to/vcpkg/rootdir/` and `VCPKG_DEFAULT_TRIPLET=x64-windows`.<br>A full working example of OS configuration can be found in the CI actions of the project, available [here](https://github.com/Nico-Curti/scorer/blob/main/.github/workflows/) |
 
-> :warning: The current installation via pip has no requirements about the version of `setuptools` package.
-> If the already installed version of `setuptools` is `>= 50.*` you can find some troubles during the installation of our package (ref. [issue](https://github.com/Nico-Curti/rFBP/issues/5)).
-> We suggest to temporary downgrade the `setuptools` version to `49.3.0` to workaround this `setuptools` issue.
+| :warning: WARNING |
+|:------------------|
+| All the `CMake` flags are set internally in the `setup.py` script with default values.<br>You can manually turn on/off the multi-threading support passing the flag `--omp` at the setup command line, *i.e.* `python setup.py develop --user --omp` |
 
 ## Prerequisites
 
@@ -96,27 +98,36 @@ Python version supported :
 
 ![Python version](https://img.shields.io/badge/python-2.7|3.3|3.4|3.5|3.6|3.7|3.8|3.9-blue.svg)
 
-The OMP version of the code is automatically available if OMP is installed and in this way all the metric computations are performed in parallel according to the generated dependency graph.
+The OMP version of the code is available if OMP is installed (and the `-DOMP:BOOL=ON` flag is given to CMake) and in this way all the metric computations are performed in parallel according to the generated dependency graph.
 
 The full list of prerequisites of Python version is listed in [requirements](https://github.com/Nico-Curti/scorer/blob/master/requirements.txt).
 
-**Note**: if you are interested on the visualization of the dependency graph and some other utilities to manage the evaluated metrics you can find all the scripts in the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder.
-In this case you need to install also the following Python packages:
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| If you are interested on the visualization of the dependency graph and some other utilities to manage the evaluated metrics you can find all the scripts in the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder. |
+| In this case you need to install also the following Python packages <ul><li>pandas>=0.23.3</li><li>matplotlib>=2.2.2</li><li>mpld3>=0.3</li></ul>|
 
-- pandas>=0.23.3
-- matplotlib>=2.2.2
-- mpld3>=0.3
-
-> :warning: For both the Python and C++ installation of the library is required Python with the support of [`networkx`](https://networkx.github.io/) package.
-> Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object!
+| :warning: WARNING |
+|:------------------|
+| For both the Python and C++ installation of the library is required Python with the support of [`networkx`](https://networkx.github.io/) package. Thus, please configure your Python such as the CMake `find_package` function can find it and pay attention to install the `networkx` package for the auto-generation of the scorer object! |
 
 ## Installation
 
 A complete list of instructions "for beginners" is also provided for both [c++](https://scorer.readthedocs.io/en/latest/CMake.html) and [python](https://scorer.readthedocs.io/en/latest/Python.html) versions.
 
-If you are using the `CMake` (recommended) installer you obtain also the possibility to export the library.
+If you are using the `CMake` (**recommended**) installer you obtain also the possibility to export the library.
+The `CMake` command line can be customized according to the following parameters:
+
+* `-DOMP:BOOL` : Enable/Disable the OpenMP support for multi-threading computation
+* `-DBUILD_DOCS:BOOL` : Enable/Disable the build of docs using Doxygen and Sphinx
+* `-DPYWRAP:BOOL` : Enable/Disable the build of Python wrap of the library via Cython (see next section for Python requirements)
+
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| All the variables above are set to `OFF` by default! |
+
 After the installation you can use this library into other `CMake` projects using a simple `find_package` function.
-The exported `CMake` library (`Scorer::scorer`) is installed in the `share/scorer` directory of the current project and the relative header files are available in the `Scorer_INCLUDE_DIR` variable.
+The exported `CMake` library (`Scorer::scorer`) is installed in the `share/scorer` directory of the current project and the relative header files are available in the `include/scorer` folder.
 
 The `CMake` installer provides also a `Scorer.pc`, useful if you want link to the `scorer` using `pkg-config`.
 
@@ -132,10 +143,10 @@ If you use the c++ version *PAY ATTENTION* to the parallel environment (you have
 
 int main ()
 {
-  const int n_labels = 12;
+  const int32_t n_labels = 12;
 
-  std :: array < int, n_labels > y_true = { {2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2} };
-  std :: array < int, n_labels > y_pred = { {0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2} };
+  std :: array < int32_t, n_labels > y_true = { {2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2} };
+  std :: array < int32_t, n_labels > y_pred = { {0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2} };
 
   scorer score;
 
@@ -304,7 +315,7 @@ CSI                                                                             
 ```
 
 If you are working with non-integer labels, the Scorer object provides a usefull `_label2numbers` (`encode` in C++) function.
-Its usage is mandatory in `C++` since the function signature requires **only** integer (int32) values, while the `Python` version automatically encode/decode the labels according to requirements.
+Its usage is mandatory in `C++` since the function signature requires **only** integer (int32_t) values, while the `Python` version automatically encode/decode the labels according to requirements.
 
 In the [utils](https://github.com/Nico-Curti/scorer/tree/master/utils) folder some utility scripts are reported.
 The `make_script.py` allows to write the complete parallel version of the scorer class in c++.
@@ -409,6 +420,16 @@ In this case, we suggest to use the following command to overcome this `mpld3` i
 ```bash
 python -m pip install --user "git+https://github.com/javadba/mpld3@display_fix"
 ```
+
+* **How can I install the library via `VCPKG` dependency manager?**
+
+The `scorer` library is not yet supported via `vcpkg` (I have not submitted any PR yet).
+However, in the [`cmake`](https://github.com/Nico-Curti/scorer/blob/master/cmake) folder you can find a complete directory-tree named `vcpkg`.
+You can simply copy&paste the entire `vcpkg` folder over the original (cloned [here](https://github.com/microsoft/vcpkg)) project to manage the entire installation of the library *also* via vcpkg.
+
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| Since no releases have been published yet, the [`portfile`](https://github.com/Nico-Curti/scorer/blob/master/cmake/ports/scorer/portfile.cmake) is not complete and you need to manually set the `REF` and `SHA512` variables! |
 
 ## Authors
 

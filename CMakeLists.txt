@@ -6,10 +6,28 @@ set (SCORER_MINOR    0)
 set (SCORER_REVISION 2)
 set (SCORER_VERSION ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION})
 
-project (scorer LANGUAGES CXX VERSION ${SCORER_VERSION} DESCRIPTION "Machine Learning Scorer")
+set (CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/Nico-Curti/scorer")
+set (CMAKE_PROJECT_DESCRIPTION "Multi-class scorer computation library")
+
+message (STATUS "scorer VERSION: ${SCORER_VERSION}")
+
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+  message(STATUS "VCPKG found: $ENV{VCPKG_ROOT}")
+  message(STATUS "Using VCPKG integration")
+  message(STATUS "VCPKG_MANIFEST_FEATURES: ${VCPKG_MANIFEST_FEATURES}")
+  if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET})
+    message(STATUS "Setting default vcpkg target triplet to $ENV{VCPKG_DEFAULT_TRIPLET}")
+    set(VCPKG_TARGET_TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET})
+  endif()
+endif()
+
+project (scorer LANGUAGES CXX VERSION ${SCORER_VERSION} DESCRIPTION ${CMAKE_PROJECT_DESCRIPTION})
+
+enable_language(CXX)
+
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-set (CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/Nico-Curti/scorer")
 
 add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SCORER_REVISION})
 
@@ -17,15 +35,15 @@ add_definitions (-DMAJOR=${SCORER_MAJOR} -DMINOR=${SCORER_MINOR} -DREVISION=${SC
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-option (OMP         "Enable OpenMP                  support" ON  )
-option (PYWRAP      "Enable Python wrap compilation        " ON  )
-option (BUILD_DOCS  "Enable Documentaion builid     support" OFF )
+option (OMP        "Enable OpenMP                  support" OFF)
+option (PYWRAP     "Enable Python wrap compilation        " OFF)
+option (BUILD_DOCS "Enable Documentaion builid     support" OFF)
 
 #################################################################
 #                         SETTING VARIABLES                     #
 #################################################################
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/" ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )
@@ -39,7 +57,12 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
   set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
   # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "Install prefix" FORCE)
 endif()
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
@@ -49,7 +72,8 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG" )
     set (CMAKE_CXX_FLAGS_RELEASE "")
   elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
-    string (REGEX REPLACE "-O3" "-Ofast" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    # The fast-math operations are not supported by HYPOTHESIS Python package!
+    #string (REGEX REPLACE "-O3" "-Ofast" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG" )
     set (CMAKE_CXX_FLAGS_DEBUG "")
   endif()
@@ -76,15 +100,12 @@ if (MSVC)
   set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
-#include (CheckCXXCompilerFlag)
-#CHECK_CXX_COMPILER_FLAG ("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-#if (COMPILER_SUPPORTS_MARCH_NATIVE AND NOT MSVC)
-#  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -march=native -mtune=native")
-#endif ()
+include (CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG ("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
+if (COMPILER_SUPPORTS_MARCH_NATIVE AND NOT MSVC)
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
+endif ()
 
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}" CACHE PATH "Install prefix" FORCE)
-endif()
 
 #################################################################
 #                         PARSE OPTIONS                         #
@@ -111,52 +132,57 @@ endif()
 #                         SETTING DIRECTORIES                   #
 #################################################################
 
-set(INC_DIR  ${CMAKE_SOURCE_DIR}/include  CACHE PATH "Path where find header files"                     )
-set(SRC_DIR  ${CMAKE_SOURCE_DIR}/src      CACHE PATH "Path where find cpp files"                        )
-set(TST_DIR  ${CMAKE_SOURCE_DIR}/example  CACHE PATH "Path where find test files"                       )
-set(PYC_DIR  ${CMAKE_SOURCE_DIR}/scorer   CACHE PATH "Path where find cython files"                     )  # cython directory
-set(LIB_DIR  ${CMAKE_SOURCE_DIR}/lib      CACHE PATH "Path where lib will be installed"            FORCE)
-set(OUT_DIR  ${CMAKE_SOURCE_DIR}/bin      CACHE PATH "Path where outputs will be installed"        FORCE)
+set(INSTALL_BIN_DIR "${CMAKE_CURRENT_LIST_DIR}/bin" CACHE PATH "Path where exe and dll will be installed")
+set(INSTALL_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib" CACHE PATH "Path where lib will be installed")
 
-set(INSTALL_INCLUDE_DIR  "${CMAKE_CURRENT_LIST_DIR}/share/include/scorer"  CACHE PATH "Path where headers will be installed")
-set(INSTALL_CMAKE_DIR    "${CMAKE_CURRENT_LIST_DIR}/share/scorer"          CACHE PATH "Path where cmake configs will be installed")
+set(INSTALL_INCLUDE_DIR  "include/scorer"  CACHE PATH "Path where headers will be installed")
+set(INSTALL_CMAKE_DIR    "share/scorer"    CACHE PATH "Path where cmake configs will be installed")
 
 set(CMAKE_DEBUG_POSTFIX d)
 
-set (scorerlib scorer)
-file (GLOB SRC    "${SRC_DIR}/*.cpp")
-file (GLOB HEADER "${INC_DIR}/*.h"  )
-file (GLOB EXE    "${EXAMPLE}/*.cpp")
+configure_file(
+  "${CMAKE_CURRENT_LIST_DIR}/include/version.h.in"
+  "${CMAKE_CURRENT_LIST_DIR}/include/version.h" @ONLY
+)
 
-include_directories(${INC_DIR})
-include_directories(${PYC_DIR})
+file (GLOB SCORER_SRC    "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"  )
+file (GLOB SCORER_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/*.h")
 
-configure_file(${INC_DIR}/version.h.in ${INC_DIR}/version.h @ONLY)
+include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
 
-set (Scorer_INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR})
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/cmake)
+find_package (Python REQUIRED COMPONENTS Interpreter)
+add_custom_target(make_scorer_obj ALL
+  COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_LIST_DIR}/utils/make_script.py"
+  COMMENT "Generate scorer object using dependency graph..."
+)
 
 if (PYWRAP)
   include( UseCython )
+  add_custom_target(make_scorer_cython ALL
+    COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/utils/make_cython.py"
+    COMMENT "Generate scorer cython wrap..."
+  )
+  add_dependencies(make_scorer_cython make_scorer_obj)
 endif ()
 
-configure_file(${CMAKE_SOURCE_DIR}/Scorer.pc.in ${CMAKE_SOURCE_DIR}/Scorer.pc @ONLY)
-configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
-message(STATUS "Pkg-config generated")
-
-find_package (PythonInterp REQUIRED)
-add_custom_target(make_scorer_obj ALL
-                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_script.py
-                  COMMENT "Generate scorer object using dependency graph"
-                  )
-add_custom_target(make_scorer_cython ALL
-                  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/utils/make_cython.py
-                  COMMENT "Generate scorer cython wrap using dependency graph"
-                  )
-add_dependencies(make_scorer_cython make_scorer_obj)
+set (scorerlib scorer)
 
 # allow the export of LD_LIBRARY_PATH env variable
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+configure_file(
+  "${CMAKE_CURRENT_LIST_DIR}/Scorer.pc.in"
+  "${CMAKE_CURRENT_LIST_DIR}/Scorer.pc" @ONLY
+)
+message(STATUS "Pkg-config generated")
+
+# Make relative paths absolute (needed later on)
+foreach (p LIB BIN INCLUDE CMAKE)
+  set (var INSTALL_${p}_DIR)
+  if (NOT IS_ABSOLUTE "${${var}}")
+    set (FULLPATH_${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
 
 #################################################################
 #                          SUMMARY                              #
@@ -164,7 +190,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 message(STATUS ""                                                                       )
 message(STATUS "=================== Scorer configuration Summary =================="    )
-message(STATUS "   Scorer version: ${SCORER_MAJOR}.${SCORER_MINOR}.${SCORER_REVISION}"  )
+message(STATUS "   Scorer version: ${SCORER_VERSION}"                                   )
 message(STATUS ""                                                                       )
 message(STATUS "   Build type : ${CMAKE_BUILD_TYPE}"                                    )
 message(STATUS "   C++ :"                                                               )
@@ -198,41 +224,47 @@ message(STATUS ""                                                               
 #                         MAIN RULES                            #
 #################################################################
 
-add_library(${scorerlib} SHARED ${SRC} ${HEADER})
+add_library(${scorerlib} SHARED ${SCORER_SRC} ${SCORER_HEADER})
 set_target_properties(${scorerlib} PROPERTIES POSITION_INDEPENDENT_CODE ON)
-target_include_directories(${scorerlib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<INSTALL_INTERFACE:${Scorer_INSTALL_INCLUDE_DIR}>)
+target_include_directories(${scorerlib}
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+  $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>)
 target_link_libraries(${scorerlib} ${linked_libs})
 add_dependencies(${scorerlib} make_scorer_obj)
 
-set_target_properties(${scorerlib} PROPERTIES PUBLIC_HEADER "${HEADER}")
+set_target_properties(${scorerlib}
+  PROPERTIES
+  PUBLIC_HEADER "${SCORER_HEADER}"
+)
 
-if (PYWRAP)
-  add_subdirectory(${PYC_DIR}/source)
-endif ()
+install(TARGETS ${scorerlib} EXPORT ScorerTargets
+  RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+  LIBRARY DESTINATION "${INSTALL_LIB_DIR}"
+  ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
+  COMPONENT dev
+)
 
 add_custom_target(example_test)
-add_executable( example ${TST_DIR}/example.cpp )
+add_executable( example "${CMAKE_CURRENT_LIST_DIR}/example/example.cpp" )
 add_dependencies(example_test example)
 target_link_libraries(example ${linked_libs} ${scorerlib})
 
+install(TARGETS example DESTINATION "${INSTALL_BIN_DIR}")
+
+if (PYWRAP)
+  add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/scorer/source")
+endif ()
+
 # This must be the latest subdirectory included!!
 if (BUILD_DOCS)
-  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
+  add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/docs/")
 endif ()
 
 #################################################################
-#                          INSTALLERS                           #
+#                          EXPORTS                              #
 #################################################################
-
-install(TARGETS ${scorerlib}        EXPORT ScorerTargets
-                                    RUNTIME DESTINATION "${OUT_DIR}"
-                                    LIBRARY DESTINATION "${LIB_DIR}"
-                                    ARCHIVE DESTINATION "${LIB_DIR}"
-                                    PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
-                                    COMPONENT dev
-                                    )
-
-install(TARGETS example            DESTINATION ${OUT_DIR})
 
 install(EXPORT ScorerTargets
   FILE ScorerTargets.cmake
@@ -240,13 +272,12 @@ install(EXPORT ScorerTargets
   DESTINATION "${INSTALL_CMAKE_DIR}"
 )
 
-
 # Export the package for use from the build-tree (this registers the build-tree with a global CMake-registry)
 export(PACKAGE Scorer)
 
 # Create the ScorerConfig.cmake
 # First of all we compute the relative path between the cmake config file and the include path
-file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
+file(RELATIVE_PATH REL_INCLUDE_DIR "${FULLPATH_INSTALL_CMAKE_DIR}" "${FULLPATH_INSTALL_INCLUDE_DIR}")
 set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
 configure_file(ScorerConfig.cmake.in "${PROJECT_BINARY_DIR}/ScorerConfig.cmake" @ONLY)
 set(CONF_INCLUDE_DIRS "\${Scorer_CMAKE_DIR}/${REL_INCLUDE_DIR}")

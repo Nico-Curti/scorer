@@ -1,4 +1,4 @@
-name: Windows scorer CI
+name: Windows
 
 on:
   push:

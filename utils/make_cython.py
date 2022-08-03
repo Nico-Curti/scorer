@@ -16,6 +16,11 @@ def make_base_pyx_script ():
   body = '''# distutils: language = c++
 # cython: language_level=2
 
+# ***************************************************
+# **** This file was automatically generated     ****
+# **** Any change will be lost in the next build ****
+# ***************************************************
+
 from cython.operator cimport dereference as deref
 from libcpp.memory cimport unique_ptr
 
@@ -82,6 +87,11 @@ def make_base_pxd_script ():
 
   body = '''# distutils: language = c++
 # cython: language_level=2
+
+# ***************************************************
+# **** This file was automatically generated     ****
+# **** Any change will be lost in the next build ****
+# ***************************************************
 
 from libcpp.vector cimport vector
 from libcpp.memory cimport unique_ptr

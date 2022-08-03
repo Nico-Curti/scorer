@@ -184,6 +184,7 @@ bld/
 [Ss]corer/__version__.py
 [Uu]tils/dependency_graph.html
 [Ss]hare/
+include/[Ss]corer/
 
 
 # Utilities
@@ -205,7 +206,6 @@ html*
 # documentation
 docs/Doxyfile
 docs/build/
-docs/source/conf.py
 docs/source/doxydoc/
 docs/source/html/
 

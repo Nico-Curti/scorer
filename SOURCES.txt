@@ -2,7 +2,6 @@ setup.py
 scorer/__init__.py
 scorer/__version__.py
 scorer/example/main.py
-scorer/include/scorer.pxd
 scorer/scorer/__init__.py
 scorer/scorer/scorer.py
 scorer/scorer/sklearn_api.py

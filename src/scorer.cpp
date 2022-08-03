@@ -1,3 +1,6 @@
+/* This file was automatically generated */
+/* Any change will be lost in the next build */
+
 #include <scorer.hpp>
 #include <common_stats.h>
 #include <class_stats.h>
@@ -9,7 +12,7 @@ scorer :: scorer ()
 }
 
 
-void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred)
+void scorer :: compute_score (const int32_t * lbl_true, const int32_t * lbl_pred, const int32_t & n_true, const int32_t & n_pred)
 {
 #ifdef __pythonic__
 #ifdef _OPENMP
@@ -35,7 +38,7 @@ void scorer :: compute_score (const int * lbl_true, const int * lbl_pred, const 
 #endif
 
 
-	this->Nclass = static_cast < int >(this->classes.size());
+	this->Nclass = static_cast < int32_t >(this->classes.size());
 
 	if ( this->Nclass <= 1 )
 	{

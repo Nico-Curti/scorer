@@ -1,36 +1,39 @@
 
 # build C++ APIs with Doxygen
 
-find_package(Doxygen)
+find_package(Doxygen REQUIRED)
 
-set(DOXYGEN_IN ${CMAKE_SOURCE_DIR}/docs/Doxyfile.in)
-set(DOXYGEN_OUT ${CMAKE_SOURCE_DIR}/docs/Doxyfile)
-set(XML_OUTPUT_DIR doxydoc)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile"
+  @ONLY
+)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/conf.py.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/conf.py"
+  @ONLY
+)
 
-configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-configure_file(${CMAKE_SOURCE_DIR}/docs/source/conf.py.in ${CMAKE_SOURCE_DIR}/docs/source/conf.py @ONLY)
+add_custom_target(cpp_docs ALL
+  DEPENDS ${scorerlib}
+  COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  COMMENT "Generating C++ API documentation with Doxygen"
+  VERBATIM
+)
 
 
-add_custom_target( cpp_docs ALL
-    DEPENDS ${scorerlib}
-    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Generating C++ API documentation with Doxygen"
-    VERBATIM )
-
-
-if (PYWRAP)
-
-  # build Python APIs with Sphinx
+# build Python APIs with Sphinx
+if ( PYWRAP )
 
   find_package(Sphinx REQUIRED)
 
-  set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/source/)
-  set(SPHINX_BUILD ${CMAKE_SOURCE_DIR}/docs/build)
+  set(SPHINX_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/source/")
+  set(SPHINX_BUILD  "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
   add_custom_target(py_docs ALL
                     DEPENDS setup_scorer cpp_docs
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                     COMMENT "Generating Python API documentation with Sphinx")
 
   # Workaround for the lack of post_install steps.

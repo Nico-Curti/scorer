@@ -1,4 +1,4 @@
-name: MacOS scorer CI
+name: MacOS
 
 on:
   push:

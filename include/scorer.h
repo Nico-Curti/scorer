@@ -1,3 +1,6 @@
+/* This file was automatically generated */
+/* Any change will be lost in the next build */
+
 #ifndef __scorer_h__
 #define __scorer_h__
 
@@ -143,7 +146,7 @@ struct scorer
 
 	std :: vector < float > classes; ///< array of classes
 
-	int Nclass; ///< number of classes
+	int32_t Nclass; ///< number of classes
 
 	/**
 	* @brief Default constructor.
@@ -168,7 +171,7 @@ struct scorer
 	* @param n_pred size of the array lbl_pred (aka number of predicted labels)
 	*
 	*/
-	void compute_score (const int * lbl_true, const int * lbl_pred, const int & n_true, const int & n_pred);
+	void compute_score (const int32_t * lbl_true, const int32_t * lbl_pred, const int32_t & n_true, const int32_t & n_pred);
 
 
 	/**
@@ -218,7 +221,7 @@ struct scorer
 	*
 	*/
 	template < typename dtype >
-	int * encoder (dtype * arr, const int & size);
+	int32_t * encoder (dtype * arr, const int32_t & size);
 
 };
 

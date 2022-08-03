@@ -1,3 +1,6 @@
+/* This file was automatically generated */
+/* Any change will be lost in the next build */
+
 #ifndef __scorer_hpp__
 #define __scorer_hpp__
 
@@ -9,247 +12,247 @@ void scorer :: print_class_stats (Os & os)
 {
 
 	os << std :: left << std :: setw(40) << "Classes";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << classes[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << classes[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TP(True positive/hit)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FN(False negative/miss/type 2 error)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FN[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FN[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FP(False positive/type 1 error/false alarm)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TN(True negative/correct rejection)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TN[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TN[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "POP(Population)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << POP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << POP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "P(Condition positive or support)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << P[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << P[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "N(Condition negative)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << N[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << N[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TOP(Test outcome positive)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TOP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TOP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TON(Test outcome negative)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TON[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TON[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TPR(Sensitivity / recall / hit rate / true positive rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TPR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TPR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "TNR(Specificity or true negative rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TNR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << TNR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "PPV(Precision or positive predictive value)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PPV[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PPV[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "NPV(Negative predictive value)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NPV[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NPV[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FNR(Miss rate or false negative rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FNR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FNR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FPR(Fall-out or false positive rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FPR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FPR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FDR(False discovery rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FDR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FDR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "FOR(False omission rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FOR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << FOR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "ACC(Accuracy)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ACC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ACC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "F1(F1 score - harmonic mean of precision and sensitivity)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F1_SCORE[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F1_SCORE[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "F0.5(F0.5 score)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F05_SCORE[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F05_SCORE[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "F2(F2 score)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F2_SCORE[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << F2_SCORE[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "MCC(Matthews correlation coefficient)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "BM(Informedness or bookmaker informedness)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << BM[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << BM[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "MK(Markedness)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MK[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MK[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "ICSI(Individual classification success index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ICSI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ICSI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "PLR(Positive likelihood ratio)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PLR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PLR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "NLR(Negative likelihood ratio)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NLR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NLR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "DOR(Diagnostic odds ratio)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DOR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DOR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "PRE(Prevalence)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PRE[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PRE[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "G(G-measure geometric mean of precision and sensitivity)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << G[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << G[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "RACC(Random accuracy)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << RACC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << RACC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "ERR(Error rate)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ERR_ACC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << ERR_ACC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "RACCU(Random accuracy unbiased)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << RACCU[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << RACCU[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "J(Jaccard index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << jaccard_index[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << jaccard_index[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "IS(Information score)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << IS[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << IS[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "CEN(Confusion entropy)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << CEN[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << CEN[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "MCEN(Modified confusion entropy)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCEN[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCEN[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AUC(Area Under the ROC curve)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "dInd(Distance index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << dIND[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << dIND[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "sInd(Similarity index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << sIND[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << sIND[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "DP(Discriminant power)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "Y(Youden index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << Y[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << Y[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "PLRI(Positive likelihood ratio interpretation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PLRI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << PLRI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "NLRI(Negative likelihood ratio interpretation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NLRI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << NLRI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "DPI(Discriminant power interpretation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DPI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << DPI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AUCI(AUC value interpretation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUCI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUCI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "GI(Gini index)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << GI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << GI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "LS(Lift score)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << LS[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << LS[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AM(Difference between automatic and manual classification)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AM[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AM[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "OP(Optimized precision)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OP[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OP[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "IBA(Index of balanced accuracy)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << IBA[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << IBA[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "GM(G-mean geometric mean of specificity and sensitivity)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << GM[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << GM[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "Q(Yule Q - coefficient of colligation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << Q[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << Q[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AGM(Adjusted geometric mean)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AGM[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AGM[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "MCCI(Matthews correlation coefficient interpretation)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCCI[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << MCCI[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AGF(Adjusted F-score)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AGF[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AGF[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "OC(Overlap coefficient)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "OOC(Otsuka-Ochiai coefficient)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OOC[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << OOC[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "AUPR(Area under the PR curve)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUPR[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << AUPR[i] << " ";
 	os << std :: endl;
 
 	os << std :: left << std :: setw(40) << "BCD(Bray-Curtis dissimilarity)";
-	for (int i = 0; i < this->Nclass; ++i) os << std :: setw(20) << BCD[i] << " ";
+	for (int32_t i = 0; i < this->Nclass; ++i) os << std :: setw(20) << BCD[i] << " ";
 	os << std :: endl;
 
 }
@@ -399,10 +402,10 @@ void scorer :: dump (const std :: string & filename)
 }
 
 template < typename dtype >
-int * scorer :: encoder (dtype * arr, const int & size)
+int32_t * scorer :: encoder (dtype * arr, const int32_t & size)
 {
 
-	int * encode = new int [size];
+	int32_t * encode = new int32_t [size];
 
 	std :: unordered_set < dtype > lbl (arr, arr + size, size * sizeof(dtype));
 

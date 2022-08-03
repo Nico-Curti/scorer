@@ -14,6 +14,7 @@ from networkx import draw_networkx_labels
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
+__all__ = ['draw_network']
 
 css = '''
       table
@@ -45,17 +46,19 @@ css = '''
       }
 '''
 
-def draw_network (filename, scripts):
+def draw_network (filename : str, scripts : str) -> None:
   '''
   Draw statistics network using HTML support.
 
   Parameters
   ----------
-    filename : string
-        Filename of the statistics dumped by Scorer object
+    filename : str
+        Filename of the statistics dumped by
+        Scorer object
 
-    scripts : string
-        Filename of sources c++ scripts in which read the statistics dependencies
+    scripts : str
+        Filename of sources c++ scripts in which
+        read the statistics dependencies
   '''
 
   data = pd.read_csv(filename, sep=',', index_col=0, header=None)
@@ -96,6 +99,8 @@ def draw_network (filename, scripts):
                                      voffset=10, hoffset=10, css=css)
   plugins.connect(fig, tooltip)
   save_html(fig, 'dependency_graph.html')
+
+  return
 
 
 if __name__ == '__main__':

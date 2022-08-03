@@ -1,6 +1,11 @@
 # distutils: language = c++
 # cython: language_level=2
 
+# ***************************************************
+# **** This file was automatically generated     ****
+# **** Any change will be lost in the next build ****
+# ***************************************************
+
 from cython.operator cimport dereference as deref
 from libcpp.memory cimport unique_ptr
 

@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import division
-from __future__ import print_function
-
 from scorer import Scorer
 from sklearn.metrics._classification import _check_targets
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
+__all__ = ['score_metrics']
 
 
 def score_metrics (y_true, y_pred, metrics=['accuracy_score']):
@@ -61,7 +59,6 @@ def score_metrics (y_true, y_pred, metrics=['accuracy_score']):
   >>>                           cv=5,  # split data randomly into 10 parts: 9 for training, 1 for scoring
   >>>                           scoring=my_scorer,  # which scoring metric?
   >>>                          )
-
   '''
 
   y_type, y_true, y_pred = _check_targets(y_true, y_pred)
@@ -80,7 +77,8 @@ def score_metrics (y_true, y_pred, metrics=['accuracy_score']):
 
   if not all(metric in available_metrics for metric in metrics):
     raise ValueError('score_metrics error: metric {0} not found. \
-                      Available metrics are {1}'.format(metrics, ','.join(available_metrics)))
+                      Available metrics are {1}'.format(
+                      metrics, ','.join(available_metrics)))
 
   scorer.evaluate(y_true, y_pred)
 
