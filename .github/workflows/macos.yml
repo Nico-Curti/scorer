@@ -26,6 +26,12 @@ jobs:
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.1,   generator: Ninja}
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.2.1, generator: Ninja}
 
+          - {os: macOS-12, cc: xcode, cxx: xcode, cpp-version: 13.1,   generator: Ninja}
+          - {os: macOS-12, cc: xcode, cxx: xcode, cpp-version: 13.2.1, generator: Ninja}
+          - {os: macOS-12, cc: xcode, cxx: xcode, cpp-version: 13.3.1, generator: Ninja}
+          - {os: macOS-12, cc: xcode, cxx: xcode, cpp-version: 13.4,   generator: Ninja}
+          - {os: macOS-12, cc: xcode, cxx: xcode, cpp-version: 13.4.1, generator: Ninja}
+
     steps:
     - name: Checkout
       uses: actions/checkout@v1
