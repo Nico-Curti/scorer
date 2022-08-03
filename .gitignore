@@ -208,6 +208,7 @@ docs/Doxyfile
 docs/build/
 docs/source/doxydoc/
 docs/source/html/
+docs/source/xml/
 
 # snakemakes
 .snakemake

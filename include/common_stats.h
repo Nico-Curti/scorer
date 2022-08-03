@@ -34,9 +34,9 @@
 #include <numeric>    // std :: accumulate
 #include <vector>     // std :: vector
 #include <set>        // std :: set
-#include <climits>    // std :: numeric_limits
 #include <cmath>      // std :: log
 #include <cassert>    // assert
+#include <limits>     // std :: numeric_limits
 
 /// @cond DEF
 constexpr float inf = std :: numeric_limits < float > :: infinity();

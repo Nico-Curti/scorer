@@ -202,7 +202,7 @@ def workflow_net (dep_net : nx.DiGraph, list_deps : dict) -> dict:
   return dict(groups)
 
 
-def layering_layout (dep_net : nx.DiGraph, increment : float=1.) -> dict:
+def layering_layout (dep_net : nx.DiGraph, increment : float = 1.) -> dict:
   '''
   Extract the coordinates of each node according to the
   graph layering function.

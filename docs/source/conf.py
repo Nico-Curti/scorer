@@ -12,11 +12,11 @@
 #
 import sys
 
-sys.path.insert(0, '/home/nico/Desktop/Code/scorer')
+sys.path.insert(0, '/home/ncurti/Code/scorer')
 
 # -- Project information -----------------------------------------------------
 
-project = 'Scorer - Machine Learning Scorer'
+project = 'scorer - Multi-class scorer computation library'
 copyright = "2020, Nico Curti, Daniele Dall'Olio"
 author = "Nico Curti, Daniele Dall'Olio"
 
@@ -33,7 +33,11 @@ master_doc = 'index'
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
               'sphinx.ext.viewcode',
-              'breathe'
+              'sphinx.ext.intersphinx',
+              #'rst2pdf.pdfbuilder',
+              'breathe',
+              'nbsphinx',
+              'IPython.sphinxext.ipython_console_highlighting',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -42,8 +46,7 @@ templates_path = []
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
-
+exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -57,10 +60,25 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []
 
+# -- Options for PDF output --------------------------------------------------
+
+# Grouping the document tree into LaTeX files. List of tuples# (source start file, target name, title, author, documentclass [howto/manual]).
+latex_engine = 'xelatex'
+latex_documents = [('index', 'scorer.tex', u'scorer - Multi-class scorer computation library', u'Nico Curti', 'manual'),]
+latex_show_pagerefs = True
+latex_domain_indices = False
+
+pdf_documents = [('index', u'scorer', u'scorer - Multi-class scorer computation library', u'Nico Curti', 'scorer - Multi-class scorer computation library'),]
+
+
+nbsphinx_input_prompt = 'In [%s]:'
+nbsphinx_kernel_name = 'python3'
+nbsphinx_output_prompt = 'Out[%s]:'
+
 
 breathe_projects = {
-  'class_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'common_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'overall_stats' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
-  'scorer' : '/home/nico/Desktop/Code/scorer/docs/source/doxydoc',
+  'class_stats' : '/home/ncurti/Code/scorer/docs/source/',
+  'common_stats' : '/home/ncurti/Code/scorer/docs/source/',
+  'overall_stats' : '/home/ncurti/Code/scorer/docs/source/',
+  'scorer' : '/home/ncurti/Code/scorer/docs/source/',
   }

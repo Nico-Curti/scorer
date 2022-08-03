@@ -13,6 +13,7 @@ exclude_paths:
   - 'docs/**'
   - scorer/__init__.py
   - scorer/Scorer/__init__.py
+  - 'testing/**'
   - docker/**
   - build.ps1
   - build.sh
