@@ -270,7 +270,7 @@ setup(
   include_package_data          = True,
   data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE', 'setup.py.in', 'Scorer.pc.in', 'ScorerConfig.cmake.in']),
                                    ('example', ['example/example.cpp']),
-                                   ('cmake', ['cmake/FindCython.cmake', 'cmake/FindSphinx.cmake', 'cmake/UseCython.cmake']),
+                                   ('cmake', ['cmake/modules/FindCython.cmake', 'cmake/modules/FindSphinx.cmake', 'cmake/modules/UseCython.cmake']),
                                    ('utils', ['utils/dependency_graph.py', 'utils/make_cython.py', 'utils/make_script.py', 'utils/sklearn_lut.conf', 'utils/view_stats.py'])
                                   ],
   platforms                     = 'any',

@@ -18,8 +18,6 @@ jobs:
         cfg:
           - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: Ninja}
           - {os: windows-latest, cc: cl, cxx: MSVC, cpp-version: 19.28.29333.0, generator: MinGW Makefiles}
-          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: Ninja}
-          - {os: windows-2016, cc: cl, cxx: MSVC, cpp-version: 19.16.27044.0, generator: MinGW Makefiles}
 
     steps:
     - name: Checkout
